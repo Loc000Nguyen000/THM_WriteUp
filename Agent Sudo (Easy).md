@@ -1,5 +1,8 @@
 # Agent Sudo (Easy)
 
+-Link: https://tryhackme.com/r/room/agentsudoctf
+
+------------------------------------------------------------------------------------------------------
 # 1. Deploy and Enumerate:
 
 - Scanning the machine with `nmap` and `goubuster`:
