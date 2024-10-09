@@ -2,6 +2,8 @@
 
 ![Untitled](https://github.com/user-attachments/assets/03d0d3b0-cf67-48b5-9311-e4cde3504c07)
 
+- Link: https://tryhackme.com/r/room/skynet
+
 # 1. Gather Information
 
 - User `nmap` and `Gobuster` to scan port and directories:
