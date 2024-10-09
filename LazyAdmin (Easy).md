@@ -1,5 +1,8 @@
 # LazyAdmin (Easy)
 
+-Link: https://tryhackme.com/r/room/lazyadmin
+
+---------------------------------------------------------------------------------------------
 - Exploit the Server Apache Linux:
 
 ![Untitled](https://github.com/user-attachments/assets/080ebe79-5350-4cdd-9235-1edd9a5371e0)
