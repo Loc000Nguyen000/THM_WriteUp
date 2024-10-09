@@ -1,6 +1,6 @@
 # Daily Bugle (Hard)
 
-![Untitled](Untitled.png)
+![Untitled](https://github.com/user-attachments/assets/6fd39eb9-a229-498e-9819-96c85f73e8c7)
 
 # 1. Reconnaissance:
 
@@ -75,20 +75,20 @@ Finished
 - All the page is nothing except /administrator which we can go to the page login of administrator  and all file .txt
 - Go to /administrator we have the page login name Joomla
 
-![Untitled](Untitled%201.png)
+![Untitled 1](https://github.com/user-attachments/assets/880d4a1d-f752-473b-872a-28b27d0be402)
 
 - We can try other page /.txt to find more information about the Joomla!
 - Go to /README.txt —> we have the version of Joomla! is 3.7.0
 
-![Untitled](Untitled%202.png)
+![Untitled 2](https://github.com/user-attachments/assets/96a0d090-e33a-4216-8abb-05e8ed550aeb)
 
 - Now we can find the vuln about Joomla version 3.7.0 by exploit database
 
-![Untitled](Untitled%203.png)
+![Untitled 3](https://github.com/user-attachments/assets/d3bd3e6b-eb30-4994-936b-b15a65ac993c)
 
 - We got the vuln Joomla 3.7 SQL Injection - CVE 2017-8917
 
-![Untitled](Untitled%204.png)
+![Untitled 4](https://github.com/user-attachments/assets/4fa43b27-4804-447b-bfd4-65debec70939)
 
 - Now we have 2 options to exploit SQL Injection in this CVE. That is use tool SQLMap and use script python exploit CVE which we can research in github.
 - Use SQLMap base exploit database:
@@ -150,35 +150,35 @@ Session completed.
 
 - Back to the page Joomla! to login with the credentials we found.
 
-![Untitled](Untitled%205.png)
+![Untitled 5](https://github.com/user-attachments/assets/572840a8-d1ad-452b-afce-243dee41235b)
 
 —> Success! we are in the main menu Joomla!
 
 - Now we will research around the website to find if it has the vuln we can exploit to get initial access server.
 - We found in the site Templates that we can manipulate template Protostar to inject the shell into the site.
 
-![Untitled](Untitled%206.png)
+![Untitled 6](https://github.com/user-attachments/assets/98b7e315-c85c-451f-ac52-ca37de507068)
 
-![Untitled](Untitled%207.png)
+![Untitled 7](https://github.com/user-attachments/assets/544c52de-dd0a-4a60-92ba-541b5dfac6a9)
 
 - Now in the site Protostar, we can see the list file .php and we have idea that is create the file shell format .php run it and catch the listen through netcat.
 - We can use the available reverse shell in the attack machine  /usr/share/webshells/php/php-reverse-shell.php (Reverse shell PentestMonky) .
 
-![Untitled](Untitled%208.png)
+![Untitled 8](https://github.com/user-attachments/assets/a4807f7a-5a73-4f5d-bdd1-682f5f9a4870)
 
 - Save it and run URL: `http://<IP-Target>/templates/protostar/shell.php`
 
-![Untitled](Untitled%209.png)
+![Untitled 9](https://github.com/user-attachments/assets/91e2d669-83e2-404a-b3b2-52c21b060741)
 
 - Now we gain into the web server Apache and find more information to get SSH service.
 
-![Untitled](Untitled%2010.png)
+![Untitled 10](https://github.com/user-attachments/assets/bbc601ca-42e6-48ce-8e62-8706db5d2631)
 
 —> We find the username that maybe can use to login ssh ‘jjameson’
 
 - `cd var/www/html`
 
-![Untitled](Untitled%2011.png)
+![Untitled 11](https://github.com/user-attachments/assets/147133c5-1929-474a-8595-b94eec6ba707)
 
 —> We have the potential file “configuration.php”. Check it !!!!!
 
@@ -281,12 +281,12 @@ User jjameson may run the following commands on dailybugle:
 
 —> We can use yum to privilege by researching in GTFOBins
 
-![Untitled](Untitled%2012.png)
+![Untitled 12](https://github.com/user-attachments/assets/80264a92-06a9-4f74-9347-a21d6bd8c96f)
 
 - We run code (b):
 
-![Untitled](Untitled%2013.png)
+![Untitled 13](https://github.com/user-attachments/assets/21b05be5-dd44-4967-b940-1abe68c46eac)
 
-![Untitled](Untitled%2014.png)
+![Untitled 14](https://github.com/user-attachments/assets/3adfecea-cceb-4e17-8a4a-bba2c8932d62)
 
 # END!!!
