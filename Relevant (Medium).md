@@ -18,6 +18,7 @@ You have been assigned to a client that wants a penetration test conducted on an
 - *Submit the flags discovered to the dashboard*
 - *Only the IP address assigned to your machine is in scope*
 - *Find and report ALL vulnerabilities (yes, there is more than one path to root)*
+LINK: "https://tryhackme.com/r/room/relevant"
 
 # Reconnaissance:
 
