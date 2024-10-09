@@ -1,8 +1,8 @@
-![Untitled 4](https://github.com/user-attachments/assets/f4a88b0c-d800-4671-8a26-60e44b7cbd39)# Blueprint (Easy)
+# Blueprint (Easy)
 
 - Note: Do you have what is takes to hack into this Windows Machine?
 - Hack into this Windows machine and escalate your privileges to Administrator.
-
+- Link: https://tryhackme.com/r/room/blueprint
 # .Reconnaissance:
 
 - Scan ports in the machine and directories
