@@ -2,6 +2,8 @@
 
 ![Untitled](https://github.com/user-attachments/assets/6fd39eb9-a229-498e-9819-96c85f73e8c7)
 
+- Link:https://tryhackme.com/r/room/dailybugle
+
 # 1. Reconnaissance:
 
 - Scan and enumeration with nmap and gobuster:
