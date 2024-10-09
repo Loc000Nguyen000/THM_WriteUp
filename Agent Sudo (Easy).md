@@ -44,23 +44,23 @@ Starting gobuster in directory enumeration mode
 
 - We check port 80/tcp http and /index.php:
 
-![Untitled](Untitled.png)
+![Untitled](https://github.com/user-attachments/assets/94282b83-e8c4-4992-b587-3805ee838323)
 
 —> We can’t direct into another page normally so We need to redirect yourself to a secret page by using “user-agent” in the `Developer Tools` 
 
-![Untitled](Untitled%201.png)
+![Untitled 1](https://github.com/user-attachments/assets/daf8437e-1791-4c1a-9bb1-5a99ff20a0c6)
 
 - We go part “Network” and reload the page and see the information the page `/index.php`
 - We can use the hint message “Use your own codename as user-agent to access the site.” and edit “User-Agent” in `Request Headers`
 - We replace the “User-Agent” by Agent-R and send the request:
 
-![Untitled](Untitled%202.png)
+![Untitled 2](https://github.com/user-attachments/assets/55eba990-4412-417f-afd5-b87630267c94)
 
 —> The new secret Message!!!
 
 - Now we can try guess the codename of the user-agent we want. We can replace the character in “User-Agent” by the character in the Alphabet.
 
-![Untitled](Untitled%203.png)
+![Untitled 3](https://github.com/user-attachments/assets/a5eca304-130a-4504-a2ae-bb7e35469f7d)
 
 —> We have the result the character is “C” and the name of user-agent we want to know that is “Chris”
 
@@ -193,7 +193,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 binwalk -e --run-as=root cutie.png
 ```
 
-![Untitled](Untitled%204.png)
+![Untitled 4](https://github.com/user-attachments/assets/96676fca-4f72-4335-a9b7-d29f3f47bc0d)
 
 —> We hash: “$zip2$*0*1*0*4673cae714579045*67aa*4e*61c4cf3af94e649f827e5964ce575c5f7a239c48fb992c8ea8cbffe51d03755e0ca861a5a3dcbabfa618784b85075f0ef476c6da8261805bd0a4309db38835ad32613e3dc5d7e87c0f91c0b5e64e*4969f382486cb6767ae6*$/zip2$” —> password zip file: alien.
 
@@ -261,10 +261,11 @@ chris
 
 - Login SSH service:
 
-![Untitled](Untitled%205.png)
+![Untitled 5](https://github.com/user-attachments/assets/772eab4a-a118-468c-b7c1-334b2db5093d)
 
 # 3. Privilege Escalation
 
 ```bash
 sudo -l 
 ```
+- We can see the command we can use without root!!!
