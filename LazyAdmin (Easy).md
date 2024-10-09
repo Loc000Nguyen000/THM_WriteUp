@@ -2,7 +2,7 @@
 
 - Exploit the Server Apache Linux:
 
-![Untitled](Untitled.png)
+![Untitled](https://github.com/user-attachments/assets/080ebe79-5350-4cdd-9235-1edd9a5371e0)
 
 - Scan ports and directory of the machine:
 
@@ -52,7 +52,7 @@ Finished
 
 - We try go to /content
 
-![Untitled](Untitled%201.png)
+![Untitled 1](https://github.com/user-attachments/assets/95eb11a2-5063-45db-820b-3801462f60ac)
 
 —> Now we have the name of website: “SweetRice”.
 
@@ -78,40 +78,40 @@ Shellcodes: No Results
 
 —> A lot of Vuln to exploit so first we will notice the vuln “Backup Disclosure” because maybe in the backup file we can find the credential.
 
-![Untitled](Untitled%202.png)
+![Untitled 2](https://github.com/user-attachments/assets/e66dedea-dfde-4ac0-ab51-68b0792df7bb)
 
 —> We try the concept: Access to file mysql backup and download from the directory /inc/mysql_backup but we need to access through the directory /content which we scan directory in the enumuration.
 
-![Untitled](Untitled%203.png)
+![Untitled 3](https://github.com/user-attachments/assets/c715994d-81d0-4d61-901c-9f098cab4b0d)
 
 - Now we open the file mysql_backup and find some information the credential.
 
-![Untitled](Untitled%204.png)
+![Untitled 4](https://github.com/user-attachments/assets/9bfdd2ec-aa2e-4f2a-9b29-d448762ded79)
 
 —> We got the username is “manager” and password is the hash value 
 
 - Dehash password: “Password123”
 - We switch the another vuln. We knew that there are cms SweetRice has the vuln CSRF (Cross-Side Request Forgery) and we can execute PHP code. Try it!
 
-![Untitled](Untitled%205.png)
+![Untitled 5](https://github.com/user-attachments/assets/fa60fc9f-23af-4c88-966e-47f94adb721d)
 
 - We have found that we could access /as to access page log in SweetRice. Now we use the credential we found to login.
 
-![Untitled](Untitled%206.png)
+![Untitled 6](https://github.com/user-attachments/assets/662d4cf9-99a9-4d4e-8b53-106a71326b01)
 
-![Untitled](Untitled%207.png)
+![Untitled 7](https://github.com/user-attachments/assets/510f8c88-7a22-4664-8659-0f759e647538)
 
 —> Success!!!
 
 - We read the vuln database CSRF to exploit it. We will manipulate Ads section to add PHP code in Ads file and through CSRF vuln we can execute PHP code. Let do it!!!
 
-![Untitled](Untitled%208.png)
+![Untitled 8](https://github.com/user-attachments/assets/bd518c80-8ee3-4579-afb1-22436ce4e406)
 
 - Now we will ad the web PHP shell available into the code <?php ?> and run file. After file PHP executed we access page in /inc/ads/Hacked.php and catch the listener through netcat to get initial access.
 
-![Untitled](Untitled%209.png)
+![Untitled 9](https://github.com/user-attachments/assets/c13a9a3f-f15b-42bb-9028-3b9282c44f70)
 
-![Untitled](Untitled%2010.png)
+![Untitled 10](https://github.com/user-attachments/assets/e9fcee61-1759-45cd-a931-03fc5f4ea194)
 
 —> We got it!!!
 
