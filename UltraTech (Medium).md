@@ -14,8 +14,10 @@ You have been contracted by UltraTech to pentest their infrastructure.
 
 It is a grey-box kind of assessment, the only information you have is the company's name and their server's IP address.
 
-
+- Link: https://tryhackme.com/r/room/ultratech1
 -------------------------------------------------------------------------------------------------------------------------
+
+
 - We skip some basic steps enumurate and focus into the step research and exploit the machine.
 - After scan all ports and enumurate directories, we have the port :31331 and port :8081 that we can use both.
 - Let’s research all directories in port 31331 —> we have the /partners.html is the login page
