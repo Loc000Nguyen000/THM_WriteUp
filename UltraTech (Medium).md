@@ -14,6 +14,8 @@ You have been contracted by UltraTech to pentest their infrastructure.
 
 It is a grey-box kind of assessment, the only information you have is the company's name and their server's IP address.
 
+
+-------------------------------------------------------------------------------------------------------------------------
 - We skip some basic steps enumurate and focus into the step research and exploit the machine.
 - After scan all ports and enumurate directories, we have the port :31331 and port :8081 that we can use both.
 - Let’s research all directories in port 31331 —> we have the /partners.html is the login page
@@ -22,38 +24,38 @@ It is a grey-box kind of assessment, the only information you have is the compan
 - We have the hint to find the database lying around so we need to find it to login the page.
 - Now we can use to Burpsuite to intercept something.
 
-![Untitled](Untitled.png)
+![Untitled](https://github.com/user-attachments/assets/bbac3d55-c9ce-492d-8c67-a1b10e3eb5fa)
 
 - We can see when we open the page, the API will be automatic run with the Request query ping IP. We see the Response with ping successfully.
 
-![Untitled](Untitled%201.png)
+![Untitled 1](https://github.com/user-attachments/assets/d1cdbe14-3653-4045-bee0-d60a8354096f)
 
 —> We have known the ping is always successful so we can manipulate the query ping IP to Inject command into query. Now we will `FUZZ` the inject command by Intruder.
+
+![Untitled 2](https://github.com/user-attachments/assets/577f3e20-8156-4e03-900d-ffc3c8f78669)
 
 - After researching the APIs, we know that we can inject command like ls, whoami, … with the command URL encoded.
 - First we add $$ and command ls into the query.
 
-![Untitled](Untitled%202.png)
-
 - Secondly, we will load Payloads we will FUZZ. In here we will use the payload in `/usr/share/wordlists/wfuzz/Injections/All_attack.txt`  and Start attack.
 
-![Untitled](Untitled%203.png)
+![Untitled 3](https://github.com/user-attachments/assets/16c27c97-2229-4d2d-858c-a665d331ef0b)
 
 - Waiting and check the Fuzz we will see the Payload “%0a” —> This is the newline URL encoded that is successful.
-
-![Untitled](Untitled%204.png)
+- 
+![Untitled 4](https://github.com/user-attachments/assets/ba50d4d4-1ca9-4324-8773-09d3299a0e29)
 
 —> We have the database we need: utech.db.sqlite.
 
 - Cat it to see information:
 
-![Untitled](Untitled%205.png)
+![Untitled 5](https://github.com/user-attachments/assets/5b21cf8e-2870-4404-874a-86075723b214)
 
 —> We have the credentials r00t:f357a0c52799563c7c7b76c1e7543a32 (password hashed) —> Dehash password —> r00t:n100906
 
 - We use the credential we found to login SSH:
 
-![Untitled](Untitled%206.png)
+![Untitled 6](https://github.com/user-attachments/assets/199f8765-cd97-4b1e-983a-e7fe8aab62a2)
 
 - We will privilege Root to get the SSH key private.
 - And we use the tool `Linpeas.sh` scan the machine to find the vector priv and we have found the vector *docker .*
@@ -80,12 +82,12 @@ bash                latest              495d6437fc1e        5 years ago         
 
 - So We found it !!!
 
-![Untitled](Untitled%207.png)
+![Untitled 7](https://github.com/user-attachments/assets/c45b384b-967d-4047-a9bd-76dd2d95ddf3)
 
 - We will  mount bash to create the new account in backdoor.
 - Note: We need to cd /  firstly and after that we will mount bash.
 
-![Untitled](Untitled%208.png)
+![Untitled 8](https://github.com/user-attachments/assets/1e8a7172-1316-4d9d-8ba7-81605b25ba23)
 
 ```bash
 r00t@ultratech-prod:/$ cat /etc/passwd
@@ -128,6 +130,6 @@ toor:$1$.ZcF5ts0$i4k6rQYzeegUkacRCvfxC0:0:0:root:/root:/bin/sh
 
 —> Successful !!! and now `su toor` and get the private SSH key.
 
-![Untitled](Untitled%209.png)
+![Untitled 9](https://github.com/user-attachments/assets/f202a489-995a-46e7-b549-63c3d40dccba)
 
 END!!!
