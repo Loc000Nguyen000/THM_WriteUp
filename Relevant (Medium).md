@@ -154,7 +154,7 @@ smb: \>
 
 —> We got the password file .txt 
 
-![Untitled](Untitled.png)
+![Untitled](https://github.com/user-attachments/assets/1d9e8869-1f90-43d4-ba27-4d911f594958)
 
 —> We had User and Passwords - encoded so now we decode to get the credential.
 
@@ -166,14 +166,14 @@ smb: \>
 
 - We try 2 credentials with smbmap and don’t have new information.
 
-![Untitled](Untitled%201.png)
+![Untitled 1](https://github.com/user-attachments/assets/32fedcde-1f3f-4504-8ed2-fa3ba4d2a9bd)
 
 - So we try to next port :3389  —> RDP service
 - We can exploit RDP by brute force to find the vuln but the result is still same —> Fail!
 - Finally port:49663 —> IIS Windows Server this is a server Window. The third most popular web host in the world, behind only Apache and Nginx.
 - Now we try to access SMB shares through IIS server port 49663 and go directly file passwords.txt in /nt4wrksv —> Success!!! We can read file passwords.txt
 
-![Untitled](Untitled%202.png)
+![Untitled 2](https://github.com/user-attachments/assets/0b22b5ea-fe1c-4f79-bff0-c8165baf32cc)
 
 - We have idea that we will add the reverse shell and run the Path URL to catch the listen. After that we can gain access initial the web server.
 - Firstly, we generate the shell by msfvenom and format we choose is .aspx ( This is extension design for framework [ASP.NET](http://ASP.NET)  so that will be stable with IIS server)
@@ -190,13 +190,13 @@ Saved as: shell.aspx
 
 - Secondly, we will upload shell into SMB shares through uploading SMBclient `put shell.aspx`
 
-![Untitled](Untitled%203.png)
+![Untitled 3](https://github.com/user-attachments/assets/2ddf831c-c87a-4663-a84b-496f4c61985d)
 
 - Finally, run Path URL with shell and catch the listen with netcat.
 
-![Untitled](Untitled%204.png)
+![Untitled 4](https://github.com/user-attachments/assets/b173748b-c1f9-4b67-a6e0-e1aa23fe45fe)
 
-![Untitled](Untitled%205.png)
+![Untitled 5](https://github.com/user-attachments/assets/e37be3be-c1d3-4977-b9c7-8baba7c64af9)
 
 # Privilege Escalation
 
@@ -225,12 +225,12 @@ SeIncreaseWorkingSetPrivilege Increase a process working set            Disabled
 
 - Let research some info about SeImpersonatePrivilege to find method to abuse it.
 - We can check in link: https://github.com/gtworek/Priv2Admin
-
-![Untitled](Untitled%206.png)
+- 
+![Untitled 6](https://github.com/user-attachments/assets/e8ae5b1d-3760-46a4-9511-d13dfe111928)
 
 —> We use tool to escalate: PrintSpoofer.
 
-![Untitled](Untitled%207.png)
+![Untitled 7](https://github.com/user-attachments/assets/fc4f5985-5b81-4c17-9754-0e06fb4ddd80)
 
 - We got tool from GitHub
 - We upload file PrintSpoofer.exe by `put PrintSpoofer.exe`  in SMBClient and now we check file in `c:\inetpub\wwwroot\nt4wrksv`  —> File is available.
@@ -270,6 +270,6 @@ nt authority\system
 C:\Windows\system32>
 ```
 
-![Untitled](Untitled%208.png)
+![Untitled 8](https://github.com/user-attachments/assets/da024cac-d92c-49d1-bef2-53a941756ab2)
 
 END!!!
