@@ -1,6 +1,6 @@
 # Skynet (Easy)
 
-![Untitled](Untitled.png)
+![Untitled](https://github.com/user-attachments/assets/03d0d3b0-cf67-48b5-9311-e4cde3504c07)
 
 # 1. Gather Information
 
@@ -103,7 +103,7 @@ Finished
 
 - After scan with Gobuster, all page is blocked by admin so we go to `/squirrelmail` and still go in.
 
-![Untitled](Untitled%201.png)
+![Untitled 1](https://github.com/user-attachments/assets/49f64614-dca8-4408-8a65-b18b657b0350)
 
 - Now we need to find the credentials.
 - First we try default credentials admin/admin —> Fail.
@@ -140,8 +140,8 @@ smb: \>
 ```
 
 - We know the user is milesdyson and now we find the password by smbclient.
-
-![Untitled](Untitled%202.png)
+- 
+![Untitled 2](https://github.com/user-attachments/assets/6ee925a4-3165-4b0d-86b7-5690c5ddaa93)
 
 - We have the list password in log1.txt and we try each password to find the right password
 
@@ -149,11 +149,11 @@ smb: \>
 
 - Back to the `/squirrelmail` to login again:
 
-![Untitled](Untitled%203.png)
+![Untitled 3](https://github.com/user-attachments/assets/bbed55f9-94e5-4bc3-884f-8158dfbfe320)
 
 - Now we see the mail skynet with title “Samba Password Reset” —> This is the Password smb of account milesdyson.
 
-![Untitled](Untitled%204.png)
+![Untitled 4](https://github.com/user-attachments/assets/6d90880c-e4cb-4334-8803-d95a920fbb3a)
 
 - Back to login smbclient with the credential milesdyson
 
@@ -196,7 +196,7 @@ smb: \> more important.txt
 
 - Go to /45kra24zxs28v3yd
 
-![Untitled](Untitled%205.png)
+![Untitled 5](https://github.com/user-attachments/assets/b6aee52b-0fb8-44e5-9c00-96fddaaa90ec)
 
 - Still nothing so we have to scan the new directory with `gobuster`
 
@@ -221,13 +221,13 @@ Starting gobuster in directory enumeration mode
 
 —> go to `/administrator`
 
-![Untitled](Untitled%206.png)
+![Untitled 6](https://github.com/user-attachments/assets/7d4b93f7-c9b8-48aa-a462-8e40b50e37c2)
 
 —> We have the page Cuppa CMS and we do not know the credentials.
 
 - Try search vuln in ExpoitDatabase to see if they have the vuln of the page Cuppa CMS.
 
-![Untitled](Untitled%207.png)
+![Untitled 7](https://github.com/user-attachments/assets/268cb927-2b72-4675-ba01-d8c1f54f0d03)
 
 —> The vuln of the page: RFI (Remote File Inclusion)
 
@@ -235,7 +235,7 @@ Starting gobuster in directory enumeration mode
 - Read the Vuln and exploit it
 - Before exploit we need to prepare the reverse shell to capture the listener. We can use the available reverse shell php in directory `/usr/share/webshells/php/**php-reverse-shell.php` .**
 
-![Untitled](Untitled%208.png)
+![Untitled 8](https://github.com/user-attachments/assets/2580cfe7-a383-48e3-b1c9-b711927da73e)
 
 ```bash
 $ cd /home/milesdyson
