@@ -7,7 +7,7 @@ Can you take advantage of this and will you be able to gain root access on his s
 
 Reconnaissance:
 + Scan NMAP:
-'''bash
+```bash
 	nmap -sV -vv -A -p- <IP>
 	PORT      STATE SERVICE REASON         VERSION
 	22/tcp    open  ssh     syn-ack ttl 63 OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol
@@ -36,10 +36,10 @@ Reconnaissance:
 	|_  Supported Methods: HEAD OPTIONS
 	|_http-title: The Marketplace
 
-'''
+```
 
 + Scan Gobuster:
-'''bash
+```bash
 	gobuster dir -u http://<IP>/ -w /usr/share/wordlists/dirb/common.txt -xtxt -t64
 	===============================================================
 	/admin                (Status: 403) [Size: 392]
@@ -59,7 +59,7 @@ Reconnaissance:
 	Finished
 	===============================================================
 
-'''
+```
 
 
 
