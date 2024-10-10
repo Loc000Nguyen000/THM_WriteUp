@@ -61,5 +61,10 @@ Reconnaissance:
 
 ```
 
++ First, we will sign up to create a new account.
+
+
+
+
 
 
