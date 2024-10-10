@@ -62,7 +62,8 @@ Reconnaissance:
 ```
 
 + First, we will sign up to create a new account.
-
++ Create new USER "username:user1 & password:1"
++ 
 
 
 
