@@ -78,9 +78,27 @@ Reconnaissance:
 --> Bingo! The pop up message appear. We found the security vulnerability XSS
 (Cross-Site Scripting).
 
++ Back to the home page we see the page list which we created. Go inside the page /item, we have 2 features: 
 
+![alt text](image-3.png)
 
++ Feature 1: Contact with the author, we will send message to current user and that is user1.
++ Feature 2: Report to admins and the message report will be sent to admin.
 
+--> We think some ideas that we can inject XSS vuln to retrive some sensitive information about the Admin.
+
++ View page source:
+![alt text](image-4.png)
+
+--> We know that we can exploit XSS base cookie or sensitive access token with "document.cookie" and "document.location"
+
++ Open "Developer Tools" or use Burpsuite:
+
+![alt text](image-5.png)
+
+--> We recive the token with value encoded. Decode the value we know that is the information user1.
+
++ We can manipulate cookie token by XSS to grant admin and access /admin.
 
 
 ```bash
