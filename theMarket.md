@@ -65,6 +65,21 @@ Reconnaissance:
 + Create new USER "username:user1 & password:1"
 + Log in /Login with the credential which is created.
 
+![alt text](image.png)
+
++ After Login successful, we can look around the web page and we find some new page like /messages and /new.
++ Check each page /new we have the page 'Add new listing' with blank fields 'Title' and 'Description'.
++ In the situation, we can try some tag html like script, h1,...
+
+![alt text](image-2.png)
+
+![alt text](image-1.png)
+
+--> Bingo! The pop up message appear. We found the security vulnerability XSS
+(Cross-Site Scripting).
+
+
+
 
 
 
