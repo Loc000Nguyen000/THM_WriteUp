@@ -58,6 +58,7 @@ LFI: Local File Inclusion
 
 
 + IP/?view=dogs or /?view=cats
+
 -Warning: include(dogs.php): failed to open stream: No such file or directory in /var/www/html/index.php on line 24
 
 -Warning: include(): Failed opening 'dogs.php' for inclusion (include_path='.:/usr/local/lib/php') in /var/www/html/index.php on line 24
