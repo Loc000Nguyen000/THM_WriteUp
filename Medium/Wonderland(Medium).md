@@ -200,14 +200,23 @@ User alice may run the following commands on wonderland:
 + Now we're in priv 'rabbit'. Go to the next directory is rabbit
 + We found the binary file SUID name "teaParty": '-rwsr-sr-x 1 root   root   16816 May 25  2020 teaParty'
 + Run file ./teaParty:
+
+```
  -> Welcome to the tea party!
 	The Mad Hatter will be here soon.
 	Probably by Thu, 12 Sep 2024 09:35:06 +0000
 	Ask very nicely, and I will give you some tea while you wait for him
-+ See inside the file, we find something interested: "Welcome to the tea party!
+```
+
++ See inside the file, we find something interested: 
+```   
+    "Welcome to the tea party!
 	The Mad Hatter will be here soon./bin/echo -n 'Probably by ' && date --date='next hour' -RAsk very nicely, 
  	and I will give you some tea while you wait for himSegmentation fault (core dumped)8" 
+```
+
 -> We know the command 'date' display the current date and time and The /bin/echo part specifies the full path to the echo command, which is located in the /bin directory.
+
  + Idea: We can manipulate 'date' to get the shell from that we can priv maybe base in the output we can figure out use we can priv is 'Hatter'
  + We priv escalation PATH because we could potentially hijack an application to run a script.
  + First echo $PATH and we know file 'teaParty' run 'date' default usr/local/bin.
