@@ -251,7 +251,17 @@ nc -lvkp <port>
 
 ===========SSH LOGIN & PRIVILEGE ESCALATION===============
 
+```bash
+jake@the-marketplace:/opt/backups$ sudo -l
+Matching Defaults entries for jake on the-marketplace:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
 
-
+User jake may run the following commands on the-marketplace:
+    (michael) NOPASSWD: /opt/backups/backup.sh
+```
+--> We are able to run file ./backup.sh without passwod permission user michael
++ Go to /opt/backups:
+	
 
 
