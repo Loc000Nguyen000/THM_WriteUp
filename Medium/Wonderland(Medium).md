@@ -27,7 +27,7 @@ Note: Fall down the rabbit hole and enter wonderland.
 	Gobuster v3.6
 	by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
 	===============================================================
-	[+] Url:                     http://10.10.181.43/
+	[+] Url:                     http://<IP>/
 	[+] Method:                  GET
 	[+] Threads:                 64
 	[+] Wordlist:                /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
@@ -74,12 +74,12 @@ Note: Fall down the rabbit hole and enter wonderland.
 + We enumurate the <IP>/r and find the hidden directories:
 
 ```bash
-	gobuster dir -u http://10.10.181.43/r -w /usr/share/wordlists/dirb/common.txt -xtxt -t64
+	gobuster dir -u http://<IP>/r -w /usr/share/wordlists/dirb/common.txt -xtxt -t64
 	===============================================================
 	Gobuster v3.6
 	by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
 	===============================================================
-	[+] Url:                     http://10.10.181.43/r
+	[+] Url:                     http://<IP>/r
 	[+] Method:                  GET
 	[+] Threads:                 64
 	[+] Wordlist:                /usr/share/wordlists/dirb/common.txt
@@ -149,7 +149,7 @@ Note: Fall down the rabbit hole and enter wonderland.
 
 	  System load:  0.0                Processes:           85
 	  Usage of /:   18.9% of 19.56GB   Users logged in:     0
-	  Memory usage: 32%                IP address for eth0: 10.10.181.43
+	  Memory usage: 32%                IP address for eth0: <IP>
 	  Swap usage:   0%
 
 
