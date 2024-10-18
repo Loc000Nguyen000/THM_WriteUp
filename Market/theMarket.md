@@ -249,6 +249,9 @@ nc -lvkp <port>
 
 
 
+===========SSH LOGIN & PRIVILEGE ESCALATION===============
+
+
 
 
 
