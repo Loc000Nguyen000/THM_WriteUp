@@ -78,7 +78,7 @@ Reconnaissance:
 --> Bingo! The pop up message appear. We found the security vulnerability XSS
 (Cross-Site Scripting).
 
-EXPLOIT XSS:
+========EXPLOIT XSS=========:
 
 + Back to the home page we see the page list which we created. Go inside the page /item, we have 2 features: 
 
