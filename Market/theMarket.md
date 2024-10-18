@@ -155,11 +155,37 @@ nc -lvkp <port>
 + We see some tables with information users.
 + Idea: We will try certain characters to test with purpose detect and discover the vulnerability on a website page. In this case, we guess that is the vuln SQLi.
 + We are able to extract data form the database to the same page base SQLi vulnerability.
-+ First we will use some common characters to detect type SQLi like:
++ First we will use some common characters to be sure this is SQLi vulnerability :
 ```
 ' OR 1=1 | OR 1=1 --
 ```
++ We test ' OR 1=1 in url first user and recieve error message:
 
+![alt text](image-14.png) 
+
+--> It confirms the existence of an SQL Injection vulnerability.
+
++ We try again without (') OR 1=1:
+
+![alt text](image-15.png)
+
+--> It works. It is return data to the browser without displaying an error message.
+
+==========EXPLOIT SQLi=============
+
++ Because we see the page return error message and right database so we are sure this is In-Band SQLi.
++ Firstly, we'll try the UNION operator so we can receive an extra result if we choose it. Try setting the mock browsers id parameter to:
+```
+1 UNION SELECT 1
+```
+
+![alt text](image-16.png)
+
+--> This statement should produce an error message informing you that the UNION SELECT statement has a different number of columns than the original SELECT query. So let's try again but add another column and repeat to no error message aprrear:
+
+![alt text](image-17.png)
+
+--> Success, the error message has gone, and the article is being displayed, but now we want to display our data instead of the article. The article is displayed because it takes the first returned result somewhere in the website's code and shows that. To get around that, we need the first query to produce no results. This can simply be done by changing the article ID from 1 to 0.
 
 
 items,messages,users
