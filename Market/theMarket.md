@@ -152,6 +152,16 @@ nc -lvkp <port>
 
 ![alt text](image-11.png)
 
++ We see some tables with information users.
++ Idea: We will try certain characters to test with purpose detect and discover the vulnerability on a website page. In this case, we guess that is the vuln SQLi.
++ We are able to extract data form the database to the same page base SQLi vulnerability.
++ First we will use some common characters to detect type SQLi like:
+```
+' OR 1=1 | OR 1=1 --
+```
+
+
+
 items,messages,users
 table users: id, isAdministrator,password,username
 table messages: id,is_read,message_content,user_from,user_to
