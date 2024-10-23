@@ -59,8 +59,12 @@ Progress: 9228 / 9230 (99.98%)
 Finished
 ===============================================================
 ```
+--> Access /wordpress, we got the website page Wordpress name BreakMe.
 
++ Check around the page we got some information about the page.
++ Author of page : admin and user "admin" is available in login page.
 
+![alt text](image.png)
 
 
 
