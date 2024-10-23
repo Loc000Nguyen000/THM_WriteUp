@@ -12,4 +12,5 @@ RECONNAISSANCE:
 nmap -sV -vv -A -p10000- <IP>
 
 ```
-
+--> We got the hidden directory "/.git/"
+![alt text](image.png)
