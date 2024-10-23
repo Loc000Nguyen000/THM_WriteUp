@@ -78,6 +78,51 @@ git checkout -- .
 
 ![alt text](image-3.png)
 
---> Check through the files and we got nothing special. So we go deeper than to .git to file commit tree
+--> Check through the files and we got nothing special. So we go deeper than to .git to read these file special like /refs/heads/master, config and packed-refs.
 
++ Read master or packed-refs, we recieve these hash commit SHA-1 which is the author’s name and email, the date written, and the commit message.
 
+![alt text](image-4.png)
+
++ We will checkout the hash SHA-1 checksum and read log:
+
+```bash
+git checkout d0b3578a628889f38c0affb1b75457146a4678e5
+Note: switching to 'd0b3578a628889f38c0affb1b75457146a4678e5'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at d0b3578 Update .gitlab-ci.yml
+```
+
++ Read log the hash SHA-1:
+
+```bash
+git log d0b3578a628889f38c0affb1b75457146a4678e5
+```
+--> We see a lot of messages commit but we are just notice into the message of boss because in the top note "Boss wanted me to create a prototype..." so we will focus to it.
+
+![alt text](image-5.png)
+
+--> We got the new hash commit so now we are able to checkout it.
+
+![alt text](image-7.png)
+
++ Read file index.html and we got the username & password of login page:
+
+![alt text](image-6.png)
+
+END!!!
