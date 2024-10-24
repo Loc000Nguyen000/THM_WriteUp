@@ -156,7 +156,7 @@ Trying bob / angel Time: 00:00:01 <                 > (36 / 14344428)  0.00%  ET
 ```
 ---> We've found the password and use it to login again /wp-admin.
 
-+ We look around main page wordpress but no more feartures we can use because we are in role normal user not role Administrator.
++ We look around main page wordpress but limited feartures we can use because we are in role normal user not role Administrator.
 
 ![alt text](image-2.png)
 
@@ -203,10 +203,15 @@ Trying bob / angel Time: 00:00:01 <                 > (36 / 14344428)  0.00%  ET
 + We've found the vulnerable "wp-data-access" --> CVE-2023-1874
 + Link: https://www.wordfence.com/blog/2023/04/privilege-escalation-vulnerability-patched-promptly-in-wp-data-access-wordpress-plugin/
 + We are able to use 'wpda_role[]' parameter to modify user role to role Administrator.
-+ Using Burpsuite to intercept:
++ Using Burpsuite to intercept and when we "Update Profile", we add "wpda_role[]=administrator" into code:
 
+![alt text](image-4.png)
 
++ We got the full feartures:
 
-+ We add "wpda_role[]=Administrator" into code:
+![alt text](image-5.png)
 
++ After exploiting the vulnerable Plugin success, we can manipulate the Themes to spawn the reverse shell.
++ Access "Edit Themes" in Tools, we can know that the page is in "twentytwentyfour" theme.
++ We 
 
