@@ -213,5 +213,10 @@ Trying bob / angel Time: 00:00:01 <                 > (36 / 14344428)  0.00%  ET
 
 + After exploiting the vulnerable Plugin success, we can manipulate the Themes to spawn the reverse shell.
 + Access "Edit Themes" in Tools, we can know that the page is in "twentytwentyfour" theme.
-+ We 
++ We are able to add PHP reverse shell into theme /twentytwenyone/404.php:
 
+![alt text](image-6.png)
+
+--> We can not write PHP webshell into 404.php of another theme except theme twentytwentyone.
+
+![alt text](image-7.png)
