@@ -66,6 +66,82 @@ Finished
 
 ![alt text](image.png)
 
++ Continue scanning the website page /wordpress with Gobuster:
 
+```bash
+$ gobuster dir -u http://<IP>/wordpress/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt -t64
+===============================================================
+Gobuster v3.6
+by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
+===============================================================
+[+] Url:                     http://<IP>/wordpress/
+[+] Method:                  GET
+[+] Threads:                 64
+[+] Wordlist:                /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt
+[+] Negative Status codes:   404
+[+] User Agent:              gobuster/3.6
+[+] Timeout:                 10s
+===============================================================
+Starting gobuster in directory enumeration mode
+===============================================================
+/wp-content           (Status: 301) [Size: 329] [--> http://<IP>/wordpress/wp-content/]
+/wp-includes          (Status: 301) [Size: 330] [--> http://<IP>/wordpress/wp-includes/]
+/wp-admin             (Status: 301) [Size: 327] [--> http://<IP>/wordpress/wp-admin/]
+Progress: 87664 / 87665 (100.00%)
+===============================================================
+Finished
+===============================================================
+```
+--> We have the login page /wp-admin.
+
++ Now we've known the website page is page Wordpress so we are able to use specialized tool for scanning Wordpress call "WpScan".
+
+![alt text](<Screenshot from 2024-10-24 09-54-55.png>)
+
+```bash
+[+] WordPress version 6.4.3 identified (Insecure, released on 2024-01-30).
+ | Found By: Rss Generator (Passive Detection)
+ |  - http://10.10.194.162/wordpress/index.php/feed/, <generator>https://wordpress.org/?v=6.4.3</generator>
+ |  - http://10.10.194.162/wordpress/index.php/comments/feed/, <generator>https://wordpress.org/?v=6.4.3</generator>
+
+[+] WordPress theme in use: twentytwentyfour
+ | Location: http://10.10.194.162/wordpress/wp-content/themes/twentytwentyfour/
+ | Last Updated: 2024-07-16T00:00:00.000Z
+ | Readme: http://10.10.194.162/wordpress/wp-content/themes/twentytwentyfour/readme.txt
+ | [!] The version is out of date, the latest version is 1.2
+ | Style URL: http://10.10.194.162/wordpress/wp-content/themes/twentytwentyfour/style.css
+ | Style Name: Twenty Twenty-Four
+ | Style URI: https://wordpress.org/themes/twentytwentyfour/
+ | Description: Twenty Twenty-Four is designed to be flexible, versatile and applicable to any website. Its collecti...
+ | Author: the WordPress team
+ | Author URI: https://wordpress.org
+ |
+ | Found By: Urls In Homepage (Passive Detection)
+ |
+ | Version: 1.0 (80% confidence)
+ | Found By: Style (Passive Detection)
+ |  - http://10.10.194.162/wordpress/wp-content/themes/twentytwentyfour/style.css, Match: 'Version: 1.0'
+
+[+] Enumerating Users (via Passive and Aggressive Methods)
+ Brute Forcing Author IDs - Time: 00:00:10 <===========> (100 / 100) 100.00% Time: 00:00:10
+```
++ We've found the identified users:
+
+```bash
+[i] User(s) Identified:
+
+[+] admin
+ | Found By: Author Posts - Author Pattern (Passive Detection)
+ | Confirmed By:
+ |  Rss Generator (Passive Detection)
+ |  Wp Json Api (Aggressive Detection)
+ |   - http://10.10.194.162/wordpress/index.php/wp-json/wp/v2/users/?per_page=100&page=1
+ |  Author Id Brute Forcing - Author Pattern (Aggressive Detection)
+ |  Login Error Messages (Aggressive Detection)
+
+[+] bob
+ | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)
+ | Confirmed By: Login Error Messages (Aggressive Detection)
+```
 
 
