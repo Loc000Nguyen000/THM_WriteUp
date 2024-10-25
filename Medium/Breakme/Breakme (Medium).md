@@ -324,6 +324,7 @@ www-data@Breakme:/tmp$ 2024/10/25 01:06:32 client: Connecting to ws://10.11.101.
  ```  
  --> The vulnerable "Command Injection" is available in the fearture "Check User".
 
+-----------------------------
  EXPLOIT COMMAND INJECTION
- 
+
 
