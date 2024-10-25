@@ -212,7 +212,7 @@ Trying bob / angel Time: 00:00:01 <                 > (36 / 14344428)  0.00%  ET
 ![alt text](image-5.png)
 
 + After exploiting the vulnerable Plugin success, we can manipulate the Themes to spawn the reverse shell.
-+ Access "Edit Themes" in Tools, we can know that the page is in "twentytwentyfour" theme.
++ Access "Edit Themes" in Appearance, we can know that the page is in "twentytwentyfour" theme.
 + We are able to add PHP reverse shell into theme /twentytwenyone/404.php:
 
 ![alt text](image-6.png)
@@ -242,5 +242,10 @@ Trying bob / angel Time: 00:00:01 <                 > (36 / 14344428)  0.00%  ET
 ```
 
 + Access http://<IP>/wordpress/wp-content/themes/twentytwentyone/404.php and use netcat to capture the listner port.
- 
+
+![alt text](image-8.png)
+
++ We using python to spawn interactive shell.
+
+![alt text](image-9.png)
 
