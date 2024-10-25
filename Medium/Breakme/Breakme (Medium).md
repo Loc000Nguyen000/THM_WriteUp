@@ -223,11 +223,11 @@ Trying bob / angel Time: 00:00:01 <                 > (36 / 14344428)  0.00%  ET
 
 ```bash
 [+] WordPress theme in use: twentytwentyone
- | Location: http://10.10.80.236/wordpress/wp-content/themes/twentytwentyone/
+ | Location: http://<IP>/wordpress/wp-content/themes/twentytwentyone/
  | Last Updated: 2024-07-16T00:00:00.000Z
- | Readme: http://10.10.80.236/wordpress/wp-content/themes/twentytwentyone/readme.txt
+ | Readme: http://<IP>/wordpress/wp-content/themes/twentytwentyone/readme.txt
  | [!] The version is out of date, the latest version is 2.3
- | Style URL: http://10.10.80.236/wordpress/wp-content/themes/twentytwentyone/style.css?ver=2.1
+ | Style URL: http://<IP>/wordpress/wp-content/themes/twentytwentyone/style.css?ver=2.1
  | Style Name: Twenty Twenty-One
  | Style URI: https://wordpress.org/themes/twentytwentyone/
  | Description: Twenty Twenty-One is a blank canvas for your ideas and it makes the block editor your best brush. Wi...
@@ -238,5 +238,9 @@ Trying bob / angel Time: 00:00:01 <                 > (36 / 14344428)  0.00%  ET
  |
  | Version: 2.1 (80% confidence)
  | Found By: Style (Passive Detection)
- |  - http://10.10.80.236/wordpress/wp-content/themes/twentytwentyone/style.css?ver=2.1, Match: 'Version: 2.1'
+ |  - http://<IP>/wordpress/wp-content/themes/twentytwentyone/style.css?ver=2.1, Match: 'Version: 2.1'
 ```
+
++ Access http://<IP>/wordpress/wp-content/themes/twentytwentyone/404.php and use netcat to capture the listner port.
+ 
+
