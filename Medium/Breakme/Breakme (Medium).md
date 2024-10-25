@@ -156,7 +156,7 @@ Trying bob / angel Time: 00:00:01 <                 > (36 / 14344428)  0.00%  ET
 ```
 ---> We've found the password and use it to login again /wp-admin.
 
-+ We look around main page wordpress but limited feartures we can use because we are in role normal user not role Administrator.
++ We look around main page wordpress but limited <features we can use because we are in role normal user not role Administrator.
 
 ![alt text](image-2.png)
 
@@ -199,7 +199,7 @@ Trying bob / angel Time: 00:00:01 <                 > (36 / 14344428)  0.00%  ET
 
 --> We've known the both are out date so maybe they will have the vulnerable we can manipulate.
 
-+ First we will research and find the vulnerable plugin "wp-data-access" version 5.3.5 because we are still no access the fearture theme "twentytwentyfour".
++ First we will research and find the vulnerable plugin "wp-data-access" version 5.3.5 because we are still no access the feature theme "twentytwentyfour".
 + We've found the vulnerable "wp-data-access" --> CVE-2023-1874
 + Link: https://www.wordfence.com/blog/2023/04/privilege-escalation-vulnerability-patched-promptly-in-wp-data-access-wordpress-plugin/
 + We are able to use 'wpda_role[]' parameter to modify user role to role Administrator.
@@ -207,7 +207,7 @@ Trying bob / angel Time: 00:00:01 <                 > (36 / 14344428)  0.00%  ET
 
 ![alt text](image-4.png)
 
-+ We got the full feartures:
++ We got the full <features:
 
 ![alt text](image-5.png)
 
@@ -301,7 +301,25 @@ www-data@Breakme:/tmp$ 2024/10/25 01:06:32 client: Connecting to ws://10.11.101.
 
 + Access the page http://127.0.0.1:9999/ successfull
 
+![alt text](image-11.png)
 
++ We check first the feature "Check Target" which is ping IP.
++ We use "TcpDump" to see when we input the target IP so we can recieve the response ping IP:
 
+![alt text](image-12.png)
 
+--> When we input the IP with characters we recieved the error message in result: "Invalid IP address".
+
++ Moving to the next feature "Check File":
+
+```bash
+- When we input the normal name like text, file,... --> We recieved the result message: "File not found" but when we add some special characters like "" , . --> We recieved the result message: "Invalid Filename"
+```
+
++ The last fearture "Check User":
+
+```bash
+ - First we input the name normaly john --> We recieved the result message: "User john not found"
+ - Second we add special character like (:) we recieved the message: "User john: not found" but with different special character like "" or , we recieved the message same : "User john not found" and the special character being replaced.
+ ```  
 
