@@ -322,4 +322,8 @@ www-data@Breakme:/tmp$ 2024/10/25 01:06:32 client: Connecting to ws://10.11.101.
  - First we input the name normaly john --> We recieved the result message: "User john not found"
  - Second we add special character like (:) we recieved the message: "User john: not found" but with different special character like "" or , we recieved the message same : "User john not found" and the special character being replaced.
  ```  
+ --> The vulnerable "Command Injection" is available in the fearture "Check User".
+
+ EXPLOIT COMMAND INJECTION
+ 
 
