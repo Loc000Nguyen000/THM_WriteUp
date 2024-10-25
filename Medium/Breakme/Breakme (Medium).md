@@ -387,6 +387,8 @@ www-data@Breakme:/var/www/html$
 ```
 but netcat can not capture the listner port so we continute add some special character and finally success with payload |/var/www/html/exploit.sh|
 
++ Link list payload for Command Injection: "https://github.com/payloadbox/command-injection-payload-list"
+
 ![alt text](image-13.png)
 
 
