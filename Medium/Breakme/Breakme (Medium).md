@@ -413,3 +413,13 @@ john@Breakme:/home/youcef$
 john@Breakme:/home/youcef$ ./readfile 
 Usage: ./readfile <FILE>
 ```
+
++ Now we will download file "readfile" to attack machine to analyze.
+
+![alt text](image-14.png)
+
++ We wget file into the folder machine.
+
+
+
+
