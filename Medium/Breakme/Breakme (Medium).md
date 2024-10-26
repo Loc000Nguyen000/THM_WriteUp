@@ -423,6 +423,9 @@ Usage: ./readfile <FILE>
 -----------------------------------------
 REVERSE ENGINEERING
 
++ We use tool IDA to analyze code of "readfile". We jump to Pseudocode:
+
+![alt text](image-15.png)
 
 
 
