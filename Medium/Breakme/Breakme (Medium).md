@@ -325,7 +325,7 @@ www-data@Breakme:/tmp$ 2024/10/25 01:06:32 client: Connecting to ws://10.11.101.
  --> The vulnerable "Command Injection" is available in the fearture "Check User".
 
 -----------------------------
- EXPLOIT COMMAND INJECTION:
+ ***EXPLOIT COMMAND INJECTION***
 + Type: Verbose Command Injection.
 + After testing some special characters in list we created 
 ```
@@ -421,12 +421,68 @@ Usage: ./readfile <FILE>
 + We wget file into the folder machine.
 
 -----------------------------------------
-REVERSE ENGINEERING
+***REVERSE ENGINEERING***
 
 + We use tool IDA to analyze code of "readfile". We jump to Pseudocode:
 
 ![alt text](image-15.png)
 
+```bash
+**Code Analysis**
 
+Here is a breakdown of the code:
+
+**Conditional Statement**
+
+The code starts with a conditional statement that checks if the user ID (UID) is equal to 1002. If true, the code inside the block is executed.
+
+**String Searching**
+
+The code searches for two specific strings in the first command-line argument (`argv[1]`):
+
+* `"flag"`
+* `"id_rsa"`
+
+The `strstr` function is used to search for these strings. If either string is found, the corresponding variable (`v10` or `v9`) is set to a non-null value.
+
+**File Status**
+
+The code uses the `lstat` function to retrieve information about the file specified by `argv[1]`. The `stat_buf` structure is used to store the file status.
+
+**File Mode and Access**
+
+The code checks the file mode and access permissions:
+
+* `HIDWORD(v8) = (stat_buf.st_mode & 0xF000) == 40960;` checks if the file mode is a regular file (40960 is the value for `S_IFREG`).
+* `LODWORD(v8) = access(argv[1], 4);` checks if the file can be read (mode 4 is `R_OK`).
+
+**Conditional Statement**
+
+The code checks if any of the following conditions are true:
+
+* `v10` is non-null (i.e., the string `"flag"` was found)
+* `v8` is greater than or equal to 0xFFFFFFFF (i.e., the file access check failed)
+* `v9` is non-null (i.e., the string `"id_rsa"` was found)
+
+If any of these conditions are true, the code prints "Nice try!" and returns 1.
+
+**File Reading**
+
+If none of the above conditions are true, the code:
+
+* Opens the file specified by `argv[1]` in read-only mode (`open(argv[1], 0)`).
+* Reads the file in chunks of 1024 bytes (`read(fd, buf, 0x400uLL)`).
+* Writes the read data to the standard output (`write(1, buf, v6)`).
+
+**Return Statement**
+
+The code returns 0 if the file is successfully read and written to the standard output.
+
+**Notes**
+
+* The `usleep(0)` function is used to introduce a small delay, likely to prevent timing attacks.
+* The `__assert_fail` function is used to handle errors when opening the file.
+* The code uses a mix of 32-bit and 64-bit integer types, which may indicate that the code is intended to run on a 64-bit system.
+```
 
 
