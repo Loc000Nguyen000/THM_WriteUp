@@ -391,5 +391,25 @@ but netcat can not capture the listner port so we continute add some special cha
 
 ![alt text](image-13.png)
 
-
-
++ Access /youcef --> We got 2 files readfile and readfile.c
++ Check permission files:
+```
+john@Breakme:/home/youcef$ ls -la
+total 52
+drwxr-x--- 4 youcef john    4096 Aug  3  2023 .
+drwxr-xr-x 5 root   root    4096 Feb  3  2024 ..
+lrwxrwxrwx 1 youcef youcef     9 Aug  3  2023 .bash_history -> /dev/null
+-rw-r--r-- 1 youcef youcef   220 Aug  1  2023 .bash_logout
+-rw-r--r-- 1 youcef youcef  3526 Aug  1  2023 .bashrc
+drwxr-xr-x 3 youcef youcef  4096 Aug  1  2023 .local
+-rw-r--r-- 1 youcef youcef   807 Aug  1  2023 .profile
+-rwsr-sr-x 1 youcef youcef 17176 Aug  2  2023 readfile
+-rw------- 1 youcef youcef  1026 Aug  2  2023 readfile.c
+drwx------ 2 youcef youcef  4096 Aug  5  2023 .ssh
+john@Breakme:/home/youcef$ 
+```
++ We have readfile with SUID run execute ./readfile
+```
+john@Breakme:/home/youcef$ ./readfile 
+Usage: ./readfile <FILE>
+```
