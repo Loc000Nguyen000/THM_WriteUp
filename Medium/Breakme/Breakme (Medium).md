@@ -427,6 +427,8 @@ Usage: ./readfile <FILE>
 
 ![alt text](image-15.png)
 
++ We will focus into the main line start when we check conditions user is "John".
+
 ```bash
 **Code Analysis**
 
