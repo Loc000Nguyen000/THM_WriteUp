@@ -567,6 +567,24 @@ User youcef may run the following commands on breakme:
 
 --> We are able to run func "print()" but can not "import ".
 
++ Research and we've found the payload to bypass Python:
++ Link: "https://book.hacktricks.xyz/generic-methodologies-and-resources/python/bypass-python-sandboxes#builtins"
 
++ We try example __builtins__ and run with import :
 
+![alt text](image-20.png)
+
+--> We try with __import__ lowercase so error "Ilegal input" -> We change to Uppercase with IMPORT and no error message "Ilegal"
+. We next to use func lower() to lowercase import but no success so we use casefold() which is similar with lower() but more aggressive.
+And this attempts, it is success and no error message "Ilegal" appears.
+We can apply casefold() for OS and first "import os" successfull.
+
++ After import os success, we continue to system(). We create new dictionary with system() and try run command id.
+Use print() to print all command
+
+![alt text](image-21.png)
+
+```
+#Note: We notice that need to add f'SYSTEM to format string "ID" because we run string "ID" not variable ID in system().
+```
 
