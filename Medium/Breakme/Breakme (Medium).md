@@ -490,7 +490,7 @@ The code returns 0 if the file is successfully read and written to the standard 
 
 ***Exploit Race Condition***
 
-+ TOCTOU, which is 
++ TOCTOU 
 
 + Idea: We will create a script that creates a symbol link to the destination we want, in this case that is ./ssh/id_rsa. While the application perfoms the checks, we are hoping that it will see a regular file "id_rsa" and we will pass the checks. This script is run infinity. So at some point of execution, we've got the file we actually want to read.
 + First we will create a loop running in background switching files between these two states:
@@ -588,3 +588,8 @@ Use print() to print all command
 #Note: We notice that need to add f'SYSTEM to format string "ID" because we run string "ID" not variable ID in system().
 ```
 
++ And now run again with bash we priv user root:
+
+![alt text](image-22.png)
+
+END!!!
