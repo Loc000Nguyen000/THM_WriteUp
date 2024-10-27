@@ -549,5 +549,24 @@ Session completed.
 
 ![alt text](image-18.png)
 
++ Run command "sudo -l":
+
+```bash
+youcef@Breakme:~$ sudo -l
+Matching Defaults entries for youcef on breakme:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User youcef may run the following commands on breakme:
+    (root) NOPASSWD: /usr/bin/python3 /root/jail.py
+```
+
++ Try to run python3 with jail.py:
+
+![alt text](image-19.png)
+
+--> We are able to run func "print()" but can not "import ".
+
+
 
 
