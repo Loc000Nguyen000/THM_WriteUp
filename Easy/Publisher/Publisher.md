@@ -61,5 +61,7 @@ Starting gobuster in directory enumeration mode
 
 --> We've got the version application SPIP v 4.2
 
++ Research and we've known the vulnerability SPIP 4.2 that is CVE-2023-27372
++ Link: "https://github.com/nuts7/CVE-2023-27372?tab=readme-ov-file"
 
 
