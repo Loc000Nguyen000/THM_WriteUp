@@ -51,11 +51,15 @@ Starting gobuster in directory enumeration mode
 /LICENSE              (Status: 200) [Size: 35147]
 /IMG                  (Status: 301) [Size: 315] [--> http://<IP>/spip/IMG/]
 /htaccess.txt         (Status: 200) [Size: 4307]
-/ecrire               (Status: 301) [Size: 318] [--> http://<IP>/spip/ecrire/
+/ecrire               (Status: 301) [Size: 318] [--> http://<IP>/spip/ecrire/]
 /prive                (Status: 301) [Size: 317] [--> http://<IP>/spip/prive/]
 ```
 
++ We've seen the interested directory /htaccess.txt and access to find more information.
 
+![alt text](image-1.png)
+
+--> We've got the version application SPIP v 4.2
 
 
 
