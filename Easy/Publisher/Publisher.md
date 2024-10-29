@@ -64,4 +64,10 @@ Starting gobuster in directory enumeration mode
 + Research and we've known the vulnerability SPIP 4.2 that is CVE-2023-27372
 + Link: "https://github.com/nuts7/CVE-2023-27372?tab=readme-ov-file"
 
++ When we enter any emails into field "Your email address" in page spip_pass to reset password.
+ Look at Burpsuite, we've had the POST request and the parameter "oubli" is the vulnerability.
+ We can inject command into this to RCE.
+
+![alt text](image-2.png)  
+
 
