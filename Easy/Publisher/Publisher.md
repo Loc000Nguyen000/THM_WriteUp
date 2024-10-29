@@ -70,4 +70,28 @@ Starting gobuster in directory enumeration mode
 
 ![alt text](image-2.png)  
 
++ We run script exploit CVE-2023-27372 to get the payload excuted and inject "oubli" to RCE.
+
+![alt text](image-3.png)
+
+![alt text](image-4.png)
+
+--> We're in server 'www-data'.
+
++ List files in the directory to find some sensitive information
+
+![alt text](image-6.png)
+
+![alt text](image-5.png)
+
+--> We've found the /.ssh and form this we are able to get the key id_rsa to login SSH.
+
+![alt text](image-7.png)
+
+![alt text](image-8.png)
+
+--> We had the key id_rsa so now we will use it to login SSH.
+
+![alt text](image-9.png)
+
 
