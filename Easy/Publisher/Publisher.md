@@ -94,4 +94,66 @@ Starting gobuster in directory enumeration mode
 
 ![alt text](image-9.png)
 
+## PRIVILEGE ESCALATION ##
++ First we can not run "sudo -l" because we don't know password user think.
++ We still can not create file because not permission.
+
+![alt text](image-10.png)
+
++ See the hint and know the server has AppArmor protection.
++ Access /etc/apparmor.d/ to find more information which we need.
++ We've noticed file usr.sbin.ash and check it.
+
+![alt text](image-11.png)
+
++ Not enough information so let find more.
++ Find SUID binary files:
+
+```bash
+think@publisher:/etc/apparmor.d$ find / -uid 0 -perm -4000 -type f 2>/dev/null
+/usr/lib/policykit-1/polkit-agent-helper-1
+/usr/lib/openssh/ssh-keysign
+/usr/lib/eject/dmcrypt-get-device
+/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+/usr/lib/xorg/Xorg.wrap
+/usr/sbin/pppd
+/usr/sbin/run_container
+/usr/bin/fusermount
+/usr/bin/gpasswd
+/usr/bin/chfn
+/usr/bin/sudo
+/usr/bin/chsh
+/usr/bin/passwd
+/usr/bin/mount
+/usr/bin/su
+/usr/bin/newgrp
+/usr/bin/pkexec
+/usr/bin/umount
+```
+--> The potential SUID binary name "run_container".
+
++ Try to run "run_container":
+
+```bash
+think@publisher:/etc/apparmor.d$ run_container 
+List of Docker containers:
+ID: 41c976e507f8 | Name: jovial_hertz | Status: Up 35 minutes
+
+Enter the ID of the container or leave blank to create a new one: 
+/opt/run_container.sh: line 16: validate_container_id: command not found
+
+OPTIONS:
+1) Start Container
+2) Stop Container
+3) Restart Container
+4) Create Container
+5) Quit
+Choose an action for a container: 5
+Exiting...
+```
+--> When we run container, it will start Docker list. We found the potential file /opt/run_container.
+
+
+
+
 
