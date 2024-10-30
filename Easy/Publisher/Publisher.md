@@ -151,9 +151,9 @@ OPTIONS:
 Choose an action for a container: 5
 Exiting...
 ```
---> When we run container, it will start Docker list. We found the potential file /opt/run_container.
+--> When we run container, it will start Docker list. We found the potential file /opt/run_container.sh
 
-
++ We can read 
 
 
 
