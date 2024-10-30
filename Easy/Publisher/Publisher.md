@@ -153,7 +153,38 @@ Exiting...
 ```
 --> When we run container, it will start Docker list. We found the potential file /opt/run_container.sh
 
-+ We can read 
++ We can read file /opt/run_container.sh but can not access /opt so we can not be writable permission file run_container.sh
++ Because we are limited permission so we can not create or copy file into /tmp, /home, or some directories.
 
+--> We need to spawn full interactive shell. We can use bash to spawn new shell.
 
+```bash
+think@publisher:/etc/apparmor.d$ which bash
+/usr/bin/bash
+think@publisher:/etc/apparmor.d$ /usr/bin/bash -p
+think@publisher:/etc/apparmor.d$ cd /opt
+think@publisher:/opt$ ls
+ls: cannot open directory '.': Permission denied
+```
+--> Still not working. Now we look back previous file usr.sbin.ash, after research we've known about ash "This is an AppArmor profile for the ash shell, which is a lightweight alternative to the Bash shell".
+We can realize that some directories were be denied to access with ash shell.
 
++ We've seen /dev/shm was denied writable permission but with include <abstractions/base> and <abstractions/consoles> that still provides permissions for accessing a process like /dev.
++ We access /dev/shm and try to create file and it's worked so it still has permission to copy file.
++ We have idea that we will copy file bash into /dev/shm to spawn full interactive shell.
+
+![alt text](image-12.png)
+
+--> After have full interactive shell, we are able to access and have writable permission file run_container.sh in /opt.
+
++ Now we can add some command into run_container.sh
+
+![alt text](image-13.png)
+
+![alt text](image-14.png)
+
++ Write "/bin/bash -p" in run_container.sh and run gain to spawn shell
+
+![alt text](image-15.png)
+
+END!!!
