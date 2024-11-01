@@ -6,4 +6,8 @@
 
 ## Reconnaissance:
 
-+ 
++ Scan the machine with Nmap and Gobuster:
+
+```bash
+
+```
