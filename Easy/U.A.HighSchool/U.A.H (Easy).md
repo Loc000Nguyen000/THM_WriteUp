@@ -57,9 +57,10 @@ gobuster dir -u http://<IP>/assets/ -w /usr/share/wordlist/dirb/common.txt -xtxt
 
 --> Try to access /images we've recived the message "Forbidden" because we don't have the permission to access into the page.
  
- + In this case, we've had the /index.php so we can think that we can query directly above the url.
+ + In this case, we've accessed /index.php so we can think that we try to query directly above the url.
+ + We try some common parameters like page or cmd:  
 
-
+![alt text](image-1.png)
 
 
 
