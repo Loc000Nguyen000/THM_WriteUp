@@ -58,9 +58,19 @@ gobuster dir -u http://<IP>/assets/ -w /usr/share/wordlist/dirb/common.txt -xtxt
 --> Try to access /images we've recived the message "Forbidden" because we don't have the permission to access into the page.
  
  + In this case, we've accessed /index.php so we can think that we try to query directly above the url.
- + We try some common parameters like page or cmd:  
+ + We try some common parameters like ?page or ?cmd:  
 
 ![alt text](image-1.png)
+
+--> We've done successfully so we've known that is the vulnerability Upload Fille.
+Form that we can upload webshell into the server and RCE.
+
++ Now upload file shell and RCE the target:
+
+![alt text](image-2.png)
+
+![alt text](image-3.png)
+
 
 
 
