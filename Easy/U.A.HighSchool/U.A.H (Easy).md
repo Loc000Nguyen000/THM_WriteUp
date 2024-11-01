@@ -71,6 +71,59 @@ Form that we can upload webshell into the server and RCE.
 
 ![alt text](image-3.png)
 
++ Access /webshell.php and netcat the opened port.
+
+![alt text](image-4.png)
+
+--> Access successfully but we don't have the permission to access file user.txt or .ssh
+
++ We will back to scan the directory server and find the potential files
+
+```bash
+www-data@myheroacademia:/home/deku$ cd /var/www/
+www-data@myheroacademia:/var/www$ ls
+Hidden_Content	html
+www-data@myheroacademia:/var/www$ cd Hidden_Content/
+www-data@myheroacademia:/var/www/Hidden_Content$ ls
+passphrase.txt
+www-data@myheroacademia:/var/www/Hidden_Content$ cat passphrase.txt 
+QWxsbWlnaHRGb3JFdmVyISEhCg==
+www-data@myheroacademia:/var/www/Hidden_Content$ 
+```
+--> Decode the passphrase: "AllmightForEver!!!"
+
++ Back /assets/images/ we've found the file images which maybe some stegano in here.
++ Download all images to attack machine and start scanning.
++ Using exiftool to scan all images:
+
+![alt text](image-5.png)
+
+![alt text](image-6.png)
+
+--> 2 Images are .jpg but format image oneforall.jpg is PNG so this is issue we can exploit it.
+
++ Try steghide to extract 2 images with passphrase we've found previous.
+--> Not work so we are back image oneforall.jpg and we use tool to edit it right format.
+
++ Use hexeditor to edit image:
+
+![alt text](image-7.png)
+
+--> Use checklit format file to edit image format from PNG to JPG/JPEG
+"https://en.wikipedia.org/wiki/List_of_file_signatures"
+
+![alt text](image-8.png)
+
+![alt text](image-9.png)
+
+--> After editing, we check again with exiftool and now we can extract image again.
+
+![alt text](image-10.png)
+
++ Read file and we've gotten the credential SSH of user deku.
+
+
+
 
 
 
