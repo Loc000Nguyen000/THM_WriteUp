@@ -151,8 +151,11 @@ user
 
 ![alt text](image-11.png)
 
++ Command "sudo -l":
 
+```bash
 
+```
 
 
 
