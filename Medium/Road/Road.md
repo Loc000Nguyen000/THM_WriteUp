@@ -54,12 +54,25 @@ gobuster dir -u <IP> -w /usr/share/wordlists/dirb/common.txt -xtxt,php,html -t64
 --> We have the information user admin@sky.thm 
 
 + Open BurpSuite to catch feature reset password, we can change user from user@sky.thm to admin@sky.thm and change the password of admin.
+--> We found the vulnerability "Identification and Authentication Failures" relate reset password processes.  
 
 ![alt text](image-2.png)
 
 --> After change password successfully, we are back /login.html and login user admin with new password.
 
 ![alt text](image-3.png)
+
++ Login admin successful, we are able to edit profile and access directory limited by admin.
++ Try to access page /assets we can not find supicious things. Continue with /admin we are disable to query with index.php
+
+![alt text](image-5.png)
+
++ Back to /profile.php, we research more the Sky Couriers and find the Arbitrary File Upload Vulnerability relate "Courier Management System"
++ Link: "https://github.com/zerrr0/Zerrr0_Vulnerability/blob/main/Best%20Courier%20Management%20System%201.0/Arbitrary-File-Upload-Vulnerability.md#best-courier-management-system-10---arbitrary-file-upload-vulnerability"
+
+
+
+
 
 
 
