@@ -78,6 +78,33 @@ gobuster dir -u <IP> -w /usr/share/wordlists/dirb/common.txt -xtxt,php,html -t64
 
 ![alt text](image-8.png)
 
++ Upgrade to the interactive shell, we have to find the way to priv to user webdeveloper.
++ First we use tool "ss - another utility to investigate sockets" 
+
+![alt text](image-9.png)
+
+```bash
+www-data@sky:/var/www/html/v2$ ss -tl
+State   Recv-Q  Send-Q     Local Address:Port       Peer Address:Port  Process  
+LISTEN  0       4096           127.0.0.1:27017           0.0.0.0:*              
+LISTEN  0       151            127.0.0.1:mysql           0.0.0.0:*              
+LISTEN  0       4096       127.0.0.53%lo:domain          0.0.0.0:*              
+LISTEN  0       128              0.0.0.0:ssh             0.0.0.0:*              
+LISTEN  0       70             127.0.0.1:33060           0.0.0.0:*              
+LISTEN  0       511            127.0.0.1:9000            0.0.0.0:*              
+LISTEN  0       511                    *:http                  *:*              
+LISTEN  0       128                 [::]:ssh                [::]:*     
+```
+
+--> We have port 33060 - MySQL and Port 27017 - MongoDB
+
++ Read file lostpassword.php, we have credential MySQL:
+
+![alt text](image-10.png)
+
+--> Checking into MySql, we did not find the information user "webdeveloper" we need. We change to MongoDB.
+
+
 
 
 
