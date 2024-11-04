@@ -129,8 +129,23 @@ local   0.000GB
 > 
 ```
 
-+ We can use command in Link: "https://www.digitalocean.com/community/tutorials/how-to-use-the-mongodb-shell"
++ Link: "https://www.digitalocean.com/community/tutorials/how-to-use-the-mongodb-shell"
 
+```bash
+> use backup
+switched to db backup
+> show collections
+collection
+user
+> db.user.find()
+{ "_id" : ObjectId("60ae2661203d21857b184a76"), "Month" : "Feb", "Profit" : "25000" }
+{ "_id" : ObjectId("60ae2677203d21857b184a77"), "Month" : "March", "Profit" : "5000" }
+{ "_id" : ObjectId("60ae2690203d21857b184a78"), "Name" : "webdeveloper", "Pass" : "BahamasChapp123!@#" }
+{ "_id" : ObjectId("60ae26bf203d21857b184a79"), "Name" : "Rohit", "EndDate" : "December" }
+{ "_id" : ObjectId("60ae26d2203d21857b184a7a"), "Name" : "Rohit", "Salary" : "30000" }
+```
+
+--> We have the credential webdeveloper:BahamasChapp123!@#
 
 
 
