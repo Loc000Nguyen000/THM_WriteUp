@@ -70,9 +70,13 @@ gobuster dir -u <IP> -w /usr/share/wordlists/dirb/common.txt -xtxt,php,html -t64
 + Back to /profile.php, we research more the Sky Couriers and find the Arbitrary File Upload Vulnerability relate "Courier Management System"
 + Link: "https://github.com/zerrr0/Zerrr0_Vulnerability/blob/main/Best%20Courier%20Management%20System%201.0/Arbitrary-File-Upload-Vulnerability.md#best-courier-management-system-10---arbitrary-file-upload-vulnerability"
 
++ We manipulate feature Upload Profile Image into /profile.php to put the webshell and open the listen port.
 
+ ![alt text](image-7.png)
 
++ After upload and edit profile successfully, we go to /profileimages and access webshell.php
 
+![alt text](image-8.png)
 
 
 
