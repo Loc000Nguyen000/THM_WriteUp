@@ -104,6 +104,33 @@ LISTEN  0       128                 [::]:ssh                [::]:*
 
 --> Checking into MySql, we did not find the information user "webdeveloper" we need. We change to MongoDB.
 
+```bash
+www-data@sky:/var/www/html/v2$ mongo 127.0.0.1
+MongoDB shell version v4.4.6
+connecting to: mongodb://127.0.0.1:27017/test?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("bb890b88-248f-4ac3-9335-a5161e796ba7") }
+MongoDB server version: 4.4.6
+Welcome to the MongoDB shell.
+For interactive help, type "help".
+For more comprehensive documentation, see
+	https://docs.mongodb.com/
+Questions? Try the MongoDB Developer Community Forums
+	https://community.mongodb.com
+---
+The server generated these startup warnings when booting: 
+        2024-11-04T15:45:50.078+00:00: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine. See http://dochub.mongodb.org/core/prodnotes-filesystem
+        2024-11-04T15:46:23.926+00:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+---
+> show dbs
+admin   0.000GB
+backup  0.000GB
+config  0.000GB
+local   0.000GB
+> 
+```
+
++ We can use command in Link: "https://www.digitalocean.com/community/tutorials/how-to-use-the-mongodb-shell"
+
 
 
 
