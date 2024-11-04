@@ -147,6 +147,12 @@ user
 
 --> We have the credential webdeveloper:BahamasChapp123!@#
 
++ Login SSH webdeveloper:
+
+![alt text](image-11.png)
+
+
+
 
 
 
