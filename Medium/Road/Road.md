@@ -29,16 +29,16 @@ PORT   STATE SERVICE REASON         VERSION
 
 ```bash
 gobuster dir -u <IP> -w /usr/share/wordlists/dirb/common.txt -xtxt,php,html -t64
-/assets               (Status: 301) [Size: 311] [--> http://10.10.76.47/assets/]
+/assets               (Status: 301) [Size: 311] [--> http://<IP>/assets/]
 /career.html          (Status: 200) [Size: 9289]
-/phpMyAdmin           (Status: 301) [Size: 315] [--> http://10.10.76.47/phpMyAdmin/]
+/phpMyAdmin           (Status: 301) [Size: 315] [--> http://<IP>/phpMyAdmin/]
 /index.html           (Status: 200) [Size: 19607]
 ```
 
 ```bash
  gobuster dir -u <IP> -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -xtxt,php,html -t64
-/assets               (Status: 301) [Size: 311] [--> http://10.10.76.47/assets/]
-/v2                   (Status: 301) [Size: 307] [--> http://10.10.76.47/v2/]
+/assets               (Status: 301) [Size: 311] [--> http://<IP>/assets/]
+/v2                   (Status: 301) [Size: 307] [--> http://<IP>/v2/]
 /career.html          (Status: 200) [Size: 9289]
 ```
 
