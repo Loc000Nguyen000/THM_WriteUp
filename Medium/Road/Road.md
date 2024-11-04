@@ -42,4 +42,25 @@ gobuster dir -u <IP> -w /usr/share/wordlists/dirb/common.txt -xtxt,php,html -t64
 /career.html          (Status: 200) [Size: 9289]
 ```
 
-+ 
++ Access /v2 --> we are redirected to /admin/login.html 
++ We register to login website, after register successfully we login again and access the web page:
+
+![alt text](image.png)
+
++ Go through all features we can use, we've noticed in the /profile.php with edit profile and feature reset password user.
+
+![alt text](image-1.png)
+
+--> We have the information user admin@sky.thm 
+
++ Open BurpSuite to catch feature reset password, we can change user from user@sky.thm to admin@sky.thm and change the password of admin.
+
+![alt text](image-2.png)
+
+--> After change password successfully, we are back /login.html and login user admin with new password.
+
+![alt text](image-3.png)
+
+
+
+
