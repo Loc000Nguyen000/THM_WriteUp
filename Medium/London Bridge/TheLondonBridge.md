@@ -3,7 +3,7 @@
 ### Link: https://tryhackme.com/r/room/thelondonbridge
 -------------------------------------------------------
 
-Recon:
+### Recon: ###
 
 + Scan the machine with Nmap and Gobuster:
 
@@ -82,6 +82,67 @@ Finished
 ===============================================================
 ```
 
++ Access /dejaview we see the field "Enter Image URL:" --> Enter the path of directory has images /uploads/<Name of images> --> If right the Image, it will appear.
+
+![alt text](image.png)
+
++ Using Burpsuite capture /dejaview and commbine with hint "Check for other parameters that may been left over during the development phase."
+we guess the potential parameters is "image_url". Let try to fuzz it.
+
+![alt text](image-1.png)
+
+--> We have parameter "www" replace "image_url", we recive the Status 500 
+
+![alt text](image-2.png)
+
+--> We have the vuln SSRF - Sever Side Request Forgery in here.
+
+### EXPLOIT SSRF: ###
+
++ We can use payloads in here to test with each case:
+"https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20Request%20Forgery" 
+
++ First we test with this <IP-target>:
+
+![alt text](image-3.png)
+
++ We have the return of the web page, we continue to test some payloads with localhost:
+
+![alt text](image-4.png)
+
+--> We have the message "don't have the permission".
+
++ After try some payloads, we will find out the right payloads which can work. We can short-hand IP addresses by dropping the zeros.
++ "https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20Request%20Forgery#bypass-using-rare-address"      
+
+![alt text](image-5.png)
+
+--> We recive the short of text describe "London Brigde".
+
++ Next we try to access /uploads 
+
+![alt text](image-6.png)
+
+--> We access successfully and can read file images.
+
++ Now we will continue fuzzing to find available directories we can access.
++ We can use same wordlists which we use to enumerate the directories previous.
+
+![alt text](image-7.png)
+
+--> We have the directories are extremely remarkable. We focus /.ssh/
+
+![alt text](image-8.png)
+
++ Access .ssh, we found out the 2 items are useful. That are authorized keys and id_rsa, we can use both to login SSH.
++ Read each and tranfer them into the attack machine, we use both to login SSH.
+
+![alt text](image-9.png)
+
+
+### PRIVILEGE ESCALATION: ###
+
++ we use tool "linpeas.sh" to scan PE vector
 
 
 
