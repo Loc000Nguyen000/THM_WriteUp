@@ -10,14 +10,15 @@
 --------------------------------------------
 ## RECON: ##
 
-+ Scan the target machine with Nmap and Gobuster:
++ Scan the target machine with Nmap:
 
 ```bash
 nmap -sV -vv -A -p- -T4 <IP>
 
 ```
 
-```bash
-Gobuster dir -u http://<IP> -w /usr/share/wordlists/dirb/commom.txt -xtxt,php,html -t64
++ After scan port of IP target we've known the website port 8000 run with domain airplane.thm so we need add domain into /etc/hosts to run the website.
 
-```
+
+
+
