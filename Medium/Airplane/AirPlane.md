@@ -17,7 +17,8 @@ nmap -sV -vv -A -p- -T4 <IP>
 
 ```
 
-+ After scan port of IP target we've known the website port 8000 run with domain airplane.thm so we need add domain into /etc/hosts to run the website.
++ After scan ports of IP target we've known the website port 8000 run with domain "airplane.thm" so we need add domain into /etc/hosts to run the website. Access again the <IP> port 8000 or with domain "airplane.thm". 
++ 
 
 
 
