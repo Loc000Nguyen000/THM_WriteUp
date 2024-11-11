@@ -150,3 +150,11 @@ seq 1 1000 > lists.txt
 + 
 
 
+
+
+
+
+
+![alt text](image-13.png)
+
+
