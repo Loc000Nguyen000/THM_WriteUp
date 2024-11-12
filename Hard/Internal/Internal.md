@@ -68,6 +68,12 @@ wpscan --url http://internal.thm/wordpress/ -U admin -P /usr/share/wordlists/roc
 
 --> We had the credential Wordpress admin:my2boys
 
++ Login with "admin", we are in Dashboard. Now we go to look around all features to find what the vulnearability will appear.
++ We've found the Private Post in Posts and the credential of user William but we do not know where we can log in with this. 
+
+![alt text](image-4.png)
+
+
 
 
 
