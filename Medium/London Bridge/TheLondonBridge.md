@@ -84,16 +84,16 @@ Finished
 
 + Access /dejaview we see the field "Enter Image URL:" --> Enter the path of directory has images /uploads/<Name of images> --> If right the Image, it will appear.
 
-![alt text](image.png)
+![alt text](/Medium/London%20Bridge/Images/image.png)
 
 + Using Burpsuite capture /dejaview and commbine with hint "Check for other parameters that may been left over during the development phase."
 we guess the potential parameters is "image_url". Let try to fuzz it.
 
-![alt text](image-1.png)
+![alt text](/Medium/London%20Bridge/Images/image-1.png)
 
 --> We have parameter "www" replace "image_url", we recive the Status 500 
 
-![alt text](image-2.png)
+![alt text](/Medium/London%20Bridge/Images/image-2.png)
 
 --> We have the vuln SSRF - Sever Side Request Forgery in here.
 
@@ -104,40 +104,40 @@ we guess the potential parameters is "image_url". Let try to fuzz it.
 
 + First we test with this <IP-target>:
 
-![alt text](image-3.png)
+![alt text](/Medium/London%20Bridge/Images/image-3.png)
 
 + We have the return of the web page, we continue to test some payloads with localhost:
 
-![alt text](image-4.png)
+![alt text](/Medium/London%20Bridge/Images/image-4.png)
 
 --> We have the message "don't have the permission".
 
 + After try some payloads, we will find out the right payloads which can work. We can short-hand IP addresses by dropping the zeros.
 + "https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20Request%20Forgery#bypass-using-rare-address"      
 
-![alt text](image-5.png)
+![alt text](/Medium/London%20Bridge/Images/image-5.png)
 
 --> We recive the short of text describe "London Brigde".
 
 + Next we try to access /uploads 
 
-![alt text](image-6.png)
+![alt text](/Medium/London%20Bridge/Images/image-6.png)
 
 --> We access successfully and can read file images.
 
 + Now we will continue fuzzing to find available directories we can access.
 + We can use same wordlists which we use to enumerate the directories previous.
 
-![alt text](image-7.png)
+![alt text](/Medium/London%20Bridge/Images/image-7.png)
 
 --> We have the directories are extremely remarkable. We focus /.ssh/
 
-![alt text](image-8.png)
+![alt text](/Medium/London%20Bridge/Images/image-8.png)
 
 + Access .ssh, we found out the 2 items are useful. That are authorized keys and id_rsa, we can use both to login SSH.
 + Read each and tranfer them into the attack machine, we use both to login SSH.
 
-![alt text](image-9.png)
+![alt text](/Medium/London%20Bridge/Images/image-9.png)
 
 
 ### PRIVILEGE ESCALATION: ###
@@ -155,13 +155,13 @@ Linux london 4.15.0-112-generic #113-Ubuntu SMP Thu Jul 9 23:41:39 UTC 2020 x86_
 + Link: "https://github.com/scheatkode/CVE-2018-18955"
 + We choose the exploit dbus.sh, download all files rootshell.c, subshell.c, subuidshell.c and exploit.dbus.sh after that we tranfer all into the target machine.
 
-![alt text](image-10.png)
+![alt text](/Medium/London%20Bridge/Images/image-10.png)
 
 ### FIND PASSWORD CHARLES: ###
 
 + Access /charles and list hidden directories
 
-![alt text](image-11.png)
+![alt text](/Medium/London%20Bridge/Images/image-11.png)
 
 + We found the folder "firefox", we guess that can be the backup of browser Firefox so we can use tool to extract password from profiles of Mozilla.
 + Link: "https://github.com/unode/firefox_decrypt"

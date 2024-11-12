@@ -45,43 +45,43 @@ gobuster dir -u <IP> -w /usr/share/wordlists/dirb/common.txt -xtxt,php,html -t64
 + Access /v2 --> we are redirected to /admin/login.html 
 + We register to login website, after register successfully we login again and access the web page:
 
-![alt text](image.png)
+![alt text](/Medium/Road/Images/image.png)
 
 + Go through all features we can use, we've noticed in the /profile.php with edit profile and feature reset password user.
 
-![alt text](image-1.png)
+![alt text](/Medium/Road/Images/image-1.png)
 
 --> We have the information user admin@sky.thm 
 
 + Open BurpSuite to catch feature reset password, we can change user from user@sky.thm to admin@sky.thm and change the password of admin.
 --> We found the vulnerability "Identification and Authentication Failures" relate reset password processes.  
 
-![alt text](image-2.png)
+![alt text](/Medium/Road/Images/image-2.png)
 
 --> After change password successfully, we are back /login.html and login user admin with new password.
 
-![alt text](image-3.png)
+![alt text](/Medium/Road/Images/image-3.png)
 
 + Login admin successful, we are able to edit profile and access directory limited by admin.
 + Try to access page /assets we can not find supicious things. Continue with /admin we are disable to query with index.php
 
-![alt text](image-5.png)
+![alt text](/Medium/Road/Images/image-5.png)
 
 + Back to /profile.php, we research more the Sky Couriers and find the Arbitrary File Upload Vulnerability relate "Courier Management System"
 + Link: "https://github.com/zerrr0/Zerrr0_Vulnerability/blob/main/Best%20Courier%20Management%20System%201.0/Arbitrary-File-Upload-Vulnerability.md#best-courier-management-system-10---arbitrary-file-upload-vulnerability"
 
 + We manipulate feature Upload Profile Image into /profile.php to put the webshell and open the listen port.
 
- ![alt text](image-7.png)
+ ![alt text](/Medium/Road/Images/image-7.png)
 
 + After upload and edit profile successfully, we go to /profileimages and access webshell.php
 
-![alt text](image-8.png)
+![alt text](/Medium/Road/Images/image-8.png)
 
 + Upgrade to the interactive shell, we have to find the way to priv to user webdeveloper.
 + First we use tool "ss - another utility to investigate sockets" 
 
-![alt text](image-9.png)
+![alt text](/Medium/Road/Images/image-9.png)
 
 ```bash
 www-data@sky:/var/www/html/v2$ ss -tl
@@ -100,7 +100,7 @@ LISTEN  0       128                 [::]:ssh                [::]:*
 
 + Read file lostpassword.php, we have credential MySQL:
 
-![alt text](image-10.png)
+![alt text](/Medium/Road/Images/image-10.png)
 
 --> Checking into MySql, we did not find the information user "webdeveloper" we need. We change to MongoDB.
 
@@ -149,7 +149,7 @@ user
 
 + Login SSH webdeveloper:
 
-![alt text](image-11.png)
+![alt text](/Medium/Road/Images/image-11.png)
 
 + Command "sudo -l":
 
@@ -165,7 +165,7 @@ User webdeveloper may run the following commands on sky:
 ```
 --> We can priv escalation with "env_keep+=LD_PRELOAD"
 
-![alt text](image-12.png)
+![alt text](/Medium/Road/Images/image-12.png)
 
 ```bash
 webdeveloper@sky:~$ cd /tmp

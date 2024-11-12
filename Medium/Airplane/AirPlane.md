@@ -1,7 +1,7 @@
 # -----AIR PLANE ROOM----- #
 ## Difficult: Medium
 
-   ![alt text](image.png)
+   ![alt text](/Medium/Airplane/Images/image.png)
 
 ### Note: Are you ready to fly?
 
@@ -76,27 +76,27 @@ PORT     STATE SERVICE  REASON         VERSION
 
 + After scan ports of IP target we've known the website port 8000 run with domain "airplane.thm" so we need add domain into /etc/hosts to run the website. Access again the <IP> or with domain "airplane.thm" with port 8000. 
 
-![alt text](image-1.png)
+![alt text](/Medium/Airplane/Images/image-1.png)
 
 + Look at the url we can test the vuln LFI - Path Traversal:
 
-![alt text](image-2.png)
+![alt text](/Medium/Airplane/Images/image-2.png)
 
 + We can access successfull /etc/passwd so we can see 2 users available carlos and hudson
 
-![alt text](image-3.png)
+![alt text](/Medium/Airplane/Images/image-3.png)
 
 --> We guess maybe there have file .ssh into /home 2 users so we can try access /home/user/.ssh/ but not success.
 
-![alt text](image-4.png)
+![alt text](/Medium/Airplane/Images/image-4.png)
 
 + Now we can try to fuzz the directories which we can access by LFI. We will use wordlist /usr/share/SecLists/Fuzzing/LFI/LFI-gracefulsecurity-linux.txt to FUZZ.
 
-![alt text](image-5.png)
+![alt text](/Medium/Airplane/Images/image-5.png)
 
 --> We've noticed the directory /proc/
 
-![alt text](image-6.png)
+![alt text](/Medium/Airplane/Images/image-6.png)
 
 + First we can try RCE /proc/self/environ:
 https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/File%20Inclusion#lfi-to-rce-via-procselfenviron
@@ -104,17 +104,17 @@ https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/File%20Inclusion
 
 + We continue to access /proc/self/cmdline:
 
-![alt text](image-7.png)
+![alt text](/Medium/Airplane/Images/image-7.png)
 
 + We've understand "self" is "$PID" so we can find $PID in /proc/self/status:
 
-![alt text](image-8.png)
+![alt text](/Medium/Airplane/Images/image-8.png)
 
 --> We have PID is 532.
 
 + We research /proc/$PID/cmdline:
 
-![alt text](image-9.png)
+![alt text](/Medium/Airplane/Images/image-9.png)
 
 --> We can FUZZ "$PID" to find more files fold the complete CL for the process.
 
@@ -126,15 +126,15 @@ seq 1 1000 > lists.txt
 
 + We start fuzzing with lists.txt:
 
-![alt text](image-10.png)
+![alt text](/Medium/Airplane/Images/image-10.png)
 
 + We can check PIDs near PID 532:
 
-![alt text](image-11.png)
+![alt text](/Medium/Airplane/Images/image-11.png)
 
 + After checking, we've found intesting information of PID 529:
 
-![alt text](image-12.png)
+![alt text](/Medium/Airplane/Images/image-12.png)
 
 + Back when we scan the opened ports with Nmap, we've found the port 6048:
 
@@ -148,18 +148,18 @@ seq 1 1000 > lists.txt
 "https://book.hacktricks.xyz/network-services-pentesting/pentesting-remote-gdbserver#upload-and-execute".
 
 
-![alt text](image-15.png)
+![alt text](/Medium/Airplane/Images/image-15.png)
 
-![alt text](image-16.png)
+![alt text](/Medium/Airplane/Images/image-16.png)
 
 + We need to priv to user carlos, we use tool "linpeas.sh" to scan the target machine
 find the vector PE.
 
-![alt text](image-13.png)
+![alt text](/Medium/Airplane/Images/image-13.png)
 
 --> We are able to use find run the binary which has the SUID bit set to priv user "carlos"
 
-![alt text](image-17.png)
+![alt text](/Medium/Airplane/Images/image-17.png)
 
 + Because /home/carlos/.ssh/ do not have key authorized_keys so we can create authorized_keys from the attack machine and tranfer it into the target.
 From that, we can login SSH with user without the passwd.
@@ -227,7 +227,7 @@ total 4
 
 + We can login again SSH without the password.
 
-![alt text](image-18.png)
+![alt text](/Medium/Airplane/Images/image-18.png)
 
 + Check sudo -l:
 
