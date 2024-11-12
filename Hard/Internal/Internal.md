@@ -32,7 +32,23 @@ PORT   STATE SERVICE REASON         VERSION
 
 ```bash
 gobuster dir -u http://internal.thm/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -xtxt,php,html -t64
-
+===============================================================
+Starting gobuster in directory enumeration mode
+===============================================================
+/.html                (Status: 403) [Size: 277]
+/blog                 (Status: 301) [Size: 311] [--> http://internal.thm/blog/]
+/index.html           (Status: 200) [Size: 10918]
+/.php                 (Status: 403) [Size: 277]
+/wordpress            (Status: 301) [Size: 316] [--> http://internal.thm/wordpress/]
+/javascript           (Status: 301) [Size: 317] [--> http://internal.thm/javascript/]
+/phpmyadmin           (Status: 301) [Size: 317] [--> http://internal.thm/phpmyadmin/]
+/.php                 (Status: 403) [Size: 277]
+/.html                (Status: 403) [Size: 277]
+/server-status        (Status: 403) [Size: 277]
+Progress: 882240 / 882244 (100.00%)
+===============================================================
+Finished
+===============================================================
 ```
 
 ### WORDPRESS ###
