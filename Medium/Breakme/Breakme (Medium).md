@@ -64,7 +64,7 @@ Finished
 + Check around the page we got some information about the page.
 + Author of page : admin and user "admin" is available in login page.
 
-![alt text](image.png)
+![alt text](/Medium/Breakme/Images/image.png)
 
 + Continue scanning the website page /wordpress with Gobuster:
 
@@ -96,7 +96,7 @@ Finished
 
 + Now we've known the website page is page Wordpress so we are able to use specialized tool for scanning Wordpress call "WpScan".
 
-![alt text](<Screenshot from 2024-10-24 09-54-55.png>)
+![alt text](</Medium/Breakme/Images/Screenshot from 2024-10-24 09-54-55.png>)
 
 ```bash
 [+] WordPress version 6.4.3 identified (Insecure, released on 2024-01-30).
@@ -158,7 +158,7 @@ Trying bob / angel Time: 00:00:01 <                 > (36 / 14344428)  0.00%  ET
 
 + We look around main page wordpress but limited <features we can use because we are in role normal user not role Administrator.
 
-![alt text](image-2.png)
+![alt text](/Medium/Breakme/Images/image-2.png)
 
 + Look again information which we scan by WpScan that are Plugins and Themes:
 
@@ -205,21 +205,21 @@ Trying bob / angel Time: 00:00:01 <                 > (36 / 14344428)  0.00%  ET
 + We are able to use 'wpda_role[]' parameter to modify user role to role Administrator.
 + Using Burpsuite to intercept and when we "Update Profile", we add "wpda_role[]=administrator" into code:
 
-![alt text](image-4.png)
+![alt text](/Medium/Breakme/Images/image-4.png)
 
 + We got the full <features:
 
-![alt text](image-5.png)
+![alt text](/Medium/Breakme/Images/image-5.png)
 
 + After exploiting the vulnerable Plugin success, we can manipulate the Themes to spawn the reverse shell.
 + Access "Edit Themes" in Appearance, we can know that the page is in "twentytwentyfour" theme.
 + We are able to add PHP reverse shell into theme /twentytwenyone/404.php:
 
-![alt text](image-6.png)
+![alt text](/Medium/Breakme/Images/image-6.png)
 
 --> We can not write PHP webshell into 404.php of another theme except theme twentytwentyone.
 
-![alt text](image-7.png)
+![alt text](/Medium/Breakme/Images/image-7.png)
 
 ```bash
 [+] WordPress theme in use: twentytwentyone
@@ -243,11 +243,11 @@ Trying bob / angel Time: 00:00:01 <                 > (36 / 14344428)  0.00%  ET
 
 + Access http://<IP>/wordpress/wp-content/themes/twentytwentyone/404.php and use netcat to capture the listner port.
 
-![alt text](image-8.png)
+![alt text](/Medium/Breakme/Images/image-8.png)
 
 + We using python to spawn interactive shell.
 
-![alt text](image-9.png)
+![alt text](/Medium/Breakme/Images/image-9.png)
 
 + Now we can not read file of user john so we need to priv to "john".
 + We're checking the proccess belong to user "john" and find out john running the PHP development server
@@ -260,7 +260,7 @@ www-data    1000  0.0  0.0   6580   640 pts/0    S+   00:23   0:00 grep john
 
 + Try access the IP 127.0.0.1:9999, we've known that this is the website possibly an entry point user "john":
 
-![alt text](image-10.png)
+![alt text](/Medium/Breakme/Images/image-10.png)
 
 + Now we want to investigate the page but we can not access directly. We will create a tunnel to gain access to it.
 + We use tool "chisel" to create fast tunnel over HTTP.
@@ -301,12 +301,12 @@ www-data@Breakme:/tmp$ 2024/10/25 01:06:32 client: Connecting to ws://10.11.101.
 
 + Access the page http://127.0.0.1:9999/ successfull
 
-![alt text](image-11.png)
+![alt text](/Medium/Breakme/Images/image-11.png)
 
 + We check first the feature "Check Target" which is ping IP.
 + We use "TcpDump" to see when we input the target IP so we can recieve the response ping IP:
 
-![alt text](image-12.png)
+![alt text](/Medium/Breakme/Images/image-12.png)
 
 --> When we input the IP with characters we recieved the error message in result: "Invalid IP address".
 
@@ -389,7 +389,7 @@ but netcat can not capture the listner port so we continute add some special cha
 
 + Link list payload for Command Injection: "https://github.com/payloadbox/command-injection-payload-list"
 
-![alt text](image-13.png)
+![alt text](/Medium/Breakme/Images/image-13.png)
 
 + Access /youcef --> We got 2 files readfile and readfile.c
 + Check permission files:
@@ -416,7 +416,7 @@ Usage: ./readfile <FILE>
 
 + Now we will download file "readfile" to attack machine to analyze.
 
-![alt text](image-14.png)
+![alt text](/Medium/Breakme/Images/image-14.png)
 
 + We wget file into the folder machine.
 
@@ -425,7 +425,7 @@ Usage: ./readfile <FILE>
 
 + We use tool IDA to analyze code of "readfile". We jump to Pseudocode:
 
-![alt text](image-15.png)
+![alt text](/Medium/Breakme/Images/image-15.png)
 
 + We will focus into the main line start when we check conditions user is "John".
 
@@ -505,11 +505,11 @@ while true; do ln -sf /home/youcef/.ssh/id_rsa flip; rm flip; touch flip; done &
 for i in {1..20}; do /home/youcef/./readfile flip; done
 ```
 
-![alt text](image-16.png)
+![alt text](/Medium/Breakme/Images/image-16.png)
 
 + RUN AGAIN!!!
 
-![alt text](image-17.png)
+![alt text](/Medium/Breakme/Images/image-17.png)
 
 ---> We got it !!! Now we have the RSA key.
 
@@ -547,7 +547,7 @@ Session completed.
 ```
 + We had the passphrase "a123456" now we back to login SSH again.
 
-![alt text](image-18.png)
+![alt text](/Medium/Breakme/Images/image-18.png)
 
 + Run command "sudo -l":
 
@@ -563,7 +563,7 @@ User youcef may run the following commands on breakme:
 
 + Try to run python3 with jail.py:
 
-![alt text](image-19.png)
+![alt text](/Medium/Breakme/Images/image-19.png)
 
 --> We are able to run func "print()" but can not "import ".
 
@@ -572,7 +572,7 @@ User youcef may run the following commands on breakme:
 
 + We try example __builtins__ and run with import :
 
-![alt text](image-20.png)
+![alt text](/Medium/Breakme/Images/image-20.png)
 
 --> We try with __import__ lowercase so error "Ilegal input" -> We change to Uppercase with IMPORT and no error message "Ilegal"
 . We next to use func lower() to lowercase import but no success so we use casefold() which is similar with lower() but more aggressive.
@@ -582,7 +582,7 @@ We can apply casefold() for OS and first "import os" successfull.
 + After import os success, we continue to system(). We create new dictionary with system() and try run command id.
 Use print() to print all command
 
-![alt text](image-21.png)
+![alt text](/Medium/Breakme/Images/image-21.png)
 
 ```
 #Note: We notice that need to add f'SYSTEM to format string "ID" because we run string "ID" not variable ID in system().
@@ -590,6 +590,6 @@ Use print() to print all command
 
 + And now run again with bash we priv user root:
 
-![alt text](image-22.png)
+![alt text](/Medium/Breakme/Images/image-22.png)
 
 END!!!
