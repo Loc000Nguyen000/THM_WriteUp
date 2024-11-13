@@ -73,8 +73,21 @@ wpscan --url http://internal.thm/wordpress/ -U admin -P /usr/share/wordlists/roc
 
 ![alt text](image-4.png)
 
+--> The credential was leaked: william:arnold147
 
+### XSS ###
++ The vulnerability XSS appear in feature "Comments".
++ We will test common payload XSS first:
 
+```bash
+<script>alert('XSS')</script>
+```
+
+![alt text](image-6.png)
+
++ When we update comment and "View Post" so the website pop up the box alert:
+
+![alt text](image-7.png)
 
 
 
