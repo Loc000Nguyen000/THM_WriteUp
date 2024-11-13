@@ -75,6 +75,7 @@ wpscan --url http://internal.thm/wordpress/ -U admin -P /usr/share/wordlists/roc
 
 --> The credential was leaked: william:arnold147
 
+
 ### XSS ###
 + The vulnerability XSS appear in feature "Comments".
 + We will test common payload XSS first:
