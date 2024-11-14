@@ -97,6 +97,11 @@ wpscan --url http://internal.thm/wordpress/ -U admin -P /usr/share/wordlists/roc
 
 ![alt text](image-9.png)
 
++ Third XSS that is the feature "Pages".
++ We edit the title page and when we review it the pop up alert will appear again.
 
+![alt text](image-10.png)
+
+![alt text](image-11.png)
 
 
