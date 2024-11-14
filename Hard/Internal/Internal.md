@@ -90,5 +90,13 @@ wpscan --url http://internal.thm/wordpress/ -U admin -P /usr/share/wordlists/roc
 
 ![alt text](image-7.png)
 
++ Second XSS we've found that is feature "Posts".
++ We edit the title of post and save it. When we view the post, the pop up alert will appear.
+
+![alt text](image-8.png)
+
+![alt text](image-9.png)
+
+
 
 
