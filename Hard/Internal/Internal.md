@@ -1,7 +1,7 @@
 # Internal #
 ### Note: Having accepted the project, you are provided with the client assessment environment.  Secure the User and Root flags and submit them to the dashboard as proof of exploitation. ###
 
-![alt text](/Hard/Internal/image-1.png)
+![alt text](/Hard/Internal/Images/image-1.png)
 
 ### https://tryhackme.com/r/room/internal ###
 
@@ -54,9 +54,9 @@ Finished
 ### WORDPRESS ###
 + First we use tool "Wpscan" to scan the website wordpress:
 
-![alt text](image.png)
+![alt text](/Hard/Internal/Images/image.png)
 
-![alt text](image-2.png)
+![alt text](/Hard/Internal/Images/image-2.png)
 
 + We've found the user "admin" and we continue to scan user:
 
@@ -64,7 +64,7 @@ Finished
 wpscan --url http://internal.thm/wordpress/ -U admin -P /usr/share/wordlists/rockyou.txt
 ```
 
-![alt text](image-3.png)
+![alt text](/Hard/Internal/Images/image-3.png)
 
 --> We could brute-force the credential user "admin". 
  + After brute-force successfully we had the credential Wordpress admin:my2boys
@@ -72,7 +72,7 @@ wpscan --url http://internal.thm/wordpress/ -U admin -P /usr/share/wordlists/roc
 + Login with "admin", we are in Dashboard. Now we go to look around all features to find what the vulnearability will appear.
 + We've found the Private Post in Posts and the credential of user William but we do not know where we can log in with this. 
 
-![alt text](image-4.png)
+![alt text](/Hard/Internal/Images/image-4.png)
 
 --> The credential was leaked: william:arnold147
 
@@ -85,24 +85,24 @@ wpscan --url http://internal.thm/wordpress/ -U admin -P /usr/share/wordlists/roc
 <script>alert('XSS')</script>
 ```
 
-![alt text](image-6.png)
+![alt text](/Hard/Internal/Images/image-6.png)
 
 + When we update comment and "View Post" so the website pop up the box alert:
 
-![alt text](image-7.png)
+![alt text](/Hard/Internal/Images/image-7.png)
 
 + Second XSS we've found that is feature "Posts".
 + We edit the title of post and save it. When we view the post, the pop up alert will appear.
 
-![alt text](image-8.png)
+![alt text](/Hard/Internal/Images/image-8.png)
 
-![alt text](image-9.png)
+![alt text](/Hard/Internal/Images/image-9.png)
 
 + Third XSS that is the feature "Pages".
 + We edit the title page and when we review it the pop up alert will appear again.
 
-![alt text](image-10.png)
+![alt text](/Hard/Internal/Images/image-10.png)
 
-![alt text](image-11.png)
+![alt text](/Hard/Internal/Images/image-11.png)
 
 
