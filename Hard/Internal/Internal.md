@@ -220,5 +220,8 @@ aubreanna@internal:~$ 2024/11/16 08:37:32 client: Connecting to ws://10.11.101.4
 
 ![alt text](image-2.png)
 
-+ 
++ Access successfully page Jenkins, we try the default credential admin:admin
+--> But not success
++ We try to brute force the credential admin.
+  
 
