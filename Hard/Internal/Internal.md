@@ -257,7 +257,19 @@ msf6 auxiliary(scanner/http/jenkins_login) > run
 [*] Auxiliary module execution completed
 ```
 
-+ 
++ Login again Jenkins and RCE:
 
+![alt text](image-3.png)
 
+![alt text](image-4.png)
 
++ Like the way we find the credential user, we access again /opt and we found the file note.txt.
+Read it and we've got the credential user Root.
+
+![alt text](image-5.png)
+
++ Login SSH with the credential root and get the final flag.
+
+![alt text](image-6.png)
+
+END!!!
