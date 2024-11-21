@@ -186,8 +186,14 @@ services:
 https://github.com/aadityapurani/NodeJS-Red-Team-Cheat-Sheet
 
 + Back to the page timetracking, we will try some payload firstly.
-+ We will use arguments[1] as response object (by @OrhanAlbay):
++ We try to use arguments[1] as response object (by @OrhanAlbay):
 
 ![alt text](image-11.png)
+
+--> Successfull!!!
+
++ Now we use payload to RCE:
+
+![alt text](<Screenshot from 2024-11-21 21-46-54.png>)
 
 
