@@ -194,7 +194,7 @@ https://github.com/aadityapurani/NodeJS-Red-Team-Cheat-Sheet
 
 + Now we use payload to RCE:
 
-![alt text](/Medium/Umbrella/Images/Screenshot from 2024-11-21 21-46-54.png)
+![alt text](/Medium/Umbrella/Images/Screenshot%20from%202024-11-21%2021-46-54.png)
 
 ![alt text](/Medium/Umbrella/Images/image-12.png)
 
