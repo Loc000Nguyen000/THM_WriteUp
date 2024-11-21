@@ -81,7 +81,7 @@ Finished
 + Now we will be using curl to enumerate. 
 
 ```bash
-curl -s http://10.10.188.207:5000/v2/umbrella/timetracking/manifests/latest
+curl -s http://<IP>:5000/v2/umbrella/timetracking/manifests/latest
 {
    "schemaVersion": 1,
    "name": "umbrella/timetracking",
@@ -119,14 +119,14 @@ and database name "timetracking".
 + We find out the credential which can login SSH successfully: claire-r:Password1
 
 ```bash
-ssh claire-r@10.10.188.207
-The authenticity of host '10.10.188.207 (10.10.188.207)' can't be established.
+ssh claire-r@<IP>
+The authenticity of host '<IP> (<IP>)' can't be established.
 ED25519 key fingerprint is SHA256:4O8itcDPWBL0nD2ELrDFEMiWY9Pn8UuEdRRP7L8pxr8.
 This host key is known by the following other names/addresses:
     ~/.ssh/known_hosts:49: [hashed name]
 Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
-Warning: Permanently added '10.10.188.207' (ED25519) to the list of known hosts.
-claire-r@10.10.188.207's password: 
+Warning: Permanently added '<IP>' (ED25519) to the list of known hosts.
+claire-r@<IP>'s password: 
 Welcome to Ubuntu 20.04.5 LTS (GNU/Linux 5.4.0-135-generic x86_64)
 claire-r@ctf:~$ id
 uid=1001(claire-r) gid=1001(claire-r) groups=1001(claire-r)
@@ -136,7 +136,58 @@ timeTracker-src  user.txt
 --------------------------------------------------------------
 ### PRIVILEGE ESCALATION ###
 
++ Access /timeTracker-src, we see the file app.js run port 8080.
++ Check all files, we notice file app.js and docker-compose.yml
++ Read file docker-compose.yml firstly:
 
+```bash
+claire-r@ctf:~/timeTracker-src$ cat docker-compose.yml 
+version: '3.3'
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'timetracking'
+      MYSQL_ROOT_PASSWORD: 'Ng1-f3!Pe7-e5?Nf3xe5'
+    ports:
+      - '3306:3306'     
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
+  app:
+    image: umbrella/timetracking:latest
+    restart: always
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./logs:/logs
+```
+--> We find out that app's running port 8080 and mounting /logs with server SSH of user "claire-r" by Docker.
 
++ Checking app running port 8080 and login again with user "claire-r:Password1"
+
+![alt text](image-8.png)
+
++ We input the value number into the field "time in min" to add more min for users.
++ But we just input only numbers or mathematical expressions, can not input characters. When we try input the characters we will recive the error:
+
+![alt text](image-9.png)
+
++ Now we will read the source code in app.js
++ We will notice into the code part /time where we input the number to add min.
+
+![alt text](image-10.png)
+
++ We have the potential function eval(). Research func eval() and we've known that eval() will return its completion value.
+"Completion value" in source code is numbers of time we input to add.
++ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval
++ Continute researching we find out the payload to bypass func eval():
+
+https://github.com/aadityapurani/NodeJS-Red-Team-Cheat-Sheet
+
++ Back to the page timetracking, we will try some payload firstly.
++ We will use arguments[1] as response object (by @OrhanAlbay):
+
+![alt text](image-11.png)
 
 
