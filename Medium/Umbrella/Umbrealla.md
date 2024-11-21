@@ -196,4 +196,16 @@ https://github.com/aadityapurani/NodeJS-Red-Team-Cheat-Sheet
 
 ![alt text](<Screenshot from 2024-11-21 21-46-54.png>)
 
+![alt text](image-12.png)
 
++ We've seen the /logs which was mounting from SSH of user "claire-r".
++ Now we can move file /bin/bash from the root machine here and move to /logs is mounting of user "claire-r".
++ Finally run bash to priv user root.
+
+![alt text](image-13.png)
+
+![alt text](image-14.png)
+
+![alt text](image-15.png)
+
+END!!!
