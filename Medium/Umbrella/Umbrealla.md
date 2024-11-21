@@ -1,7 +1,7 @@
 # Umbrella #
 ### Note: Breach Umbrella Corp's time-tracking server by exploiting misconfigurations around containerisation.
 
-![alt text](image-2.png)
+![alt text](/Medium/Umbrella/Images/image-2.png)
 
 ### https://tryhackme.com/r/room/umbrella ###
 
@@ -73,9 +73,9 @@ Finished
 + Research the Docker port 5000 with /v2/ and we find out the technique to exploit the Docker.
 + "https://book.hacktricks.xyz/network-services-pentesting/5000-pentesting-docker-registry#discovering".
 
-![alt text](image-3.png)
+![alt text](/Medium/Umbrella/Images/image-3.png)
 
-![alt text](image-4.png)
+![alt text](/Medium/Umbrella/Images/image-4.png)
 
 + We've taken the repo: "umbrella/timetracking".
 + Now we will be using curl to enumerate. 
@@ -105,15 +105,15 @@ and database name "timetracking".
 + Login again the MySQL:
 + "https://book.hacktricks.xyz/network-services-pentesting/pentesting-mysql#mysql-commands"
 
-![alt text](image-5.png)
+![alt text](/Medium/Umbrella/Images/image-5.png)
 
 + Access database "timetracking" and we've gotten the all of users:
 
-![alt text](image-6.png)
+![alt text](/Medium/Umbrella/Images/image-6.png)
 
 + We list each columns of table "users":
 
-![alt text](image-7.png)
+![alt text](/Medium/Umbrella/Images/image-7.png)
 
 + After have the user and password, we decrypt each passwords and use it to login SSH.
 + We find out the credential which can login SSH successfully: claire-r:Password1
@@ -166,17 +166,17 @@ services:
 
 + Checking app running port 8080 and login again with user "claire-r:Password1"
 
-![alt text](image-8.png)
+![alt text](/Medium/Umbrella/Images/image-8.png)
 
 + We input the value number into the field "time in min" to add more min for users.
 + But we just input only numbers or mathematical expressions, can not input characters. When we try input the characters we will recive the error:
 
-![alt text](image-9.png)
+![alt text](/Medium/Umbrella/Images/image-9.png)
 
 + Now we will read the source code in app.js
 + We will notice into the code part /time where we input the number to add min.
 
-![alt text](image-10.png)
+![alt text](/Medium/Umbrella/Images/image-10.png)
 
 + We have the potential function eval(). Research func eval() and we've known that eval() will return its completion value.
 "Completion value" in source code is numbers of time we input to add.
@@ -188,24 +188,24 @@ https://github.com/aadityapurani/NodeJS-Red-Team-Cheat-Sheet
 + Back to the page timetracking, we will try some payload firstly.
 + We try to use arguments[1] as response object (by @OrhanAlbay):
 
-![alt text](image-11.png)
+![alt text](/Medium/Umbrella/Images/image-11.png)
 
 --> Successfull!!!
 
 + Now we use payload to RCE:
 
-![alt text](<Screenshot from 2024-11-21 21-46-54.png>)
+![alt text](/Medium/Umbrella/Images/<Screenshot from 2024-11-21 21-46-54.png>)
 
-![alt text](image-12.png)
+![alt text](/Medium/Umbrella/Images/image-12.png)
 
 + We've seen the /logs which was mounting from SSH of user "claire-r".
 + Now we can move file /bin/bash from the root machine here and move to /logs is mounting of user "claire-r".
 + Finally run bash to priv user root.
 
-![alt text](image-13.png)
+![alt text](/Medium/Umbrella/Images/image-13.png)
 
-![alt text](image-14.png)
+![alt text](/Medium/Umbrella/Images/image-14.png)
 
-![alt text](image-15.png)
+![alt text](/Medium/Umbrella/Images/image-15.png)
 
 END!!!
