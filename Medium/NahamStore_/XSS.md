@@ -71,20 +71,26 @@
 
 ------------------------------------------------------------------
 
-+ When we access **the page which does not exist**, we receive the error message and are direct "Page Not Found"
++ When we access the page which does not exist, we receive the error message and are direct "Page Not Found"
 ![](<Images/Pasted image 20250110175335.png>)
 
 + Check the source code:
+
 ![](<Images/Pasted image 20250110175455.png>)
---> We can use the request URL to create an XSS.
+
+--> We've found the page `/profile` is reflected in error message so we can inject payload to create reflect XSS.
+
 + Using the payload `<h1>` XSS:  `<h1 onclick="alert(1)" style=display:block>test</h1>`
+
 ![](<Images/Pasted image 20250110180051.png>)
+
++ Check source code again:
 
 ![](<Images/Pasted image 20250110180225.png>)
 
 ------------------------------------------------------------------
 
-+ In the page **/return**, we have the form to "Return Your Items" and we can manipulate "Return Information" to inject payload from that create a Stored XSS.
++ In the page **/return**, we have the form to "Return Your Items" and we can manipulate "Return Information" to inject payload from that create XSS.
 + Look at the source code:
 ![](<Images/Pasted image 20250102154945.png>)
 + We have  `<textarea></textarea>` to create a blank field to write return_info. We can use trick to escape HTML tag: `</textarea><script>alert(document.domain)</script>`
