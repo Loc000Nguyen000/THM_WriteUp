@@ -71,14 +71,15 @@
 
 ------------------------------------------------------------------
 
-+ When we access the page which does not exist, we receive the error message and are direct "Page Not Found"
++ When we access the page which does not exist, we receive the error message and are direct "Page Not Found":
+
 ![](<Images/Pasted image 20250110175335.png>)
 
 + Check the source code:
 
 ![](<Images/Pasted image 20250110175455.png>)
 
---> We've found the page `/profile` is reflected in error message so we can inject payload to create reflect XSS.
+--> We've found the page `/profile` is reflected in error message so we can inject payload into the request URL to create reflect XSS.
 
 + Using the payload `<h1>` XSS:  `<h1 onclick="alert(1)" style=display:block>test</h1>`
 
