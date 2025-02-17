@@ -20,8 +20,55 @@ PORT   STATE SERVICE REASON         VERSION
 |_  Supported Methods: GET HEAD
 ```
 
++ When access <IP> the first, we can't access the website so we need to add <IP> and domain `cyprusbank.thm` into `/etc/hosts`.
++ Now we can access domain `cyprusbank.thm` and go to enumerate directories but get nothing special.
++ So idea now is finding subdomain of `cyprusbank.thm`. We use tool `ffuf` to fuzz the subdomain:
+
+![alt text](image-1.png)
+
+--> We've found the subdomain `admin.cyprusbank.thm`.
+
+***Note***: When find out the subdomain we need to add it into `/etc/hosts`.
+
++ Access subdomain `admin.cyprusbank.thm` and use the credential `Olivia Cortez:olivi8` to Login.
++ Login successfully we will review all features of website `Cyprus National Bank | Admin Panel`. 
++ In the feature `Messages`, we find the potential parameter `c`. We can change value of parameter to see the sensitive information:
+
+![alt text](image-2.png)
+
+--> We've found the vulnearbility IDOR.
+
++ Now we've had the credential which have privileged admin account `Gayle Bev:p~]P@5!6;rs558:q`.
++ Login again with new credential and we've found the Tyrell Wellick's phone number.
++ When we use account `Olivia Cortex` we can not access the feature `Settings` because just admin account can access. Now using account `Gayle Bev` with admin privileged
+we can go `Settings`.
++ Using `Customer Settings`:
+
+![alt text](image-3.png)
+
+--> We've found something is weird that is the notification "Password updated to 'admin123'". New Password is reflected, we try some vulnearbility like XSS, SQLi but nothing's happened.
+
++ We add more parameter and use BurpSuite to fuzz the parameter. Seeing what happen next:
+
+![alt text](image-4.png)
+
+--> We've found some potential parameter `async`, `client`,`error`,`include`,`password` and `message`.
+
++ Checking `client` and `include` we get the error:
+
+![alt text](image-5.png)
+
++ With `async`:
+
+![alt text](image-6.png)
 
 
++ Research error and we get the discussion: 
+```
+The error you're encountering is a common issue with EJS (Embedded JavaScript) templates. The "include is not a function" error typically occurs when the EJS include syntax is not correctly implemented or when there's a version mismatch between EJS and Express.
+```
 
-
++ We've known the page is using EJS templates and we continue researching the available vulnearbility which can occurs in EJS templates.
++ After researching, we've known EJS has SSTI (Server-Side Template Injection) vulnerability. You have fixed some server-side template injection vulnerabilities recently, such as CVE-2022-29078, CVE-2023-29827.
++ Searching CVE-2022-29078, we found the Poc to exploit SSTI to RCE [here](https://eslam.io/posts/ejs-server-side-template-injection-rce/) 
 
