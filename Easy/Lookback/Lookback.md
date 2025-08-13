@@ -68,10 +68,33 @@ PORT     STATE SERVICE       REASON          VERSION
 
 --> The target is vulnerable but we can't exploit because of missing `valid email addresses` so we keep it and back to the website to find the valid email.
 
+### First Flag:
 + Now we can't use `gobuster` or `dirb` to enumerate directories so we will use `Ffuf` to fuzz the hidden directories.
 + But first we run `Nikto` to scan the potential vulnerabilities of target maybe we will have usefull information.
 
+![alt text](image-3.png)
 
+--> We have the /Rpc and account `ID:admin,PW:admin`.
+
+![alt text](image-4.png)
+
+--> Login successfull but nothing happen next !
+
++ Now we use `Ffuf` to fuzz the hidden directories, we will fuzz 2 ports 80(http) and 443(https):
+
+![alt text](<Screenshot from 2025-08-13 21-37-39.png>)
+
+--> Hidden directory `/test`.
+
++ Access port 80 with /test we will forbidden so we switch to port 443:
+
+![alt text](image-6.png)
+
++ Sign in successfull and get the first flag !
+
+![alt text](image-7.png)
+
+### Second Flag:
 
 
 
