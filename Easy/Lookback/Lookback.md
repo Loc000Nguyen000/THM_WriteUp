@@ -1,5 +1,5 @@
 ## LookBack Writeup
-![alt text](/home/zicco/THM_WriteUp/Easy/Lookback/Images/image.png)
+![alt text](/Easy/Lookback/Images/image.png)
 
 **Link: https://tryhackme.com/room/lookback**
 
@@ -44,17 +44,17 @@ PORT     STATE SERVICE       REASON          VERSION
 ```
 
 + Access port `80`:
-![alt text](<Screenshot from 2025-08-13 20-59-48.png>)
+![alt text](/Easy/Lookback/Images/Screenshot%20from%202025-08-13%2020-59-48.png)
 
 --> Nothing but we get something information. Target has `IIS server` and run OS `Windows`
 
 + Next with port `443`, we redirect to webmail `Outlook`:
 
-![alt text](<Screenshot from 2025-08-13 21-04-34.png>)
+![alt text](/Easy/Lookback/Images/Screenshot%20from%202025-08-13%2021-04-34.png)
 
 + Try default credential THM\admin but get the error:
 
-![alt text](<Screenshot from 2025-08-13 21-11-36.png>)
+![alt text](/Easy/Lookback/Images/Screenshot%20from%202025-08-13%2021-11-36.png)
 
 --> We get the `OWA-Version:15.2.858.2`
 
@@ -62,9 +62,9 @@ PORT     STATE SERVICE       REASON          VERSION
 
 + We can use `Metasploit` to exploit:
 
-![alt text](image-1.png)
+![alt text](/Easy/Lookback/Images/image-1.png)
 
-![alt text](image-2.png)
+![alt text](/Easy/Lookback/Images/image-2.png)
 
 --> The target is vulnerable but we can't exploit because of missing `valid email addresses` so we keep it and back to the website to find the valid email.
 
@@ -72,55 +72,55 @@ PORT     STATE SERVICE       REASON          VERSION
 + Now we can't use `gobuster` or `dirb` to enumerate directories so we will use `Ffuf` to fuzz the hidden directories.
 + But first we run `Nikto` to scan the potential vulnerabilities of target maybe we will have usefull information.
 
-![alt text](image-3.png)
+![alt text](/Easy/Lookback/Images/image-3.png)
 
 --> We have the /Rpc and account `ID:admin,PW:admin`.
 
-![alt text](image-4.png)
+![alt text](/Easy/Lookback/Images/image-4.png)
 
 --> Login successfull but nothing happen next !
 
 + Now we use `Ffuf` to fuzz the hidden directories, we will fuzz 2 ports 80(http) and 443(https):
 
-![alt text](<Screenshot from 2025-08-13 21-37-39.png>)
+![alt text](/Easy/Lookback/Images/Screenshot%20from%202025-08-13%2021-37-39.png)
 
 --> Hidden directory `/test`.
 
 + Access port 80 with /test we will forbidden so we switch to port 443:
 
-![alt text](image-6.png)
+![alt text](/Easy/Lookback/Images/image-6.png)
 
 + Sign in successfull and get the first flag !
 
-![alt text](image-7.png)
+![alt text](/Easy/Lookback/Images/image-7.png)
 
 ### Second Flag:
 
 + We just read the permission file, can't use command in `Path`. Try some special characters to run command:
 
-![alt text](image-8.png)
+![alt text](/Easy/Lookback/Images/image-8.png)
 
 --> The vulnerability `Command Injection`. We need to find the way to bypass filter.
 
 + Try first with `'`:
 
- ![alt text](<Screenshot from 2025-08-13 21-50-10.png>)
+ ![alt text](/Easy/Lookback/Images/Screenshot%20from%202025-08-13%2021-50-10.png)
 
 --> `Missing closing ')' in expression`. 
 
 + Combine `' ) |` to test again
 
-![alt text](image-9.png)
+![alt text](/Easy/Lookback/Images/image-9.png)
 
 --> `Missing the terminator`.
 
 + We can use some terminator like `| ; & $ > < ' \ ! >> # `:
 
-![alt text](<Screenshot from 2025-08-13 21-59-04.png>)
+![alt text](/Easy/Lookback/Images/Screenshot%20from%202025-08-13%2021-59-04.png)
 
 --> So close !!! but we have the problem with `pipeline` so we change from `|` to `;`
 
-![alt text](image-10.png)
+![alt text](/Easy/Lookback/Images/image-10.png)
 
 --> Successfull !!!
 
@@ -128,22 +128,22 @@ PORT     STATE SERVICE       REASON          VERSION
 
 + Get second Flag:
 
-![alt text](image-11.png)
+![alt text](/Easy/Lookback/Images/image-11.png)
 
 ### Final Flag:
 
 + Check user account in the Windows:
 
-![alt text](image-12.png)
+![alt text](/Easy/Lookback/Images/image-12.png)
 
 --> We can guess `valid email` is `dev@thm.local`.
 
 + Back to `Metasploit` and run again with email `dev`:
 
-![alt text](image-13.png)
+![alt text](/Easy/Lookback/Images/image-13.png)
 
 --> Exploit !!!
 
 + Get the final flag:
 
-![alt text](image-14.png)
+![alt text](/Easy/Lookback/Images/image-14.png)
