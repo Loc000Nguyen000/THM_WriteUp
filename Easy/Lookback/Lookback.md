@@ -1,5 +1,5 @@
 ## LookBack Writeup
-![alt text](image.png)
+![alt text](/home/zicco/THM_WriteUp/Easy/Lookback/Images/image.png)
 
 **Link: https://tryhackme.com/room/lookback**
 
