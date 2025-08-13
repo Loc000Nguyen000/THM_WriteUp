@@ -96,6 +96,54 @@ PORT     STATE SERVICE       REASON          VERSION
 
 ### Second Flag:
 
++ We just read the permission file, can't use command in `Path`. Try some special characters to run command:
 
+![alt text](image-8.png)
 
+--> The vulnerability `Command Injection`. We need to find the way to bypass filter.
 
++ Try first with `'`:
+
+ ![alt text](<Screenshot from 2025-08-13 21-50-10.png>)
+
+--> `Missing closing ')' in expression`. 
+
++ Combine `' ) |` to test again
+
+![alt text](image-9.png)
+
+--> `Missing the terminator`.
+
++ We can use some terminator like `| ; & $ > < ' \ ! >> # `:
+
+![alt text](<Screenshot from 2025-08-13 21-59-04.png>)
+
+--> So close !!! but we have the problem with `pipeline` so we change from `|` to `;`
+
+![alt text](image-10.png)
+
+--> Successfull !!!
+
+***Note: We can read more document Command Injection in here [Command Injection](https://owasp.org/www-project-web-security-testing-guide/stable/4-Web_Application_Security_Testing/07-Input_Validation_Testing/12-Testing_for_Command_Injection.html)***
+
++ Get second Flag:
+
+![alt text](image-11.png)
+
+### Final Flag:
+
++ Check user account in the Windows:
+
+![alt text](image-12.png)
+
+--> We can guess `valid email` is `dev@thm.local`.
+
++ Back to `Metasploit` and run again with email `dev`:
+
+![alt text](image-13.png)
+
+--> Exploit !!!
+
++ Get the final flag:
+
+![alt text](image-14.png)
