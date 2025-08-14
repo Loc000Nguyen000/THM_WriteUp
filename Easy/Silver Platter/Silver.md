@@ -1,5 +1,5 @@
 ## Silver Platter WriteUp
-![alt text](image.png)
+![alt text](/Easy/Silver%20Platter/Images/image.png)
 
 **Link:https://tryhackme.com/room/silverplatter**
 
@@ -71,36 +71,65 @@ weblib                  [Status: 302, Size: 0, Words: 1, Lines: 1, Duration: 295
 
 + Try to access finding directories but nothing usefull, we back to enumerate information in the main page. See what the intersting finding.
 
-![alt text](<Screenshot from 2025-08-14 14-51-07.png>)
+![alt text](/Easy/Silver%20Platter/Images/Screenshot%20from%202025-08-14%2014-51-07.png)
 
 + In /#contact, we find the usefull info project manager `Silverpeas` and username `scr1ptkiddy`.
 
 + Try access with `/Silverpeas` or `/silverpeas`:
 
-![alt text](image-1.png)
+![alt text](/Easy/Silver%20Platter/Images/image-1.png)
 
 --> Redirect to login webpage `Silverpeas`. 
 + Research Silverpeas, we find the vulnerability [CVE-2024-36042](https://gist.github.com/ChrisPritchard/4b6d5c70d9329ef116266a6c238dcb2d) (Silverpeas CRM - Authentication Bypass).
 
-![alt text](<Screenshot from 2025-08-14 15-07-32.png>)
+![alt text](/Easy/Silver%20Platter/Images/Screenshot%20from%202025-08-14%2015-07-32.png)
 
 + Login successfull !!!
 
-![alt text](image-2.png)
+![alt text](/Easy/Silver%20Platter/Images/image-2.png)
 
 + Enumerate all around the webpage to find potential information.
 
-![alt text](<Screenshot from 2025-08-14 15-13-00.png>)
+![alt text](/Easy/Silver%20Platter/Images/Screenshot%20from%202025-08-14%2015-13-00.png)
 
 + Find the webpage has user `Administrateur` and email `silveradmin@localhost`.
 + Base on the previous report CVE, we know the default username Administrator is `SilverAdmin`.
 + Back to login and Login with user Administrator:
 
-![alt text](<Screenshot from 2025-08-14 15-21-45.png>)
+![alt text](/Easy/Silver%20Platter/Images/Screenshot%20from%202025-08-14%2015-21-45.png)
 
 ### Access inital & Get first flag:
 
 + Enumurate all the features and find the leak credential:
 
-![alt text](<Screenshot from 2025-08-14 15-28-23.png>)
+![alt text](/Easy/Silver%20Platter/Images/Screenshot%20from%202025-08-14%2015-28-23.png)
 
+--> SSH credential: `Username:tim, Password:cm0nt!md0ntf0rg3tth!spa$$w0rdagainlol`
+
++ Login SSH and get the flag:
+
+![alt text](/Easy/Silver%20Platter/Images/image-3.png)
+
+### Privilege Escalation:
+
++ User `tim` has gid `adm` so we can find file permission gid `adm`:
+
+```
+find / -group adm -type f -exec ls -la {} 2>/dev/null \;
+```
+
+![alt text](/Easy/Silver%20Platter/Images/Screenshot%20from%202025-08-14%2016-51-35.png)
+
+--> Read each file but we focus file authenticate `/var/log/auth.log`.
+
+```
+cat /var/log/auth.log.2 | grep 'tyler'
+```
+
+![alt text](/Easy/Silver%20Platter/Images/Screenshot%20from%202025-08-14%2016-56-09.png)
+
+--> DB_PASSWORD=_Zd_zx7N823/
+
++ Login user `tyler` and get the flag:
+
+![alt text](/Easy/Silver%20Platter/Images/image-4.png)
