@@ -116,17 +116,53 @@ Progress: 23070 / 23075 (99.98%)
 
 --> The hidden endpoints `docs` but access denied so we can access /docs by SSRF.
 
-+ We need to find the way to access `http://storage.cloudsite.thm` through `localhost`. Try bypassing filters still not work so we can try to fuzz `Ports` to bypass. We try fuzz 
++ We need to find the way to access `http://storage.cloudsite.thm` through `localhost`. Try `Bypassing filters` still does not work so we can fuzz the `Ports`:
 
+![alt text](image-7.png)
 
+--> Bing!!! We have port 3000 can bypass and upload /api/docs.
 
+***Note: Port 3000 is Express Server, if we check the technology in this page with `Wappalyzer` we will find the page is using both servers Express and Apache.***
 
++ Access the file:
 
+![alt text](image-8.png)
+
+--> Now we can read the file and find the another hidden endpoint API `/api/fetch_messeges_from_chatbot` with method POST.
+
++ Testing `/api/fetch_messeges_from_chatbot`:
+
+![alt text](image-9.png)
+
+***Note: This page using API REST so the normal content-type is `application/json` if we don't use this content-type so we will get the error 500(Internal Server).***
+
++ Add parameter `username`:
+
+![alt text](image-10.png)
+
+--> We've seen the reflect `username` so we can check the potential vulnerabilities are `SSTI` and `XSS`.
+
+![alt text](image-11.png)
+
+--> Reflect payload `{{7*7}}` 49 so we confirm that `SSTI` (Server-Side Template Injection) appeared and template is `Jinja2`.
+
++ We still use feature `Scan active` in `Burp Suite`:
+
+![alt text](image-12.png)
+
++ Now we can chain SSTI to RCE and we found the payload to RCE in here [RCE](https://github.com/dgtlmoon/changedetection.io/security/advisories/GHSA-4r7v-whpg-8rx3).
+
+```
+{{ self.__init__.__globals__.__builtins__.__import__('os').popen('id').read() }}
+```
+
+![alt text](image-13.png)
 
 ---
 
 ## Privilege Escalation
-Describe methods used to elevate privileges on the compromised system, such as kernel exploits or misconfigurations.
+
++ 
 
 ---
 
