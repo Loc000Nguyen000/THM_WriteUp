@@ -92,6 +92,32 @@ Progress: 23070 / 23075 (99.98%)
 
 + Access dashboard, we have 2 features that are `/upload` and `/store-url`. Both features upload file through `API`.
 
++ Testing feature `/upload':
+
+--> Idea first will update to get reverse shell but the page has the `extension filter` so we can't upload file with malicious code.
+
+![alt text](<Screenshot from 2025-08-17 19-07-21.png>)
+
++ Testing feature `store-url`, the feature upload from url. Back to the proxy `Burp Suite`:
+
+![alt text](<Screenshot from 2025-08-17 19-13-37.png>)
+
+--> We have the potential parameter `url` to upload so we think first the potential vulnerability `SSRF` to manipulate url. We try the payload to confirm is `SSRF` appear.
+
++ We test with normal payload `http://localhost/` or `http://127.0.0.1/`. The file upload to `/api/upload/...` so access and check the file.
+
+![alt text](image-6.png)
+
+--> We can access url `http://cloudsite.thm` through localhost so we can confirm the feature has the vulnerability `SSRF` (Server-Side Request Forgery).
+
++ We've known the url or file upload through /api so we will fuzz to find the hidden endpoints in API:
+
+![alt text](<Screenshot from 2025-08-17 19-28-20.png>)
+
+--> The hidden endpoints `docs` but access denied so we can access /docs by SSRF.
+
++ We need to find the way to access `http://storage.cloudsite.thm` through `localhost`. Try bypassing filters still not work so we can try to fuzz `Ports` to bypass. We try fuzz 
+
 
 
 
