@@ -1,5 +1,5 @@
 # TryHackMe Rabbit Store Writeup
-![alt text](image.png)
+![alt text](/Medium/Rabbit%20Store/Images/image.png)
 
 ## Overview
 Demonstrate your web application testing skills and the basics of Linux to escalate your privileges.
@@ -12,7 +12,6 @@ Demonstrate your web application testing skills and the basics of Linux to escal
 - [Exploitation](#exploitation)
 - [Privilege Escalation](#privilege-escalation)
 - [Post-Exploitation & Cleanup](#post-exploitation--cleanup)
-- [Conclusion](#conclusion)
 
 ---
 
@@ -66,15 +65,15 @@ Progress: 23070 / 23075 (99.98%)
 + We try to login default credential but not work. We switch to `/register.html` to create new account and log in again.
 + Login with registered account but account is `inactive`
 
-![alt text](image-1.png)
+![alt text](/Medium/Rabbit%20Store/Images/image-1.png)
 
 + Using `Burp Suite` to intercept the request: 
 
-![alt text](image-2.png)
+![alt text](/Medium/Rabbit%20Store/Images/image-2.png)
 
 --> We found the header cookie is `jwt`. Using website [Jwt](https://www.jwt.io/) to decode `JWT`:
 
-![alt text](image-3.png)
+![alt text](/Medium/Rabbit%20Store/Images/image-3.png)
 
 --> Parameter `subscription` is the potential. We can switch from `inactive` to `active`.
 
@@ -84,11 +83,11 @@ Progress: 23070 / 23075 (99.98%)
 
 + The request `/api/login`, we see the `Content-type` is `application/json` --> We can add `subscription` to active the account.
 
-![alt text](image-4.png)
+![alt text](/Medium/Rabbit%20Store/Images/image-4.png)
 
 --> We login new account and status is `active`. Checking new cookie `jwt`
 
-![alt text](image-5.png)
+![alt text](/Medium/Rabbit%20Store/Images/image-5.png)
 
 + Access dashboard, we have 2 features that are `/upload` and `/store-url`. Both features upload file through `API`.
 
@@ -96,29 +95,29 @@ Progress: 23070 / 23075 (99.98%)
 
 --> Idea first will update to get reverse shell but the page has the `extension filter` so we can't upload file with malicious code.
 
-![alt text](<Screenshot from 2025-08-17 19-07-21.png>)
+![alt text](/Medium/Rabbit%20Store/Images/Screenshot%20from%202025-08-17%2019-07-21.png)
 
 + Testing feature `store-url`, the feature upload from url. Back to the proxy `Burp Suite`:
 
-![alt text](<Screenshot from 2025-08-17 19-13-37.png>)
+![alt text](/Medium/Rabbit%20Store/Images/Screenshot%20from%202025-08-17%2019-13-37.png)
 
 --> We have the potential parameter `url` to upload so we think first the potential vulnerability `SSRF` to manipulate url. We try the payload to confirm is `SSRF` appear.
 
 + We test with normal payload `http://localhost/` or `http://127.0.0.1/`. The file upload to `/api/upload/...` so access and check the file.
 
-![alt text](image-6.png)
+![alt text](/Medium/Rabbit%20Store/Images/image-6.png)
 
 --> We can access url `http://cloudsite.thm` through localhost so we can confirm the feature has the vulnerability `SSRF` (Server-Side Request Forgery).
 
 + We've known the url or file upload through /api so we will fuzz to find the hidden endpoints in API:
 
-![alt text](<Screenshot from 2025-08-17 19-28-20.png>)
+![alt text](/Medium/Rabbit%20Store/Images/Screenshot%20from%202025-08-17%2019-28-20.png)
 
 --> The hidden endpoints `docs` but access denied so we can access /docs by SSRF.
 
 + We need to find the way to access `http://storage.cloudsite.thm` through `localhost`. Try `Bypassing filters` still does not work so we can fuzz the `Ports`:
 
-![alt text](image-7.png)
+![alt text](/Medium/Rabbit%20Store/Images/image-7.png)
 
 --> Bing!!! We have port 3000 can bypass and upload /api/docs.
 
@@ -126,29 +125,29 @@ Progress: 23070 / 23075 (99.98%)
 
 + Access the file:
 
-![alt text](image-8.png)
+![alt text](/Medium/Rabbit%20Store/Images/image-8.png)
 
 --> Now we can read the file and find the another hidden endpoint API `/api/fetch_messeges_from_chatbot` with method POST.
 
 + Testing `/api/fetch_messeges_from_chatbot`:
 
-![alt text](image-9.png)
+![alt text](/Medium/Rabbit%20Store/Images/image-9.png)
 
 ***Note: This page using API REST so the normal content-type is `application/json` if we don't use this content-type so we will get the error 500(Internal Server).***
 
 + Add parameter `username`:
 
-![alt text](image-10.png)
+![alt text](/Medium/Rabbit%20Store/Images/image-10.png)
 
 --> We've seen the reflect `username` so we can check the potential vulnerabilities are `SSTI` and `XSS`.
 
-![alt text](image-11.png)
+![alt text](/Medium/Rabbit%20Store/Images/image-11.png)
 
 --> Reflect payload `{{7*7}}` 49 so we confirm that `SSTI` (Server-Side Template Injection) appeared and template is `Jinja2`.
 
 + We still use feature `Scan active` in `Burp Suite`:
 
-![alt text](image-12.png)
+![alt text](/Medium/Rabbit%20Store/Images/image-12.png)
 
 + Now we can chain SSTI to RCE and we found the payload to RCE in here [RCE](https://github.com/dgtlmoon/changedetection.io/security/advisories/GHSA-4r7v-whpg-8rx3).
 
@@ -156,7 +155,7 @@ Progress: 23070 / 23075 (99.98%)
 {{ self.__init__.__globals__.__builtins__.__import__('os').popen('id').read() }}
 ```
 
-![alt text](image-13.png)
+![alt text](/Medium/Rabbit%20Store/Images/image-13.png)
 
 ---
 
@@ -164,13 +163,13 @@ Progress: 23070 / 23075 (99.98%)
 
 + Using script `Linpeas.sh` to scan vectors privilege, we find the potential file:
 
-![alt text](image-14.png)
+![alt text](/Medium/Rabbit%20Store/Images/image-14.png)
 
 --> Cookie of service `Rabbitmq`. With the erlang cookie, we can access intital Rabbit through RCE.
 
 + We use script [Erl-Matter](https://github.com/gteissier/erl-matter) to create revershell access intial service `Rabbitmq`:
 
-![alt text](image-15.png)
+![alt text](/Medium/Rabbit%20Store/Images/image-15.png)
 
 + Research `Rabbitmq` and find how to use service --> Read more about using service in Document [Rabbitmq](https://www.rabbitmq.com/docs/cli).
 
@@ -216,11 +215,11 @@ echo 49e6hSldHRaiYX329+ZjBSf/Lx67XEOz9uxhSBHtGU+YBzWF | base64 -d | xxd -pr -c12
 hashcat -m 1420 --hex-salt hash.txt /usr/share/wordlists/rockyou.txt
 ```
 
-![alt text](image-16.png)
+![alt text](/Medium/Rabbit%20Store/Images/image-16.png)
 
 + We have the hash: `295d1d16a2617df6f7e6630527ff2f1ebb5c43b3f6ec614811ed194f98073585:e3d7ba85`.
 
 + Using the hash to login user `root`:
 
-![alt text](image-17.png)
+![alt text](/Medium/Rabbit%20Store/Images/image-17.png)
 ---
