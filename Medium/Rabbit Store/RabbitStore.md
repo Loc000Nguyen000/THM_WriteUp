@@ -11,7 +11,6 @@ Demonstrate your web application testing skills and the basics of Linux to escal
 - [Recon & Enumeration](#enumeration)
 - [Exploitation](#exploitation)
 - [Privilege Escalation](#privilege-escalation)
-- [Post-Exploitation & Cleanup](#post-exploitation--cleanup)
 
 ---
 
