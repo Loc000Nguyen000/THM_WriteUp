@@ -162,12 +162,9 @@ Progress: 23070 / 23075 (99.98%)
 
 ## Privilege Escalation
 
-+ 
++ Using script `Linpeas.sh` to scan vectors privilege, we find the potential file:
 
----
 
-## Post-Exploitation & Cleanup
-Summarize actions taken after gaining privileged access, including loot collection, persistence mechanisms, and cleanup procedures.
 
 ---
 
@@ -175,4 +172,4 @@ Summarize actions taken after gaining privileged access, including loot collecti
 Reflect on the techniques learned and provide recommendations for securing similar environments.
 
 
-
+---
