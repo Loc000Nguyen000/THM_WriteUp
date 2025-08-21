@@ -11,7 +11,6 @@
 - [Enumeration & Recon](#enumeration)
 - [Exploitation](#exploitation)
 - [Privilege Escalation](#privilege-escalation)
-- [References](#references)
 
 ## Enumeration & Recon
 
@@ -81,6 +80,4 @@ gobuster dir -u http://target/mbilling -w /usr/share/wordlists/dirb/common.txt -
 + Running Poc to privilege escalation:
 
 ![alt text](image-4.png)
-
-## References
-- [Links to relevant resources, write-ups, or documentation]
+---
