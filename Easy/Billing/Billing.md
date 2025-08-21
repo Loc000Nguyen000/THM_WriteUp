@@ -1,6 +1,6 @@
 # TryHackMe Billing Writeup
 
-![alt text](image.png)
+![alt text](/Easy/Billing/Images/image.png)
 
 ## Overview
 + Web application testing.
@@ -57,17 +57,17 @@ gobuster dir -u http://target/mbilling -w /usr/share/wordlists/dirb/common.txt -
 
 + Using `Metasploit` to run module exploit:
 
-![alt text](image-1.png)
+![alt text](/Easy/Billing/Images/image-1.png)
 
 + Get the flag:
 
-![alt text](image-2.png)
+![alt text](/Easy/Billing/Images/image-2.png)
 
 ## Privilege Escalation
 
 + Running command `sudo -l` or using tool `linpeas.sh` to check the potential vectors privilege:
 
-![alt text](image-3.png)
+![alt text](/Easy/Billing/Images/image-3.png)
 
 + We found the `fail2ban-client` can run sudo without password. Research the service to understand how to running and the flaws can make the `root`.
 
@@ -79,5 +79,5 @@ gobuster dir -u http://target/mbilling -w /usr/share/wordlists/dirb/common.txt -
 
 + Running Poc to privilege escalation:
 
-![alt text](image-4.png)
+![alt text](/Easy/Billing/Images/image-4.png)
 ---
