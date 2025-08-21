@@ -69,7 +69,7 @@ gobuster dir -u http://target/mbilling -w /usr/share/wordlists/dirb/common.txt -
 
 ![alt text](/Easy/Billing/Images/image-3.png)
 
-+ We found the `fail2ban-client` can run sudo without password. Research the service to understand how to running and the flaws can make the `root`.
++ We found the `fail2ban-client` can run sudo without password. Research the service to understand how service work and root cause create privilege escaltion.
 
 + Resources to demonstrate the service and manipulate to privilege escalation:
 
