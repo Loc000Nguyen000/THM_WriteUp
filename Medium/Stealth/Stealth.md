@@ -185,7 +185,7 @@ SeIncreaseWorkingSetPrivilege Increase a process working set Disabled
 
 + We would exploit for `EFSPotato(MS-EFSR EfsRpcOpenFileRaw)` with SeImpersonatePrivilege local privalege escalation.
 
-+ First we identified the version Framework of Windows. We've moved to `C:\Windows\Microsoft.Net\Framework\`
++ First we identified the version Framework of Windows. We've moved to `C:\Windows\Microsoft.Net\Framework\`.
 
 ![alt text](image-5.png)
 
