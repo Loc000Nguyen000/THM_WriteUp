@@ -1,6 +1,6 @@
 # Stealth - CTF Write-Up
 
-![alt text](image.png)
+![alt text](/Medium/Stealth/Images/image.png)
 
 ## Overview
 - Using `Evasion Skills` to pwn a Windows target with an updated defence mechanism. 
@@ -71,7 +71,7 @@ PORT      STATE SERVICE       REASON          VERSION
 ## Exploitation
 + Access port 8080:
 
-![alt text](<Screenshot from 2025-08-22 18-00-25.png>)
+![alt text](/Medium/Stealth/Images/Screenshot%20from%202025-08-22%2018-00-25.png)
 
 + We can use payload .ps1 to evasion the AV:
 ```
@@ -116,7 +116,7 @@ try {
 
 + Upload the reverseshell .ps1 and capture the listener:
 
-![alt text](<Screenshot from 2025-08-22 18-08-45.png>)
+![alt text](/Medium/Stealth/Images/Screenshot%20from%202025-08-22%2018-08-45.png)
 
 + Access `/Desktop` and read file `encodedflag`:
 
@@ -146,11 +146,11 @@ Hint: Maybe removing the logs files for file uploads can help?
 
 + We found that the directory upload locate at `C:\xampp\htdocs\uploads\`. List file in the directory, we've found the file `log.txt` and uploaded file reverseshell:
 
-![alt text](image-1.png)
+![alt text](/Medium/Stealth/Images/image-1.png)
 
 + Remove the file log and reload the page, we got the flag:
 
-![alt text](image-2.png)
+![alt text](/Medium/Stealth/Images/image-2.png)
 
 ## Privilege Escalation
 
@@ -175,11 +175,11 @@ SeIncreaseWorkingSetPrivilege Increase a process working set Disabled
 
 + Downloading reverseshell to target machine:
 
-![alt text](image-3.png)
+![alt text](/Medium/Stealth/Images/image-3.png)
 
 + Access `http://<IP:8080>/powny.php`:
 
-![alt text](image-4.png)
+![alt text](/Medium/Stealth/Images/image-4.png)
 
 --> Now we've gotten the hidden privileges. We saw the vulnerable privilege `SeImpersonatePrivilege` was enabled.
 
@@ -187,25 +187,25 @@ SeIncreaseWorkingSetPrivilege Increase a process working set Disabled
 
 + First we identified the version Framework of Windows. We've moved to `C:\Windows\Microsoft.Net\Framework\`.
 
-![alt text](image-5.png)
+![alt text](/Medium/Stealth/Images/image-5.png)
 
 + We've seen the framework version was `v4.0.30319`.
 
 + Download the `EfsPotato.cs` into the target machine:
 
-![alt text](image-6.png)
+![alt text](/Medium/Stealth/Images/image-6.png)
 
 + With v4.0, we run with command:
 
-![alt text](image-7.png)
+![alt text](/Medium/Stealth/Images/image-7.png)
 
-![alt text](image-8.png)
+![alt text](/Medium/Stealth/Images/image-8.png)
 
 --> Now we had the priv admin `authority\system`. We would change password user `Administrator`. Login with `xfreerdp` and got the flag.
 
-![alt text](image-9.png)
+![alt text](/Medium/Stealth/Images/image-9.png)
 
-![alt text](<Screenshot from 2025-08-22 21-26-01.png>)
+![alt text](/Medium/Stealth/Images/Screenshot%20from%202025-08-22%2021-26-01.png)
 
 ## References
 - [PSSW100AVB](https://github.com/tihanyin/PSSW100AVB)
