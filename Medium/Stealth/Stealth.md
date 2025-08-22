@@ -144,7 +144,7 @@ Hint: Maybe removing the logs files for file uploads can help?
 
 + We need to find the directory upload and remove the log files.
 
-+ We found that the directory upload locate at `C:\xampp\htdocs\uploads\`. List file in the directory, we've found the file `log.txt` and file uploaded reverseshell:
++ We found that the directory upload locate at `C:\xampp\htdocs\uploads\`. List file in the directory, we've found the file `log.txt` and uploaded file reverseshell:
 
 ![alt text](image-1.png)
 
@@ -152,21 +152,56 @@ Hint: Maybe removing the logs files for file uploads can help?
 
 ![alt text](image-2.png)
 
-
-
-
-
-
 ## Privilege Escalation
-- Method:
-    - [Technique]
-- Steps:
-    1. [Step 1]
-    2. [Step 2]
 
-## Flag(s)
-- **User Flag:** `[Flag Value]`
-- **Root Flag:** `[Flag Value]`
++ List the `/priv`:
+
+```
+C:\xampp\htdocs\uploads> whoami /priv
+whoami /priv
+
+PRIVILEGES INFORMATION
+----------------------
+
+Privilege Name                Description                    State   
+============================= ============================== ========
+SeChangeNotifyPrivilege       Bypass traverse checking       Enabled 
+SeIncreaseWorkingSetPrivilege Increase a process working set Disabled
+```
+
++ Some privileges were hidden so we could restore `A Service Account's Privileges`.
+
++ We would generate the new reverseshell in attack machine, we used the `P0wny Shell(Webshell)` in [Revshells](https://www.revshells.com/).
+
++ Downloading reverseshell to target machine:
+
+![alt text](image-3.png)
+
++ Access `http://<IP:8080>/powny.php`:
+
+![alt text](image-4.png)
+
+--> Now we've gotten the hidden privileges. We saw the vulnerable privilege `SeImpersonatePrivilege` was enabled.
+
++ We would exploit for `EFSPotato(MS-EFSR EfsRpcOpenFileRaw)` with SeImpersonatePrivilege local privalege escalation.
+
++ First we identified the version Framework of Windows. We've moved to `C:\Windows\Microsoft.Net\Framework\`
+
+![alt text](image-5.png)
+
++ We've seen the framework version was `v4.0.30319`.
+
++ Download the `EfsPotato.cs` into the target machine:
+
+![alt text](image-6.png)
+
++ With v4.0, we run with command:
+
+![alt text](image-7.png)
+
+![alt text](image-8.png)
+
+
 
 
 ## References
