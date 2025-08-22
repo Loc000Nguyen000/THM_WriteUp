@@ -201,9 +201,13 @@ SeIncreaseWorkingSetPrivilege Increase a process working set Disabled
 
 ![alt text](image-8.png)
 
+--> Now we had the priv admin `authority\system`. We would change password user `Administrator`. Login with `xfreerdp` and got the flag.
 
+![alt text](image-9.png)
 
+![alt text](<Screenshot from 2025-08-22 21-26-01.png>)
 
 ## References
-- [Reference 1]
-- [Reference 2]
+- [PSSW100AVB](https://github.com/tihanyin/PSSW100AVB)
+- [EfsPotato](https://github.com/zcgonvh/EfsPotato)
+---
