@@ -116,7 +116,7 @@ xfreerdp3 /u:SUSANNA_MCKNIGHT /p:CHANGEME2023! /v:10.201.7.236
 
 --> Login successfully and get the flag !
 
-![[Pasted image 20250828160324.png]]
+![alt text](<Pasted image 20250828160324.png>)
 
 ## BloodHound-Python (Collection):
 
@@ -280,8 +280,8 @@ $ sudo psexec.py -k -hashes 'LMhash:NThash' 'DOMAIN/USER@TARGET'
 
 ***Note: Using flag -k (Use Kerberos authentication) when authenticate Hashes. ***
 
-![[Pasted image 20250828211544.png]]
+![alt text](<Pasted image 20250828211544.png>)
 
 + Get the flag root.txt
-![[Pasted image 20250828211614.png]]
+![alt text](<Pasted image 20250828211614.png>)
 -----
