@@ -1,6 +1,6 @@
 # Reset Writeup
 
-![alt text](image.png)
+![alt text](/Hard/Reset/Images/image.png)
 
 ## Summary:
 + This challenge simulates a cyber-attack scenario where you must exploit an Active Directory environment.
@@ -109,7 +109,7 @@ Subject: Welcome to Reset -�Dear <USER>,Welcome aboard! We are thrilled to hav
 
 + Back to service SMB,  we've found that service would refresh automatically every minutes:
 
-![alt text](<Pasted image 20250910175024.png>)
+![alt text](/Hard/Reset/Images/Pasted%20image%2020250910175024.png)
 
 --> We could manipulate this to steal hash NTLM through outbound SMB was executed .
 
@@ -279,7 +279,7 @@ Approaching final keyspace - workload adjusted.
 
 + We used the feature `PATHFINDING` to check the relationship between `TABATHA_BRITT` and `ADMINISTRATOR`:
 
-![alt text](<Pasted image 20250911185743.png>)
+![alt text](/Hard/Reset/Images/Pasted%20image%2020250911185743.png)
 
 --> We had the concept path to privilege to Administrator
 
@@ -292,28 +292,28 @@ Approaching final keyspace - workload adjusted.
 xfreerdp3 /v:<IP_TARGET> /u:TABATHA_BRITT /p:'marlboro(1985)' /d:THM.CORP
 ```
 
-![alt text](<Pasted image 20250915174309.png>)
+![alt text](/Hard/Reset/Images/Pasted%20image%2020250915174309.png)
 --> Change successfully and we will access to user `SHAWNA_BRAY`.
 
 + User `SHAWNA_BRAY` have permission `ForceChangePassword` --> This means The user `SHAWNA_BRAY` has the capability to change the user `CRUZ_HALL's password` without knowing that user's current password.
 + Access user `SHAWNA_BRAY` with password changed
-![alt text](<Pasted image 20250915174957.png>)
+![alt text](/Hard/Reset/Images/Pasted%20image%2020250915174957.png)
 --> We could run command `net user` to change password so we need to research to find way.
 + After researching, we found the native powershell to reset password user (If we have AD module):
 ```bash
 Set-ADAccountPassword -Identity CRUZ_HALL -NewPassword (ConvertTo-SecureString 'Admin123' -AsPlainText -Force) -Reset
 ```
 
-![alt text](<Pasted image 20250915175712.png>)
+![alt text](/Hard/Reset/Images/Pasted%20image%2020250915175712.png)
 --> We've reset password successfully !
 
 + User `CRUZ_HALL` also had the permission `ForceChangePassowrd` with user `DARLA_WINTERS` so we could run powershell to reset password.
-![alt text](<Pasted image 20250915180157.png>)
+![alt text](/Hard/Reset/Images/Pasted%20image%2020250915180157.png)
 
 + Now we're able to access to user `DARLA_WINTERS` and this user also had the permission `AllowedToDelegate` to domain computer `HAYSTACK.THM.CORP` .
 + Read the General of permission and we could manipulate this permission to privilege to Administrator.
 + Base `Linux Abuse` we could use script `getST.py` to requests a TGT for the *victim* user and executes the `S4U2self/S4U2proxy` process to impersonate the "admin" user
-![alt text](<Pasted image 20250915182438.png>)
+![alt text](/Hard/Reset/Images/Pasted%20image%2020250915182438.png)
 
 + Run script `getST.py`:
 ```bash
@@ -344,5 +344,5 @@ thm\administrator
 
 ***Note: Before using WMIExec.py we need to set up the Kerberos ticket with command `export KRB5CCNAME=Administrator@cifs_HAYSTACK.THM.CORP@THM.CORP.ccache` ***
 
-![alt text](<Pasted image 20250915185020-1.png>)
+![alt text](/Hard/Reset/Images/Pasted%20image%2020250915185020-1.png)
 ----
