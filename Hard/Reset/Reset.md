@@ -342,7 +342,7 @@ C:\>whoami
 thm\administrator
 ```
 
-***Note: Before using WMIExec.py we need to set up the Kerberos ticket with command `export KRB5CCNAME=Administrator@cifs_HAYSTACK.THM.CORP@THM.CORP.ccache` ***
+***Note: Before using WMIExec.py we need to set up the Kerberos ticket with command `export KRB5CCNAME=Administrator@cifs_HAYSTACK.THM.CORP@THM.CORP.ccache`***
 
 ![alt text](/Hard/Reset/Images/Pasted%20image%2020250915185020-1.png)
 ----
